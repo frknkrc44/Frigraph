@@ -156,9 +156,6 @@ public abstract class AbsBaseActivity extends AbsThemeActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (Build.VERSION.SDK_INT >= 27) {
-            ColorsUtil.unregisterForColorChanges();
-        }
     }
 
     @Override

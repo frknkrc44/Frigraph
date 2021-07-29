@@ -15,9 +15,11 @@ import com.kabouzeid.gramophone.App;
 public class ColorsUtil {
     private ColorsUtil() {}
 
+/*
     private static final WallpaperManager.OnColorsChangedListener listener = (colors, which) -> {
         applyWallpaperColors(colors);
     };
+*/
 
     public static void applyCurrentWallpaperColors() {
         applyWallpaperColors(getCurrentWallpaperColors());
@@ -42,6 +44,7 @@ public class ColorsUtil {
         return wallpaperManager.getWallpaperColors(WallpaperManager.FLAG_SYSTEM);
     }
 
+    /*
     public static void toggleRegisterForColorChanges(boolean enabled) {
         if (enabled) {
             registerForColorChanges();
@@ -59,4 +62,5 @@ public class ColorsUtil {
         WallpaperManager wallpaperManager = (WallpaperManager) App.getInstance().getSystemService(Context.WALLPAPER_SERVICE);
         wallpaperManager.removeOnColorsChangedListener(listener);
     }
+    */
 }

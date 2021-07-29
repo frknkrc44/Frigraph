@@ -11,6 +11,7 @@ import com.kabouzeid.appthemehelper.ThemeStore;
 import com.kabouzeid.appthemehelper.common.ATHToolbarActivity;
 import com.kabouzeid.appthemehelper.util.ColorUtil;
 import com.kabouzeid.appthemehelper.util.MaterialDialogsUtil;
+import com.kabouzeid.gramophone.App;
 import com.kabouzeid.gramophone.R;
 import com.kabouzeid.gramophone.util.ColorsUtil;
 import com.kabouzeid.gramophone.util.PreferenceUtil;
@@ -95,7 +96,6 @@ public abstract class AbsThemeActivity extends ATHToolbarActivity {
             if (PreferenceUtil.getInstance(this)
                     .getPrefs()
                     .getBoolean("use_wallpaper_colors", false)) {
-                ColorsUtil.toggleRegisterForColorChanges(true);
                 ColorsUtil.applyCurrentWallpaperColors();
             }
             return false;

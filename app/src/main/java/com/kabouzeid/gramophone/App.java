@@ -37,6 +37,10 @@ public class App extends Application {
         }
     }
 
+    public static void resetAppInit() {
+        appInit = false;
+    }
+
     public static boolean isAppInit() {
         if(!appInit) {
             appInit = true;

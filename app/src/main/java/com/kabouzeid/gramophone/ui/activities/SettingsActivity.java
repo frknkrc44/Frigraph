@@ -303,8 +303,6 @@ public class SettingsActivity extends AbsBaseActivity implements ColorChooserDia
                     }
 
                     useWallpaperColors.setOnPreferenceChangeListener((preference, newValue) -> {
-                        ColorsUtil.toggleRegisterForColorChanges((boolean) newValue);
-
                         if (((boolean) newValue) && primaryColorPref != null) {
                             WallpaperColors colors = ColorsUtil.getCurrentWallpaperColors();
 

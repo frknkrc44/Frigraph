@@ -295,14 +295,22 @@ public class SettingsActivity extends AbsBaseActivity implements ColorChooserDia
                     useWallpaperColors.setVisible(false);
                 } else {
                     if (primaryColorPref != null) {
-                        primaryColorPref.setEnabled(useWallpaperColors.isChecked());
+                        primaryColorPref.setEnabled(!useWallpaperColors.isChecked());
                     }
 
                     if (accentColorPref != null) {
-                        accentColorPref.setEnabled(useWallpaperColors.isChecked());
+                        accentColorPref.setEnabled(!useWallpaperColors.isChecked());
                     }
 
                     useWallpaperColors.setOnPreferenceChangeListener((preference, newValue) -> {
+                        if (primaryColorPref != null) {
+                            primaryColorPref.setEnabled(!((boolean) newValue));
+                        }
+
+                        if (accentColorPref != null) {
+                            accentColorPref.setEnabled(!((boolean) newValue));
+                        }
+
                         if (((boolean) newValue) && primaryColorPref != null) {
                             WallpaperColors colors = ColorsUtil.getCurrentWallpaperColors();
 

@@ -3,6 +3,7 @@ package com.kabouzeid.gramophone.ui.fragments.player;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
+import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,7 +27,7 @@ import com.kabouzeid.gramophone.views.PlayPauseDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
+import android.widget.ProgressBar;
 
 /**
  * @author Karim Abou Zeid (kabouzeid)
@@ -40,7 +41,7 @@ public class MiniPlayerFragment extends AbsMusicServiceFragment implements Music
     @BindView(R.id.mini_player_play_pause_button)
     ImageView miniPlayerPlayPauseButton;
     @BindView(R.id.progress_bar)
-    MaterialProgressBar progressBar;
+    ProgressBar progressBar;
 
     private PlayPauseDrawable miniPlayerPlayPauseDrawable;
 
@@ -75,13 +76,13 @@ public class MiniPlayerFragment extends AbsMusicServiceFragment implements Music
 
     private void setUpMiniPlayer() {
         setUpPlayPauseButton();
-        progressBar.setSupportProgressTintList(ColorStateList.valueOf(ThemeStore.accentColor(getActivity())));
+        progressBar.setProgressTintList(ColorStateList.valueOf(ThemeStore.accentColor(requireActivity())));
     }
 
     private void setUpPlayPauseButton() {
-        miniPlayerPlayPauseDrawable = new PlayPauseDrawable(getActivity());
+        miniPlayerPlayPauseDrawable = new PlayPauseDrawable(requireActivity());
         miniPlayerPlayPauseButton.setImageDrawable(miniPlayerPlayPauseDrawable);
-        miniPlayerPlayPauseButton.setColorFilter(ATHUtil.resolveColor(getActivity(), R.attr.iconColor, ThemeStore.textColorSecondary(getActivity())), PorterDuff.Mode.SRC_IN);
+        miniPlayerPlayPauseButton.setColorFilter(ATHUtil.resolveColor(requireActivity(), R.attr.iconColor, ThemeStore.textColorSecondary(getActivity())), PorterDuff.Mode.SRC_IN);
         miniPlayerPlayPauseButton.setOnClickListener(new PlayPauseButtonOnClickHandler());
     }
 

@@ -44,6 +44,8 @@ import java.util.regex.Pattern;
  */
 public class MusicUtil {
 
+    private static final String FAVORITE_PLAYLIST = "PhonoFavs";
+
     public static Uri getMediaStoreAlbumCoverUri(long albumId) {
         final Uri sArtworkUri = Uri.parse("content://media/external/audio/albumart");
 
@@ -281,21 +283,21 @@ public class MusicUtil {
                 }
                 cursor.close();
             }
-            Toast.makeText(context, context.getString(R.string.deleted_x_songs, deletedCount), Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, context.getString(R.string.deleted_x_songs, Integer.toString(deletedCount)), Toast.LENGTH_SHORT).show();
         } catch (SecurityException ignored) {
         }
     }
 
     public static boolean isFavoritePlaylist(@NonNull final Context context, @NonNull final Playlist playlist) {
-        return playlist.name != null && playlist.name.equals(context.getString(R.string.favorites));
+        return playlist.name != null && playlist.name.equals(FAVORITE_PLAYLIST);
     }
 
     public static Playlist getFavoritesPlaylist(@NonNull final Context context) {
-        return PlaylistLoader.getPlaylist(context, context.getString(R.string.favorites));
+        return PlaylistLoader.getPlaylist(context, FAVORITE_PLAYLIST);
     }
 
     private static Playlist getOrCreateFavoritesPlaylist(@NonNull final Context context) {
-        return PlaylistLoader.getPlaylist(context, PlaylistsUtil.createPlaylist(context, context.getString(R.string.favorites)));
+        return PlaylistLoader.getPlaylist(context, PlaylistsUtil.createPlaylist(context, FAVORITE_PLAYLIST));
     }
 
     public static boolean isFavorite(@NonNull final Context context, @NonNull final Song song) {

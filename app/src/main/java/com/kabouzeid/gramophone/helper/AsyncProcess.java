@@ -3,13 +3,12 @@ package com.kabouzeid.gramophone.helper;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.kabouzeid.gramophone.App;
+
 public abstract class AsyncProcess<X, Y> extends Thread {
     protected X[] params;
-    private final Handler uiThread;
 
-    public AsyncProcess() {
-        uiThread = new Handler(Looper.getMainLooper());
-    }
+    public AsyncProcess() {}
 
     @SafeVarargs
     public final AsyncProcess<X, Y> execute(X... params) {
@@ -18,8 +17,8 @@ public abstract class AsyncProcess<X, Y> extends Thread {
         return this;
     }
 
-    private void runOnUiThread(Runnable runnable) {
-        uiThread.post(runnable);
+    protected void runOnUiThread(Runnable runnable) {
+        App.getMainHandler().post(runnable);
     }
 
     @Override

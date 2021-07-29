@@ -90,7 +90,6 @@ dependencies {
     implementation 'androidx.fragment:fragment:1.3.6'
     implementation 'androidx.media:media:1.4.0'
     implementation 'androidx.palette:palette:1.0.0'
-    implementation 'androidx.percentlayout:percentlayout:1.0.0'
     implementation 'androidx.preference:preference:1.1.1'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'com.google.android.material:material:1.4.0'
@@ -121,4 +120,5 @@ dependencies {
     implementation 'com.github.bumptech.glide:okhttp3-integration:1.5.0'
 
     implementation 'com.github.AdrienPoupa:jaudiotagger:2.2.3'
+
 }

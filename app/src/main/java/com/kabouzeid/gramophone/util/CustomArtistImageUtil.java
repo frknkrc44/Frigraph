@@ -2,7 +2,6 @@ package com.kabouzeid.gramophone.util;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -17,6 +16,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.kabouzeid.gramophone.App;
+import com.kabouzeid.gramophone.helper.AsyncProcess;
 import com.kabouzeid.gramophone.model.Artist;
 
 import java.io.BufferedOutputStream;
@@ -36,10 +36,10 @@ public class CustomArtistImageUtil {
 
     private static CustomArtistImageUtil sInstance;
 
-    private final SharedPreferences mPreferences;
+    private final PreferenceUtil mPreferences;
 
     private CustomArtistImageUtil(@NonNull final Context context) {
-        mPreferences = context.getApplicationContext().getSharedPreferences(CUSTOM_ARTIST_IMAGE_PREFS, Context.MODE_PRIVATE);
+        mPreferences = PreferenceUtil.getInstance(context);
     }
 
     public static CustomArtistImageUtil getInstance(@NonNull final Context context) {
@@ -65,8 +65,7 @@ public class CustomArtistImageUtil {
 
                     @Override
                     public void onResourceReady(final Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                        new AsyncTask<Void, Void, Void>() {
-                            @SuppressLint("ApplySharedPref")
+                        new AsyncProcess<Void, Void>() {
                             @Override
                             protected Void doInBackground(Void... params) {
                                 File dir = new File(App.getInstance().getFilesDir(), FOLDER_NAME);
@@ -99,8 +98,7 @@ public class CustomArtistImageUtil {
     }
 
     public void resetCustomArtistImage(final Artist artist) {
-        new AsyncTask<Void, Void, Void>() {
-            @SuppressLint("ApplySharedPref")
+        new AsyncProcess<Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
                 mPreferences.edit().putBoolean(getFileName(artist), false).commit();
@@ -120,7 +118,7 @@ public class CustomArtistImageUtil {
 
     // shared prefs saves us many IO operations
     public boolean hasCustomArtistImage(Artist artist) {
-        return mPreferences.getBoolean(getFileName(artist), false);
+        return mPreferences.getPrefs().getBoolean(getFileName(artist), false);
     }
 
     private static String getFileName(Artist artist) {

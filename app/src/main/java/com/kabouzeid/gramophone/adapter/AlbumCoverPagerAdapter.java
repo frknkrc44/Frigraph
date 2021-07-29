@@ -18,7 +18,6 @@ import com.kabouzeid.gramophone.misc.CustomFragmentStatePagerAdapter;
 import com.kabouzeid.gramophone.model.Song;
 import com.kabouzeid.gramophone.util.PreferenceUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -100,7 +99,7 @@ public class AlbumCoverPagerAdapter extends CustomFragmentStatePagerAdapter {
         @Override
         public void onCreate(final Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            song = getArguments().getParcelable(SONG_ARG);
+            song = requireArguments().getParcelable(SONG_ARG);
         }
 
         @Override
@@ -116,22 +115,22 @@ public class AlbumCoverPagerAdapter extends CustomFragmentStatePagerAdapter {
             forceSquareAlbumCover(false);
             // TODO
 //            forceSquareAlbumCover(PreferenceUtil.getInstance(getContext()).forceSquareAlbumCover());
-            PreferenceUtil.getInstance(getActivity()).registerOnSharedPreferenceChangedListener(this);
+            PreferenceUtil.getInstance(requireActivity()).registerOnSharedPreferenceChangedListener(this);
             loadAlbumCover();
         }
 
         @Override
         public void onDestroyView() {
             super.onDestroyView();
-            PreferenceUtil.getInstance(getActivity()).unregisterOnSharedPreferenceChangedListener(this);
+            PreferenceUtil.getInstance(requireActivity()).unregisterOnSharedPreferenceChangedListener(this);
             unbinder.unbind();
             colorReceiver = null;
         }
 
         private void loadAlbumCover() {
             SongGlideRequest.Builder.from(Glide.with(this), song)
-                    .checkIgnoreMediaStore(getActivity())
-                    .generatePalette(getActivity()).build()
+                    .checkIgnoreMediaStore(requireActivity())
+                    .generatePalette(requireActivity()).build()
                     .into(new PhonographColoredTarget(albumCover) {
                         @Override
                         public void onColorReady(int color) {

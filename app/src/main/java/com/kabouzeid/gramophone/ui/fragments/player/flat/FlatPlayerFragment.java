@@ -26,6 +26,7 @@ import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.h6ah4i.android.widget.advrecyclerview.animator.GeneralItemAnimator;
 import com.h6ah4i.android.widget.advrecyclerview.animator.RefactoredDefaultItemAnimator;
@@ -533,7 +534,7 @@ public class FlatPlayerFragment extends AbsPlayerFragment implements PlayerAlbum
         protected Boolean doInBackground(Song... params) {
             Activity activity = getActivity();
             if (activity != null) {
-                return MusicUtil.isFavorite(getActivity(), params[0]);
+                return MusicUtil.isFavorite(requireActivity(), params[0]);
             } else {
                 cancel(false);
                 return null;

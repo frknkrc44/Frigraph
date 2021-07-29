@@ -1,5 +1,7 @@
 package com.kabouzeid.gramophone.ui.activities;
 
+import android.annotation.SuppressLint;
+import android.app.WallpaperColors;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -13,22 +15,18 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
-import androidx.preference.PreferenceManager;
 import androidx.preference.TwoStatePreference;
 import androidx.appcompat.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
 import com.kabouzeid.appthemehelper.ThemeStore;
 import com.kabouzeid.appthemehelper.common.prefs.supportv7.ATEColorPreference;
 import com.kabouzeid.appthemehelper.common.prefs.supportv7.ATEPreferenceFragmentCompat;
 import com.kabouzeid.appthemehelper.util.ColorUtil;
-import com.kabouzeid.gramophone.App;
 import com.kabouzeid.gramophone.R;
 import com.kabouzeid.gramophone.appshortcuts.DynamicShortcutManager;
-import com.kabouzeid.gramophone.misc.NonProAllowedColors;
 import com.kabouzeid.gramophone.preferences.BlacklistPreference;
 import com.kabouzeid.gramophone.preferences.BlacklistPreferenceDialog;
 import com.kabouzeid.gramophone.preferences.LibraryPreference;
@@ -36,16 +34,16 @@ import com.kabouzeid.gramophone.preferences.LibraryPreferenceDialog;
 import com.kabouzeid.gramophone.preferences.NowPlayingScreenPreference;
 import com.kabouzeid.gramophone.preferences.NowPlayingScreenPreferenceDialog;
 import com.kabouzeid.gramophone.ui.activities.base.AbsBaseActivity;
+import com.kabouzeid.gramophone.util.ColorsUtil;
 import com.kabouzeid.gramophone.util.NavigationUtil;
 import com.kabouzeid.gramophone.util.PreferenceUtil;
-
-import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SettingsActivity extends AbsBaseActivity implements ColorChooserDialog.ColorCallback {
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -73,6 +71,7 @@ public class SettingsActivity extends AbsBaseActivity implements ColorChooserDia
         }
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onColorSelection(@NonNull ColorChooserDialog dialog, @ColorInt int selectedColor) {
         switch (dialog.getTitle()) {
@@ -110,8 +109,9 @@ public class SettingsActivity extends AbsBaseActivity implements ColorChooserDia
     public static class SettingsFragment extends ATEPreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
         private static void setSummary(@NonNull Preference preference) {
-            setSummary(preference, PreferenceManager
-                    .getDefaultSharedPreferences(preference.getContext())
+            setSummary(preference,
+                    PreferenceUtil.getInstance(preference.getContext())
+                    .getPrefs()
                     .getString(preference.getKey(), ""));
         }
 
@@ -157,142 +157,195 @@ public class SettingsActivity extends AbsBaseActivity implements ColorChooserDia
         }
 
         @Override
-        public void onViewCreated(View view, Bundle savedInstanceState) {
+        public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
             super.onViewCreated(view, savedInstanceState);
             getListView().setPadding(0, 0, 0, 0);
             invalidateSettings();
-            PreferenceUtil.getInstance(getActivity()).registerOnSharedPreferenceChangedListener(this);
+            PreferenceUtil.getInstance(requireActivity()).registerOnSharedPreferenceChangedListener(this);
         }
 
         @Override
         public void onDestroyView() {
             super.onDestroyView();
-            PreferenceUtil.getInstance(getActivity()).unregisterOnSharedPreferenceChangedListener(this);
+            PreferenceUtil.getInstance(requireActivity()).unregisterOnSharedPreferenceChangedListener(this);
         }
 
         private void invalidateSettings() {
             final Preference generalTheme = findPreference("general_theme");
-            setSummary(generalTheme);
-            generalTheme.setOnPreferenceChangeListener((preference, o) -> {
-                String themeName = (String) o;
+            if (generalTheme != null) {
+                setSummary(generalTheme);
+                generalTheme.setOnPreferenceChangeListener((preference, o) -> {
+                    String themeName = (String) o;
 
-                setSummary(generalTheme, o);
+                    setSummary(generalTheme, o);
 
-                ThemeStore.markChanged(getActivity());
+                    ThemeStore.markChanged(requireActivity());
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-                    // Set the new theme so that updateAppShortcuts can pull it
-                    getActivity().setTheme(PreferenceUtil.getThemeResFromPrefValue(themeName));
-                    new DynamicShortcutManager(getActivity()).updateDynamicShortcuts();
-                }
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                        // Set the new theme so that updateAppShortcuts can pull it
+                        requireActivity().setTheme(PreferenceUtil.getThemeResFromPrefValue(themeName));
+                        new DynamicShortcutManager(getActivity()).updateDynamicShortcuts();
+                    }
 
-                getActivity().recreate();
-                return true;
-            });
+                    requireActivity().recreate();
+                    return true;
+                });
+            }
 
             final Preference autoDownloadImagesPolicy = findPreference("auto_download_images_policy");
-            setSummary(autoDownloadImagesPolicy);
-            autoDownloadImagesPolicy.setOnPreferenceChangeListener((preference, o) -> {
-                setSummary(autoDownloadImagesPolicy, o);
-                return true;
-            });
+            if (autoDownloadImagesPolicy != null) {
+                setSummary(autoDownloadImagesPolicy);
+                autoDownloadImagesPolicy.setOnPreferenceChangeListener((preference, o) -> {
+                    setSummary(autoDownloadImagesPolicy, o);
+                    return true;
+                });
+            }
 
             final ATEColorPreference primaryColorPref = (ATEColorPreference) findPreference("primary_color");
-            final int primaryColor = ThemeStore.primaryColor(getActivity());
-            primaryColorPref.setColor(primaryColor, ColorUtil.darkenColor(primaryColor));
-            primaryColorPref.setOnPreferenceClickListener(preference -> {
-                new ColorChooserDialog.Builder(getActivity(), R.string.primary_color)
-                        .accentMode(false)
-                        .allowUserColorInput(true)
-                        .allowUserColorInputAlpha(false)
-                        .preselect(primaryColor)
-                        .show(getActivity());
-                return true;
-            });
+            if(primaryColorPref != null) {
+                final int primaryColor = ThemeStore.primaryColor(requireActivity());
+                primaryColorPref.setColor(primaryColor, ColorUtil.darkenColor(primaryColor));
+                primaryColorPref.setOnPreferenceClickListener(preference -> {
+                    new ColorChooserDialog.Builder(requireActivity(), R.string.primary_color)
+                            .accentMode(false)
+                            .allowUserColorInput(true)
+                            .allowUserColorInputAlpha(false)
+                            .preselect(primaryColor)
+                            .show(getActivity());
+                    return true;
+                });
+            }
 
             final ATEColorPreference accentColorPref = (ATEColorPreference) findPreference("accent_color");
-            final int accentColor = ThemeStore.accentColor(getActivity());
-            accentColorPref.setColor(accentColor, ColorUtil.darkenColor(accentColor));
-            accentColorPref.setOnPreferenceClickListener(preference -> {
-                new ColorChooserDialog.Builder(getActivity(), R.string.accent_color)
-                        .accentMode(true)
-                        .allowUserColorInput(true)
-                        .allowUserColorInputAlpha(false)
-                        .preselect(accentColor)
-                        .show(getActivity());
-                return true;
-            });
+            if(accentColorPref != null) {
+                final int accentColor = ThemeStore.accentColor(requireActivity());
+                accentColorPref.setColor(accentColor, ColorUtil.darkenColor(accentColor));
+                accentColorPref.setOnPreferenceClickListener(preference -> {
+                    new ColorChooserDialog.Builder(requireActivity(), R.string.accent_color)
+                            .accentMode(true)
+                            .allowUserColorInput(true)
+                            .allowUserColorInputAlpha(false)
+                            .preselect(accentColor)
+                            .show(getActivity());
+                    return true;
+                });
+            }
 
             TwoStatePreference colorNavBar = (TwoStatePreference) findPreference("should_color_navigation_bar");
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                colorNavBar.setVisible(false);
-            } else {
-                colorNavBar.setChecked(ThemeStore.coloredNavigationBar(getActivity()));
+            if(colorNavBar != null) {
+                colorNavBar.setChecked(ThemeStore.coloredNavigationBar(requireActivity()));
                 colorNavBar.setOnPreferenceChangeListener((preference, newValue) -> {
-                    ThemeStore.editTheme(getActivity())
+                    ThemeStore.editTheme(requireActivity())
                             .coloredNavigationBar((Boolean) newValue)
                             .commit();
-                    getActivity().recreate();
+                    requireActivity().recreate();
                     return true;
                 });
             }
 
             final TwoStatePreference classicNotification = (TwoStatePreference) findPreference("classic_notification");
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-                classicNotification.setVisible(false);
-            } else {
-                classicNotification.setChecked(PreferenceUtil.getInstance(getActivity()).classicNotification());
-                classicNotification.setOnPreferenceChangeListener((preference, newValue) -> {
-                    // Save preference
-                    PreferenceUtil.getInstance(getActivity()).setClassicNotification((Boolean) newValue);
-                    return true;
-                });
+            if(classicNotification != null) {
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+                    classicNotification.setVisible(false);
+                } else {
+                    classicNotification.setChecked(PreferenceUtil.getInstance(requireActivity()).classicNotification());
+                    classicNotification.setOnPreferenceChangeListener((preference, newValue) -> {
+                        // Save preference
+                        PreferenceUtil.getInstance(requireActivity()).setClassicNotification((Boolean) newValue);
+                        return true;
+                    });
+                }
             }
 
             final TwoStatePreference coloredNotification = (TwoStatePreference) findPreference("colored_notification");
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                coloredNotification.setEnabled(PreferenceUtil.getInstance(getActivity()).classicNotification());
-            } else {
-                coloredNotification.setChecked(PreferenceUtil.getInstance(getActivity()).coloredNotification());
-                coloredNotification.setOnPreferenceChangeListener((preference, newValue) -> {
-                    // Save preference
-                    PreferenceUtil.getInstance(getActivity()).setColoredNotification((Boolean) newValue);
-                    return true;
-                });
+            if(coloredNotification != null) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    coloredNotification.setEnabled(PreferenceUtil.getInstance(requireActivity()).classicNotification());
+                } else {
+                    coloredNotification.setChecked(PreferenceUtil.getInstance(requireActivity()).coloredNotification());
+                    coloredNotification.setOnPreferenceChangeListener((preference, newValue) -> {
+                        // Save preference
+                        PreferenceUtil.getInstance(requireActivity()).setColoredNotification((Boolean) newValue);
+                        return true;
+                    });
+                }
             }
 
             final TwoStatePreference colorAppShortcuts = (TwoStatePreference) findPreference("should_color_app_shortcuts");
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N_MR1) {
-                colorAppShortcuts.setVisible(false);
-            } else {
-                colorAppShortcuts.setChecked(PreferenceUtil.getInstance(getActivity()).coloredAppShortcuts());
-                colorAppShortcuts.setOnPreferenceChangeListener((preference, newValue) -> {
-                    // Save preference
-                    PreferenceUtil.getInstance(getActivity()).setColoredAppShortcuts((Boolean) newValue);
+            if(colorAppShortcuts != null) {
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N_MR1) {
+                    colorAppShortcuts.setVisible(false);
+                } else {
+                    colorAppShortcuts.setChecked(PreferenceUtil.getInstance(requireActivity()).coloredAppShortcuts());
+                    colorAppShortcuts.setOnPreferenceChangeListener((preference, newValue) -> {
+                        // Save preference
+                        PreferenceUtil.getInstance(requireActivity()).setColoredAppShortcuts((Boolean) newValue);
 
-                    // Update app shortcuts
-                    new DynamicShortcutManager(getActivity()).updateDynamicShortcuts();
+                        // Update app shortcuts
+                        new DynamicShortcutManager(requireActivity()).updateDynamicShortcuts();
 
-                    return true;
-                });
+                        return true;
+                    });
+                }
+            }
+
+            final TwoStatePreference useWallpaperColors = (TwoStatePreference) findPreference("use_wallpaper_colors");
+            if(useWallpaperColors != null) {
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O_MR1) {
+                    useWallpaperColors.setVisible(false);
+                } else {
+                    if (primaryColorPref != null) {
+                        primaryColorPref.setEnabled(useWallpaperColors.isChecked());
+                    }
+
+                    if (accentColorPref != null) {
+                        accentColorPref.setEnabled(useWallpaperColors.isChecked());
+                    }
+
+                    useWallpaperColors.setOnPreferenceChangeListener((preference, newValue) -> {
+                        ColorsUtil.toggleRegisterForColorChanges((boolean) newValue);
+
+                        if (((boolean) newValue) && primaryColorPref != null) {
+                            WallpaperColors colors = ColorsUtil.getCurrentWallpaperColors();
+
+                            int primaryColor = colors.getPrimaryColor().toArgb();
+                            primaryColorPref.setColor(primaryColor, ColorUtil.darkenColor(primaryColor));
+                            ThemeStore.editTheme(requireActivity())
+                                    .primaryColor(primaryColor)
+                                    .commit();
+
+                            if (colors.getSecondaryColor() != null && accentColorPref != null) {
+                                int accentColor = colors.getSecondaryColor().toArgb();
+                                accentColorPref.setColor(accentColor, ColorUtil.darkenColor(accentColor));
+                                ThemeStore.editTheme(requireActivity())
+                                        .accentColor(accentColor)
+                                        .commit();
+                            }
+                            requireActivity().recreate();
+                        }
+                        return true;
+                    });
+                }
             }
 
             final Preference equalizer = findPreference("equalizer");
-            if (!hasEqualizer()) {
-                equalizer.setEnabled(false);
-                equalizer.setSummary(getResources().getString(R.string.no_equalizer));
+            if(equalizer != null) {
+                if (!hasEqualizer()) {
+                    equalizer.setEnabled(false);
+                    equalizer.setSummary(getResources().getString(R.string.no_equalizer));
+                }
+                equalizer.setOnPreferenceClickListener(preference -> {
+                    NavigationUtil.openEqualizer(requireActivity());
+                    return true;
+                });
             }
-            equalizer.setOnPreferenceClickListener(preference -> {
-                NavigationUtil.openEqualizer(getActivity());
-                return true;
-            });
 
             updateNowPlayingScreenSummary();
         }
 
         private boolean hasEqualizer() {
             final Intent effects = new Intent(AudioEffect.ACTION_DISPLAY_AUDIO_EFFECT_CONTROL_PANEL);
-            PackageManager pm = getActivity().getPackageManager();
+            PackageManager pm = requireActivity().getPackageManager();
             ResolveInfo ri = pm.resolveActivity(effects, 0);
             return ri != null;
         }
@@ -305,14 +358,20 @@ public class SettingsActivity extends AbsBaseActivity implements ColorChooserDia
                     break;
                 case PreferenceUtil.CLASSIC_NOTIFICATION:
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        findPreference("colored_notification").setEnabled(sharedPreferences.getBoolean(key, false));
+                        final TwoStatePreference coloredNotification = (TwoStatePreference) findPreference("colored_notification");
+                        if(coloredNotification != null) {
+                            coloredNotification.setEnabled(sharedPreferences.getBoolean(key, false));
+                        }
                     }
                     break;
             }
         }
 
         private void updateNowPlayingScreenSummary() {
-            findPreference("now_playing_screen_id").setSummary(PreferenceUtil.getInstance(getActivity()).getNowPlayingScreen().titleRes);
+            Preference preference = findPreference("now_playing_screen_id");
+            if(preference != null) {
+                preference.setSummary(PreferenceUtil.getInstance(requireActivity()).getNowPlayingScreen().titleRes);
+            }
         }
     }
 }

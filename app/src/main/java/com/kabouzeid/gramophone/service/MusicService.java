@@ -15,7 +15,6 @@ import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.audiofx.AudioEffect;
-import android.media.session.MediaSession;
 import android.os.Binder;
 import android.os.Build;
 import android.os.Handler;
@@ -25,7 +24,6 @@ import android.os.Looper;
 import android.os.Message;
 import android.os.PowerManager;
 import android.os.Process;
-import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
@@ -39,6 +37,7 @@ import com.bumptech.glide.BitmapRequestBuilder;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.kabouzeid.gramophone.App;
 import com.kabouzeid.gramophone.R;
 import com.kabouzeid.gramophone.appwidgets.AppWidgetBig;
 import com.kabouzeid.gramophone.appwidgets.AppWidgetCard;
@@ -173,8 +172,6 @@ public class MusicService extends Service implements SharedPreferences.OnSharedP
     private ContentObserver mediaStoreObserver;
     private boolean notHandledMetaChangedForCurrentTrack;
 
-    private Handler uiThreadHandler;
-
     private static String getTrackUri(@NonNull Song song) {
         return MusicUtil.getSongFileUri(song.id).toString();
     }
@@ -200,8 +197,6 @@ public class MusicService extends Service implements SharedPreferences.OnSharedP
         queueSaveHandlerThread = new HandlerThread("QueueSaveHandler", Process.THREAD_PRIORITY_BACKGROUND);
         queueSaveHandlerThread.start();
         queueSaveHandler = new QueueSaveHandler(this, queueSaveHandlerThread.getLooper());
-
-        uiThreadHandler = new Handler();
 
         registerReceiver(widgetIntentReceiver, new IntentFilter(APP_WIDGET_UPDATE));
 
@@ -285,8 +280,8 @@ public class MusicService extends Service implements SharedPreferences.OnSharedP
             }
         });
 
-        mediaSession.setFlags(MediaSession.FLAG_HANDLES_TRANSPORT_CONTROLS
-                | MediaSession.FLAG_HANDLES_MEDIA_BUTTONS);
+        mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS
+                | MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS);
 
         mediaSession.setMediaButtonReceiver(mediaButtonReceiverPendingIntent);
     }
@@ -395,10 +390,8 @@ public class MusicService extends Service implements SharedPreferences.OnSharedP
         @Override
         public void handleMessage(@NonNull Message msg) {
             final MusicService service = mService.get();
-            switch (msg.what) {
-                case SAVE_QUEUES:
-                    service.saveQueuesImpl();
-                    break;
+            if (msg.what == SAVE_QUEUES) {
+                service.saveQueuesImpl();
             }
         }
     }
@@ -408,11 +401,11 @@ public class MusicService extends Service implements SharedPreferences.OnSharedP
     }
 
     private void savePosition() {
-        PreferenceManager.getDefaultSharedPreferences(this).edit().putInt(SAVED_POSITION, getPosition()).apply();
+        PreferenceUtil.getInstance(this).edit().putInt(SAVED_POSITION, getPosition()).apply();
     }
 
     private void savePositionInTrack() {
-        PreferenceManager.getDefaultSharedPreferences(this).edit().putInt(SAVED_POSITION_IN_TRACK, getSongProgressMillis()).apply();
+        PreferenceUtil.getInstance(this).edit().putInt(SAVED_POSITION_IN_TRACK, getSongProgressMillis()).apply();
     }
 
     public void saveState() {
@@ -427,8 +420,8 @@ public class MusicService extends Service implements SharedPreferences.OnSharedP
     }
 
     private void restoreState() {
-        shuffleMode = PreferenceManager.getDefaultSharedPreferences(this).getInt(SAVED_SHUFFLE_MODE, 0);
-        repeatMode = PreferenceManager.getDefaultSharedPreferences(this).getInt(SAVED_REPEAT_MODE, 0);
+        shuffleMode = PreferenceUtil.getInstance(this).getPrefs().getInt(SAVED_SHUFFLE_MODE, 0);
+        repeatMode = PreferenceUtil.getInstance(this).getPrefs().getInt(SAVED_REPEAT_MODE, 0);
         handleAndSendChangeInternal(SHUFFLE_MODE_CHANGED);
         handleAndSendChangeInternal(REPEAT_MODE_CHANGED);
 
@@ -440,8 +433,8 @@ public class MusicService extends Service implements SharedPreferences.OnSharedP
         if (!queuesRestored && playingQueue.isEmpty()) {
             List<Song> restoredQueue = MusicPlaybackQueueStore.getInstance(this).getSavedPlayingQueue();
             List<Song> restoredOriginalQueue = MusicPlaybackQueueStore.getInstance(this).getSavedOriginalPlayingQueue();
-            int restoredPosition = PreferenceManager.getDefaultSharedPreferences(this).getInt(SAVED_POSITION, -1);
-            int restoredPositionInTrack = PreferenceManager.getDefaultSharedPreferences(this).getInt(SAVED_POSITION_IN_TRACK, -1);
+            int restoredPosition = PreferenceUtil.getInstance(this).getPrefs().getInt(SAVED_POSITION, -1);
+            int restoredPositionInTrack = PreferenceUtil.getInstance(this).getPrefs().getInt(SAVED_POSITION_IN_TRACK, -1);
 
             if (restoredQueue.size() > 0 && restoredQueue.size() == restoredOriginalQueue.size() && restoredPosition != -1) {
                 this.originalPlayingQueue = restoredOriginalQueue;
@@ -641,7 +634,7 @@ public class MusicService extends Service implements SharedPreferences.OnSharedP
     }
 
     public void runOnUiThread(Runnable runnable) {
-        uiThreadHandler.post(runnable);
+        App.getMainHandler().post(runnable);
     }
 
     public Song getCurrentSong() {
@@ -701,7 +694,8 @@ public class MusicService extends Service implements SharedPreferences.OnSharedP
             case REPEAT_MODE_ALL:
             case REPEAT_MODE_THIS:
                 this.repeatMode = repeatMode;
-                PreferenceManager.getDefaultSharedPreferences(this).edit()
+                PreferenceUtil.getInstance(this)
+                        .edit()
                         .putInt(SAVED_REPEAT_MODE, repeatMode)
                         .apply();
                 prepareNext();
@@ -990,7 +984,8 @@ public class MusicService extends Service implements SharedPreferences.OnSharedP
     }
 
     public void setShuffleMode(final int shuffleMode) {
-        PreferenceManager.getDefaultSharedPreferences(this).edit()
+        PreferenceUtil.getInstance(this)
+                .edit()
                 .putInt(SAVED_SHUFFLE_MODE, shuffleMode)
                 .apply();
         switch (shuffleMode) {

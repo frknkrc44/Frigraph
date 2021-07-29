@@ -310,4 +310,6 @@
     <string name="finish_current_music_sleep_timer">Finish last song</string>
     <string name="dialog_ringtone_title">Set ringtone</string>
     <string name="dialog_ringtone_message">Allow phonograph to modify audio settings</string>
+    <string name="pref_title_use_wallpaper_colors">Use wallpaper colors</string>
+    <string name="pref_summary_use_wallpaper_colors">Extract colors from wallpaper instead of setting manually.</string>
 </resources>

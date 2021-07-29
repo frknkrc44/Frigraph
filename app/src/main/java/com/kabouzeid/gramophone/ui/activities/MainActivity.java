@@ -1,5 +1,6 @@
 package com.kabouzeid.gramophone.ui.activities;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -34,13 +35,13 @@ import com.kabouzeid.gramophone.dialogs.ScanMediaFolderChooserDialog;
 import com.kabouzeid.gramophone.glide.SongGlideRequest;
 import com.kabouzeid.gramophone.helper.MusicPlayerRemote;
 import com.kabouzeid.gramophone.helper.SearchQueryHelper;
+import com.kabouzeid.gramophone.interfaces.MusicServiceEventListener;
 import com.kabouzeid.gramophone.loader.AlbumLoader;
 import com.kabouzeid.gramophone.loader.ArtistLoader;
 import com.kabouzeid.gramophone.loader.PlaylistSongLoader;
 import com.kabouzeid.gramophone.model.Song;
 import com.kabouzeid.gramophone.service.MusicService;
 import com.kabouzeid.gramophone.ui.activities.base.AbsSlidingMusicPanelActivity;
-import com.kabouzeid.gramophone.ui.activities.intro.AppIntroActivity;
 import com.kabouzeid.gramophone.ui.fragments.mainactivity.folders.FoldersFragment;
 import com.kabouzeid.gramophone.ui.fragments.mainactivity.library.LibraryFragment;
 import com.kabouzeid.gramophone.util.MusicUtil;
@@ -54,10 +55,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+@SuppressLint("NonConstantResourceId")
 public class MainActivity extends AbsSlidingMusicPanelActivity {
 
     public static final String TAG = MainActivity.class.getSimpleName();
-    public static final int APP_INTRO_REQUEST = 100;
 
     private static final int LIBRARY = 0;
     private static final int FOLDERS = 1;
@@ -80,10 +81,6 @@ public class MainActivity extends AbsSlidingMusicPanelActivity {
         super.onCreate(savedInstanceState);
         setDrawUnderStatusbar();
         ButterKnife.bind(this);
-
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
-            navigationView.setFitsSystemWindows(false); // for header to go below statusbar
-        }
 
         setUpDrawerLayout();
 
@@ -126,7 +123,7 @@ public class MainActivity extends AbsSlidingMusicPanelActivity {
         }
     }
 
-    private void setCurrentFragment(@SuppressWarnings("NullableProblems") Fragment fragment) {
+    private void setCurrentFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, null).commit();
         currentFragment = (MainActivityFragmentCallbacks) fragment;
     }
@@ -138,11 +135,8 @@ public class MainActivity extends AbsSlidingMusicPanelActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == APP_INTRO_REQUEST) {
-            blockRequestPermissions = false;
-            if (!hasPermissions()) {
-                requestPermissions();
-            }
+        if (!hasPermissions()) {
+            requestPermissions();
         }
     }
 
@@ -209,7 +203,6 @@ public class MainActivity extends AbsSlidingMusicPanelActivity {
             Song song = MusicPlayerRemote.getCurrentSong();
             if (navigationDrawerHeader == null) {
                 navigationDrawerHeader = navigationView.inflateHeaderView(R.layout.navigation_drawer_header);
-                //noinspection ConstantConditions
                 navigationDrawerHeader.setOnClickListener(v -> {
                     drawerLayout.closeDrawers();
                     if (getPanelState() == SlidingUpPanelLayout.PanelState.COLLAPSED) {
@@ -348,7 +341,6 @@ public class MainActivity extends AbsSlidingMusicPanelActivity {
             PreferenceUtil.getInstance(this).setIntroShown();
             ChangelogDialog.setChangelogRead(this);
             blockRequestPermissions = true;
-            new Handler().postDelayed(() -> startActivityForResult(new Intent(MainActivity.this, AppIntroActivity.class), APP_INTRO_REQUEST), 50);
             return true;
         }
         return false;

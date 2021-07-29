@@ -6,6 +6,8 @@ import android.os.Handler;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.kabouzeid.gramophone.App;
+
 import java.lang.ref.WeakReference;
 
 /**
@@ -31,7 +33,7 @@ public abstract class DialogAsyncTask<Params, Progress, Result> extends WeakCont
     protected void onPreExecute() {
         super.onPreExecute();
         if (delay > 0) {
-            new Handler().postDelayed(this::initAndShowDialog, delay);
+            App.getMainHandler().postDelayed(this::initAndShowDialog, delay);
         } else {
             initAndShowDialog();
         }

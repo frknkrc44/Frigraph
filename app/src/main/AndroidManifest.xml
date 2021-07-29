@@ -5,13 +5,14 @@
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.BROADCAST_STICKY" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="com.android.vending.BILLING" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
@@ -72,7 +73,7 @@
                 <data android:mimeType="application/x-ogg" />
                 <data android:mimeType="application/itunes" />
             </intent-filter>
-            <intent-filter>
+            <intent-filter tools:ignore="AppLinkUrlError">
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
@@ -112,13 +113,6 @@
         <activity
             android:name=".ui.activities.AboutActivity"
             android:label="@string/action_about" />
-        <activity
-            android:name=".ui.activities.intro.AppIntroActivity"
-            android:label="@string/intro_label"
-            android:theme="@style/Theme.Intro" />
-        <activity
-            android:name=".ui.activities.bugreport.BugReportActivity"
-            android:label="@string/report_an_issue" />
         <activity
             android:name=".appshortcuts.AppShortcutLauncherActivity"
             android:launchMode="singleInstance"

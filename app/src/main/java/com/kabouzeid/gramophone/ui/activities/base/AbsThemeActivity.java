@@ -12,6 +12,7 @@ import com.kabouzeid.appthemehelper.common.ATHToolbarActivity;
 import com.kabouzeid.appthemehelper.util.ColorUtil;
 import com.kabouzeid.appthemehelper.util.MaterialDialogsUtil;
 import com.kabouzeid.gramophone.R;
+import com.kabouzeid.gramophone.util.ColorsUtil;
 import com.kabouzeid.gramophone.util.PreferenceUtil;
 import com.kabouzeid.gramophone.util.Util;
 
@@ -21,6 +22,8 @@ import com.kabouzeid.gramophone.util.Util;
 
 public abstract class AbsThemeActivity extends ATHToolbarActivity {
 
+    private boolean listenerInvoked;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(PreferenceUtil.getInstance(this).getGeneralTheme());
@@ -29,10 +32,7 @@ public abstract class AbsThemeActivity extends ATHToolbarActivity {
     }
 
     protected void setDrawUnderStatusbar() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            Util.setAllowDrawUnderStatusBar(getWindow());
-        else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
-            Util.setStatusBarTranslucent(getWindow());
+        Util.setAllowDrawUnderStatusBar(getWindow());
     }
 
     /**
@@ -42,19 +42,17 @@ public abstract class AbsThemeActivity extends ATHToolbarActivity {
      * @param color the new statusbar color (will be shifted down on Lollipop and above)
      */
     public void setStatusbarColor(int color) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            final View statusBar = getWindow().getDecorView().getRootView().findViewById(R.id.status_bar);
-            if (statusBar != null) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    statusBar.setBackgroundColor(ColorUtil.darkenColor(color));
-                    setLightStatusbarAuto(color);
-                } else {
-                    statusBar.setBackgroundColor(color);
-                }
-            } else if (Build.VERSION.SDK_INT >= 21) {
-                getWindow().setStatusBarColor(ColorUtil.darkenColor(color));
+        final View statusBar = getWindow().getDecorView().getRootView().findViewById(R.id.status_bar);
+        if (statusBar != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                statusBar.setBackgroundColor(ColorUtil.darkenColor(color));
                 setLightStatusbarAuto(color);
+            } else {
+                statusBar.setBackgroundColor(color);
             }
+        } else if (Build.VERSION.SDK_INT >= 21) {
+            getWindow().setStatusBarColor(ColorUtil.darkenColor(color));
+            setLightStatusbarAuto(color);
         }
     }
 
@@ -89,5 +87,19 @@ public abstract class AbsThemeActivity extends ATHToolbarActivity {
 
     public void setLightStatusbarAuto(int bgColor) {
         setLightStatusbar(ColorUtil.isColorLight(bgColor));
+    }
+
+    public boolean setAutoColor() {
+        if (Build.VERSION.SDK_INT >= 27 && !listenerInvoked) {
+            listenerInvoked = true;
+            if (PreferenceUtil.getInstance(this)
+                    .getPrefs()
+                    .getBoolean("use_wallpaper_colors", false)) {
+                ColorsUtil.toggleRegisterForColorChanges(true);
+                ColorsUtil.applyCurrentWallpaperColors();
+            }
+            return false;
+        }
+        return listenerInvoked = true;
     }
 }

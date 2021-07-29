@@ -42,6 +42,13 @@
             android:summary="@string/pref_summary_colored_app_shortcuts"
             android:title="@string/pref_title_app_shortcuts" />
 
+        <com.kabouzeid.appthemehelper.common.prefs.supportv7.ATESwitchPreference
+            app:iconSpaceReserved="false"
+            android:defaultValue="false"
+            android:key="use_wallpaper_colors"
+            android:summary="@string/pref_summary_use_wallpaper_colors"
+            android:title="@string/pref_title_use_wallpaper_colors" />
+
     </com.kabouzeid.appthemehelper.common.prefs.supportv7.ATEPreferenceCategory>
 
 </androidx.preference.PreferenceScreen>

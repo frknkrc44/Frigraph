@@ -16,7 +16,10 @@ import android.view.KeyEvent;
 import android.view.View;
 
 import com.kabouzeid.appthemehelper.ThemeStore;
+import com.kabouzeid.gramophone.App;
 import com.kabouzeid.gramophone.R;
+import com.kabouzeid.gramophone.util.ColorsUtil;
+import com.kabouzeid.gramophone.util.PreferenceUtil;
 
 /**
  * @author Karim Abou Zeid (kabouzeid)
@@ -78,7 +81,7 @@ public abstract class AbsBaseActivity extends AbsThemeActivity {
 
     @Nullable
     protected String[] getPermissionsToRequest() {
-        return null;
+        return new String[]{Manifest.permission.READ_EXTERNAL_STORAGE};
     }
 
     protected View getSnackBarContainer() {
@@ -91,6 +94,11 @@ public abstract class AbsBaseActivity extends AbsThemeActivity {
 
     private String getPermissionDeniedMessage() {
         return permissionDeniedMessage == null ? getString(R.string.permissions_denied) : permissionDeniedMessage;
+    }
+
+    protected void requestPermissionsAutomatically() {
+        if(!hasPermissions())
+            requestPermissions();
     }
 
     protected void requestPermissions() {
@@ -143,5 +151,22 @@ public abstract class AbsBaseActivity extends AbsThemeActivity {
             hadPermissions = true;
             onHasPermissionsChanged(true);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (Build.VERSION.SDK_INT >= 27) {
+            ColorsUtil.unregisterForColorChanges();
+        }
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        if (hasPermissions())
+            if (!App.isAppInit())
+                if (!setAutoColor())
+                    App.getMainHandler().post(this::postRecreate);
     }
 }

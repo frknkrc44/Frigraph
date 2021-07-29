@@ -134,7 +134,7 @@ public final class PreferenceUtil {
     public void setGeneralTheme(String theme) {
         final SharedPreferences.Editor editor = mPreferences.edit();
         editor.putString(GENERAL_THEME, theme);
-        editor.commit();
+        editor.apply();
     }
 
     @StyleRes
@@ -186,7 +186,7 @@ public final class PreferenceUtil {
     public void setNowPlayingScreen(NowPlayingScreen nowPlayingScreen) {
         final SharedPreferences.Editor editor = mPreferences.edit();
         editor.putInt(NOW_PLAYING_SCREEN_ID, nowPlayingScreen.id);
-        editor.commit();
+        editor.apply();
     }
 
     public final boolean coloredNotification() {
@@ -246,7 +246,7 @@ public final class PreferenceUtil {
     public void setArtistSortOrder(final String sortOrder) {
         final SharedPreferences.Editor editor = mPreferences.edit();
         editor.putString(ARTIST_SORT_ORDER, sortOrder);
-        editor.commit();
+        editor.apply();
     }
 
     public final String getArtistSongSortOrder() {
@@ -264,7 +264,7 @@ public final class PreferenceUtil {
     public void setAlbumSortOrder(final String sortOrder) {
         final SharedPreferences.Editor editor = mPreferences.edit();
         editor.putString(ALBUM_SORT_ORDER, sortOrder);
-        editor.commit();
+        editor.apply();
     }
 
     public final String getAlbumSongSortOrder() {
@@ -460,7 +460,7 @@ public final class PreferenceUtil {
     @SuppressLint("CommitPrefEdits")
     public void setIntroShown() {
         // don't use apply here
-        mPreferences.edit().putBoolean(INTRO_SHOWN, true).commit();
+        mPreferences.edit().putBoolean(INTRO_SHOWN, true).apply();
     }
 
     public final boolean introShown() {
@@ -534,5 +534,13 @@ public final class PreferenceUtil {
         defaultCategoryInfos.add(new CategoryInfo(CategoryInfo.Category.GENRES, true));
         defaultCategoryInfos.add(new CategoryInfo(CategoryInfo.Category.PLAYLISTS, true));
         return defaultCategoryInfos;
+    }
+
+    public SharedPreferences getPrefs() {
+        return mPreferences;
+    }
+
+    public SharedPreferences.Editor edit() {
+        return getPrefs().edit();
     }
 }

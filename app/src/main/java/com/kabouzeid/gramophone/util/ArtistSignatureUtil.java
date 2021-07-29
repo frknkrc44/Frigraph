@@ -2,7 +2,6 @@ package com.kabouzeid.gramophone.util;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.SharedPreferences;
 import androidx.annotation.NonNull;
 
 import com.bumptech.glide.signature.StringSignature;
@@ -15,10 +14,10 @@ public class ArtistSignatureUtil {
 
     private static ArtistSignatureUtil sInstance;
 
-    private final SharedPreferences mPreferences;
+    private final PreferenceUtil mPreferences;
 
     private ArtistSignatureUtil(@NonNull final Context context) {
-        mPreferences = context.getSharedPreferences(ARTIST_SIGNATURE_PREFS, Context.MODE_PRIVATE);
+        mPreferences = PreferenceUtil.getInstance(context);
     }
 
     public static ArtistSignatureUtil getInstance(@NonNull final Context context) {
@@ -34,7 +33,7 @@ public class ArtistSignatureUtil {
     }
 
     public long getArtistSignatureRaw(String artistName) {
-        return mPreferences.getLong(artistName, 0);
+        return mPreferences.getPrefs().getLong(artistName, 0);
     }
 
     public StringSignature getArtistSignature(String artistName) {

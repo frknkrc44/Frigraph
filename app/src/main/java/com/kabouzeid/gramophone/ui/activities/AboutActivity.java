@@ -22,7 +22,6 @@ import com.kabouzeid.gramophone.R;
 import com.kabouzeid.gramophone.dialogs.ChangelogDialog;
 import com.kabouzeid.gramophone.dialogs.DonationsDialog;
 import com.kabouzeid.gramophone.ui.activities.base.AbsBaseActivity;
-import com.kabouzeid.gramophone.ui.activities.intro.AppIntroActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -62,8 +61,6 @@ public class AboutActivity extends AbsBaseActivity implements View.OnClickListen
     TextView appVersion;
     @BindView(R.id.changelog)
     LinearLayout changelog;
-    @BindView(R.id.intro)
-    LinearLayout intro;
     @BindView(R.id.licenses)
     LinearLayout licenses;
     @BindView(R.id.write_an_email)
@@ -130,7 +127,6 @@ public class AboutActivity extends AbsBaseActivity implements View.OnClickListen
 
     private void setUpOnClickListeners() {
         changelog.setOnClickListener(this);
-        intro.setOnClickListener(this);
         licenses.setOnClickListener(this);
         followOnTwitter.setOnClickListener(this);
         forkOnGitHub.setOnClickListener(this);
@@ -173,8 +169,6 @@ public class AboutActivity extends AbsBaseActivity implements View.OnClickListen
             ChangelogDialog.create().show(getSupportFragmentManager(), "CHANGELOG_DIALOG");
         } else if (v == licenses) {
             showLicenseDialog();
-        } else if (v == intro) {
-            startActivity(new Intent(this, AppIntroActivity.class));
         } else if (v == followOnTwitter) {
             openUrl(TWITTER);
         } else if (v == forkOnGitHub) {

@@ -29,8 +29,9 @@
             android:textAlignment="center"
             android:textSize="22sp"
             android:textColor="@color/md_white_1000"
-            android:shadowColor="@color/md_black_1000"
-            android:shadowRadius="4"
+            android:shadowColor="@android:color/black"
+            android:padding="@dimen/default_item_margin"
+            android:shadowRadius="16"
             android:visibility="gone" />
 
         <TextView
@@ -41,8 +42,9 @@
             android:textAlignment="center"
             android:textSize="22sp"
             android:textColor="@color/md_white_1000"
-            android:shadowColor="@color/md_black_1000"
-            android:shadowRadius="4" />
+            android:shadowColor="@android:color/black"
+            android:padding="@dimen/default_item_margin"
+            android:shadowRadius="16" />
 
     </FrameLayout>
 

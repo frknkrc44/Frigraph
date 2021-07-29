@@ -43,13 +43,13 @@ public class NowPlayingScreenPreferenceDialog extends DialogFragment implements 
         viewPager.setAdapter(new NowPlayingScreenAdapter(getContext()));
         viewPager.addOnPageChangeListener(this);
         viewPager.setPageMargin((int) ViewUtil.convertDpToPixel(32, getResources()));
-        viewPager.setCurrentItem(PreferenceUtil.getInstance(getContext()).getNowPlayingScreen().ordinal());
+        viewPager.setCurrentItem(PreferenceUtil.getInstance(requireContext()).getNowPlayingScreen().ordinal());
 
         InkPageIndicator pageIndicator = view.findViewById(R.id.page_indicator);
         pageIndicator.setViewPager(viewPager);
         pageIndicator.onPageSelected(viewPager.getCurrentItem());
 
-        return new MaterialDialog.Builder(getContext())
+        return new MaterialDialog.Builder(requireContext())
                 .title(R.string.pref_title_now_playing_screen_appearance)
                 .positiveText(android.R.string.ok)
                 .negativeText(android.R.string.cancel)
@@ -64,10 +64,10 @@ public class NowPlayingScreenPreferenceDialog extends DialogFragment implements 
     }
 
     @Override
-    public void onDismiss(DialogInterface dialog) {
+    public void onDismiss(@NonNull DialogInterface dialog) {
         super.onDismiss(dialog);
         if (whichButtonClicked == DialogAction.POSITIVE) {
-            PreferenceUtil.getInstance(getContext()).setNowPlayingScreen(NowPlayingScreen.values()[viewPagerPosition]);
+            PreferenceUtil.getInstance(requireContext()).setNowPlayingScreen(NowPlayingScreen.values()[viewPagerPosition]);
         }
     }
 
@@ -88,7 +88,7 @@ public class NowPlayingScreenPreferenceDialog extends DialogFragment implements 
 
     private static class NowPlayingScreenAdapter extends PagerAdapter {
 
-        private Context context;
+        private final Context context;
 
         public NowPlayingScreenAdapter(Context context) {
             this.context = context;

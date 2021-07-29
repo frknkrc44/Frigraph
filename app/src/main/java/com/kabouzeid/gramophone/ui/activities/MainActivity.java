@@ -113,12 +113,6 @@ public class MainActivity extends AbsSlidingMusicPanelActivity {
     }
 
     private void setMusicChooser(int key) {
-        if (!App.isProVersion() && key == FOLDERS) {
-            Toast.makeText(this, R.string.folder_view_is_a_pro_feature, Toast.LENGTH_LONG).show();
-            startActivity(new Intent(this, PurchaseActivity.class));
-            key = LIBRARY;
-        }
-
         PreferenceUtil.getInstance(this).setLastMusicChooser(key);
         switch (key) {
             case LIBRARY:
@@ -166,6 +160,7 @@ public class MainActivity extends AbsSlidingMusicPanelActivity {
         return contentView;
     }
 
+    @SuppressLint("NonConstantResourceId")
     private void setUpNavigationView() {
         int accentColor = ThemeStore.accentColor(this);
         NavigationViewUtil.setItemIconColors(navigationView, ATHUtil.resolveColor(this, R.attr.iconColor, ThemeStore.textColorSecondary(this)), accentColor);
@@ -176,25 +171,25 @@ public class MainActivity extends AbsSlidingMusicPanelActivity {
             drawerLayout.closeDrawers();
             switch (menuItem.getItemId()) {
                 case R.id.nav_library:
-                    new Handler().postDelayed(() -> setMusicChooser(LIBRARY), 200);
+                    new Handler(getMainLooper()).postDelayed(() -> setMusicChooser(LIBRARY), 200);
                     break;
                 case R.id.nav_folders:
-                    new Handler().postDelayed(() -> setMusicChooser(FOLDERS), 200);
+                    new Handler(getMainLooper()).postDelayed(() -> setMusicChooser(FOLDERS), 200);
                     break;
                 case R.id.buy_pro:
-                    new Handler().postDelayed(() -> startActivity(new Intent(MainActivity.this, PurchaseActivity.class)), 200);
+                    new Handler(getMainLooper()).postDelayed(() -> Toast.makeText(this, R.string.thank_you, Toast.LENGTH_SHORT), 200);
                     break;
                 case R.id.action_scan:
-                    new Handler().postDelayed(() -> {
+                    new Handler(getMainLooper()).postDelayed(() -> {
                         ScanMediaFolderChooserDialog dialog = ScanMediaFolderChooserDialog.create();
                         dialog.show(getSupportFragmentManager(), "SCAN_MEDIA_FOLDER_CHOOSER");
                     }, 200);
                     break;
                 case R.id.nav_settings:
-                    new Handler().postDelayed(() -> startActivity(new Intent(MainActivity.this, SettingsActivity.class)), 200);
+                    new Handler(getMainLooper()).postDelayed(() -> startActivity(new Intent(MainActivity.this, SettingsActivity.class)), 200);
                     break;
                 case R.id.nav_about:
-                    new Handler().postDelayed(() -> startActivity(new Intent(MainActivity.this, AboutActivity.class)), 200);
+                    new Handler(getMainLooper()).postDelayed(() -> startActivity(new Intent(MainActivity.this, AboutActivity.class)), 200);
                     break;
             }
             return true;

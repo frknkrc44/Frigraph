@@ -14,6 +14,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.kabouzeid.gramophone.R;
 import com.kabouzeid.gramophone.adapter.AlbumCoverPagerAdapter;
@@ -25,6 +26,8 @@ import com.kabouzeid.gramophone.model.lyrics.Lyrics;
 import com.kabouzeid.gramophone.ui.fragments.AbsMusicServiceFragment;
 import com.kabouzeid.gramophone.util.PreferenceUtil;
 import com.kabouzeid.gramophone.util.ViewUtil;
+
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -125,13 +128,13 @@ public class PlayerAlbumCoverFragment extends AbsMusicServiceFragment implements
     @Override
     public void onPageSelected(int position) {
         currentPosition = position;
-        ((AlbumCoverPagerAdapter) viewPager.getAdapter()).receiveColor(colorReceiver, position);
+        ((AlbumCoverPagerAdapter) Objects.requireNonNull(viewPager.getAdapter())).receiveColor(colorReceiver, position);
         if (position != MusicPlayerRemote.getPosition()) {
             MusicPlayerRemote.playSongAt(position);
         }
     }
 
-    private AlbumCoverPagerAdapter.AlbumCoverFragment.ColorReceiver colorReceiver = new AlbumCoverPagerAdapter.AlbumCoverFragment.ColorReceiver() {
+    private final AlbumCoverPagerAdapter.AlbumCoverFragment.ColorReceiver colorReceiver = new AlbumCoverPagerAdapter.AlbumCoverFragment.ColorReceiver() {
         @Override
         public void onColorReady(int color, int requestCode) {
             if (currentPosition == requestCode) {
@@ -151,8 +154,8 @@ public class PlayerAlbumCoverFragment extends AbsMusicServiceFragment implements
         favoriteIcon.setScaleX(0f);
         favoriteIcon.setScaleY(0f);
         favoriteIcon.setVisibility(View.VISIBLE);
-        favoriteIcon.setPivotX(favoriteIcon.getWidth() / 2);
-        favoriteIcon.setPivotY(favoriteIcon.getHeight() / 2);
+        favoriteIcon.setPivotX((float)(favoriteIcon.getWidth() / 2));
+        favoriteIcon.setPivotY((float)(favoriteIcon.getHeight() / 2));
 
         favoriteIcon.animate()
                 .setDuration(ViewUtil.PHONOGRAPH_ANIM_TIME / 2)
@@ -177,7 +180,7 @@ public class PlayerAlbumCoverFragment extends AbsMusicServiceFragment implements
     }
 
     private boolean isLyricsLayoutVisible() {
-        return lyrics != null && lyrics.isSynchronized() && lyrics.isValid() && PreferenceUtil.getInstance(getActivity()).synchronizedLyricsShow();
+        return lyrics != null && lyrics.isSynchronized() && lyrics.isValid() && PreferenceUtil.getInstance(requireActivity()).synchronizedLyricsShow();
     }
 
     private boolean isLyricsLayoutBound() {

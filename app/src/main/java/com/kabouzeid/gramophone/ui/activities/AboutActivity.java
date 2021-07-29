@@ -198,11 +198,7 @@ public class AboutActivity extends AbsBaseActivity implements View.OnClickListen
         } else if (v == rateOnGooglePlay) {
             openUrl(RATE_ON_GOOGLE_PLAY);
         } else if (v == donate) {
-            if (App.isProVersion()) {
-                DonationsDialog.create().show(getSupportFragmentManager(), "DONATION_DIALOG");
-            } else {
-                startActivity(new Intent(this, PurchaseActivity.class));
-            }
+            DonationsDialog.create().show(getSupportFragmentManager(), "DONATION_DIALOG");
         } else if (v == aidanFollestadGitHub) {
             openUrl(AIDAN_FOLLESTAD_GITHUB);
         } else if (v == michaelCookWebsite) {

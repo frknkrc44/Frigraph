@@ -93,20 +93,6 @@ public class MainActivity extends AbsSlidingMusicPanelActivity {
         if (!checkShowIntro()) {
             showChangelog();
         }
-
-        App.setOnProVersionChangedListener(() -> {
-            // called if the cached value was outdated (should be a rare event)
-            checkSetUpPro();
-            if (!App.isProVersion() && PreferenceUtil.getInstance(MainActivity.this).getLastMusicChooser() == FOLDERS) {
-                setMusicChooser(FOLDERS); // shows the purchase activity and switches to LIBRARY
-            }
-        });
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        App.setOnProVersionChangedListener(null);
     }
 
     private void setMusicChooser(int key) {
@@ -160,38 +146,30 @@ public class MainActivity extends AbsSlidingMusicPanelActivity {
         NavigationViewUtil.setItemIconColors(navigationView, ATHUtil.resolveColor(this, R.attr.iconColor, ThemeStore.textColorSecondary(this)), accentColor);
         NavigationViewUtil.setItemTextColors(navigationView, ThemeStore.textColorPrimary(this), accentColor);
 
-        checkSetUpPro();
         navigationView.setNavigationItemSelectedListener(menuItem -> {
             drawerLayout.closeDrawers();
             switch (menuItem.getItemId()) {
                 case R.id.nav_library:
-                    new Handler(getMainLooper()).postDelayed(() -> setMusicChooser(LIBRARY), 200);
+                    App.getMainHandler().postDelayed(() -> setMusicChooser(LIBRARY), 200);
                     break;
                 case R.id.nav_folders:
-                    new Handler(getMainLooper()).postDelayed(() -> setMusicChooser(FOLDERS), 200);
-                    break;
-                case R.id.buy_pro:
-                    new Handler(getMainLooper()).postDelayed(() -> Toast.makeText(this, R.string.thank_you, Toast.LENGTH_SHORT), 200);
+                    App.getMainHandler().postDelayed(() -> setMusicChooser(FOLDERS), 200);
                     break;
                 case R.id.action_scan:
-                    new Handler(getMainLooper()).postDelayed(() -> {
+                    App.getMainHandler().postDelayed(() -> {
                         ScanMediaFolderChooserDialog dialog = ScanMediaFolderChooserDialog.create();
                         dialog.show(getSupportFragmentManager(), "SCAN_MEDIA_FOLDER_CHOOSER");
                     }, 200);
                     break;
                 case R.id.nav_settings:
-                    new Handler(getMainLooper()).postDelayed(() -> startActivity(new Intent(MainActivity.this, SettingsActivity.class)), 200);
+                    App.getMainHandler().postDelayed(() -> startActivity(new Intent(MainActivity.this, SettingsActivity.class)), 200);
                     break;
                 case R.id.nav_about:
-                    new Handler(getMainLooper()).postDelayed(() -> startActivity(new Intent(MainActivity.this, AboutActivity.class)), 200);
+                    App.getMainHandler().postDelayed(() -> startActivity(new Intent(MainActivity.this, AboutActivity.class)), 200);
                     break;
             }
             return true;
         });
-    }
-
-    private void checkSetUpPro() {
-        navigationView.getMenu().setGroupVisible(R.id.navigation_drawer_menu_category_buy_pro, !App.isProVersion());
     }
 
     private void setUpDrawerLayout() {

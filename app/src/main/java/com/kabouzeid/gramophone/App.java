@@ -57,19 +57,6 @@ public class App extends Application {
         return true;
     }
 
-    private static OnProVersionChangedListener onProVersionChangedListener;
-    public static void setOnProVersionChangedListener(OnProVersionChangedListener listener) {
-        onProVersionChangedListener = listener;
-    }
-    public static void notifyProVersionChanged() {
-        if (onProVersionChangedListener != null) {
-            onProVersionChangedListener.onProVersionChanged();
-        }
-    }
-    public interface OnProVersionChangedListener {
-        void onProVersionChanged();
-    }
-
     public static App getInstance() {
         return app;
     }

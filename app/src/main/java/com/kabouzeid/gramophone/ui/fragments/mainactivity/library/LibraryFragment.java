@@ -49,20 +49,20 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
+@SuppressLint("NonConstantResourceId")
 public class LibraryFragment extends AbsMainActivityFragment implements CabHolder, MainActivity.MainActivityFragmentCallbacks, ViewPager.OnPageChangeListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
     private Unbinder unbinder;
 
-    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @SuppressLint("NonConstantResourceId")
+
     @BindView(R.id.tabs)
     TabLayout tabs;
-    @SuppressLint("NonConstantResourceId")
+
     @BindView(R.id.appbar)
     AppBarLayout appbar;
-    @SuppressLint("NonConstantResourceId")
+
     @BindView(R.id.pager)
     ViewPager pager;
 
@@ -340,7 +340,8 @@ public class LibraryFragment extends AbsMainActivityFragment implements CabHolde
         if (gridSize > 0) {
             item.setChecked(true);
             fragment.setAndSaveGridSize(gridSize);
-            toolbar.getMenu().findItem(R.id.action_colored_footers).setEnabled(fragment.canUsePalette());
+            if (toolbar != null)
+                toolbar.getMenu().findItem(R.id.action_colored_footers).setEnabled(fragment.canUsePalette());
             return true;
         }
         return false;

@@ -4,8 +4,10 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,11 +15,16 @@ import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
@@ -47,6 +54,7 @@ import com.kabouzeid.gramophone.util.Util;
 import com.thirdparty.flycotablayout.SlidingTabLayout;
 
 import java.lang.reflect.Field;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -131,6 +139,24 @@ public class LibraryFragment extends AbsMainActivityFragment implements CabHolde
         requireActivity().setTitle(R.string.app_name);
         tabs.setTextUnselectColor(getToolbarTitleTextColor(primaryColor) - 0x66000000);
         getMainActivity().setSupportActionBar(toolbar);
+        AppCompatActivity activity = (AppCompatActivity) requireActivity();
+        ViewGroup group = (ViewGroup) tabs.getParent();
+        group.removeView(tabs);
+        ActionBar bar = activity.getSupportActionBar();
+        if (bar != null) {
+            bar.setDisplayShowHomeEnabled(false);
+            bar.setDisplayShowCustomEnabled(true);
+            bar.setDisplayShowTitleEnabled(false);
+            bar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+            bar.setCustomView(tabs);
+            // toolbar = (Toolbar) tabs.getParent();
+            toolbar.setPadding(0,0,0,0);
+            toolbar.setContentInsetsAbsolute(0,0);
+            appbar.setPadding(0,0,0,0);
+            appbar.getLayoutParams().height = (int)(64 * getResources().getDisplayMetrics().density);
+            toolbar.getLayoutParams().height = appbar.getLayoutParams().height;
+            tabs.getLayoutParams().height = appbar.getLayoutParams().height;
+        }
     }
 
     private int getToolbarTitleTextColor(int primaryColor) {
@@ -254,6 +280,10 @@ public class LibraryFragment extends AbsMainActivityFragment implements CabHolde
 
         int id = item.getItemId();
         switch (id) {
+            case R.id.action_menu:
+                DrawerLayout drawer = requireActivity().findViewById(R.id.drawer_layout);
+                drawer.openDrawer(GravityCompat.START);
+                return true;
             case R.id.action_shuffle_all:
                 MusicPlayerRemote.openAndShuffleQueue(SongLoader.getAllSongs(requireActivity()), true);
                 return true;

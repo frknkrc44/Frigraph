@@ -4,6 +4,12 @@
     tools:context=".DrawerActivity">
 
     <item
+        android:id="@+id/action_menu"
+        android:icon="@drawable/ic_menu_white_24dp"
+        android:title="@string/app_name"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/action_search"
         android:icon="@drawable/ic_search_white_24dp"
         android:title="@string/action_search"

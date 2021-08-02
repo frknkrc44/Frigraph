@@ -1,6 +1,7 @@
 package com.kabouzeid.gramophone.ui.fragments.mainactivity.folders;
 
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.media.MediaScannerConnection;
@@ -19,8 +20,12 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -66,6 +71,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
+@SuppressLint("NonConstantResourceId")
 public class FoldersFragment extends AbsMainActivityFragment implements MainActivity.MainActivityFragmentCallbacks, CabHolder, BreadCrumbLayout.SelectionCallback, SongFileAdapter.Callbacks, AppBarLayout.OnOffsetChangedListener, LoaderManager.LoaderCallbacks<List<File>> {
 
     private static final int LOADER_ID = LoaderIds.FOLDERS_FRAGMENT;
@@ -184,6 +190,24 @@ public class FoldersFragment extends AbsMainActivityFragment implements MainActi
 
     private void setUpBreadCrumbs() {
         breadCrumbs.setCallback(this);
+        ViewGroup group = (ViewGroup) breadCrumbs.getParent();
+        group.removeView(breadCrumbs);
+        AppCompatActivity activity = (AppCompatActivity) requireActivity();
+        ActionBar bar = activity.getSupportActionBar();
+        if (bar != null) {
+            bar.setDisplayShowHomeEnabled(false);
+            bar.setDisplayShowCustomEnabled(true);
+            bar.setDisplayShowTitleEnabled(false);
+            bar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+            bar.setCustomView(breadCrumbs);
+            // toolbar = (Toolbar) tabs.getParent();
+            toolbar.setPadding(0,0,0,0);
+            toolbar.setContentInsetsAbsolute(0,0);
+            appbar.setPadding(0,0,0,0);
+            appbar.getLayoutParams().height = (int)(64 * getResources().getDisplayMetrics().density);
+            toolbar.getLayoutParams().height = appbar.getLayoutParams().height;
+            breadCrumbs.getLayoutParams().height = appbar.getLayoutParams().height;
+        }
     }
 
     private void setUpRecyclerView() {
@@ -286,6 +310,10 @@ public class FoldersFragment extends AbsMainActivityFragment implements MainActi
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.action_menu:
+                DrawerLayout drawer = requireActivity().findViewById(R.id.drawer_layout);
+                drawer.openDrawer(GravityCompat.START);
+                return true;
             case R.id.action_go_to_start_directory:
                 setCrumb(new BreadCrumbLayout.Crumb(FileUtil.safeGetCanonicalFile(PreferenceUtil.getInstance(getActivity()).getStartDirectory())), true);
                 return true;

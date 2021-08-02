@@ -8,6 +8,7 @@ import android.content.pm.ResolveInfo;
 import android.media.audiofx.AudioEffect;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -25,6 +26,7 @@ import com.kabouzeid.appthemehelper.ThemeStore;
 import com.kabouzeid.appthemehelper.common.prefs.supportv7.ATEColorPreference;
 import com.kabouzeid.appthemehelper.common.prefs.supportv7.ATEPreferenceFragmentCompat;
 import com.kabouzeid.appthemehelper.util.ColorUtil;
+import com.kabouzeid.gramophone.App;
 import com.kabouzeid.gramophone.R;
 import com.kabouzeid.gramophone.appshortcuts.DynamicShortcutManager;
 import com.kabouzeid.gramophone.preferences.BlacklistPreference;
@@ -295,25 +297,28 @@ public class SettingsActivity extends AbsBaseActivity implements ColorChooserDia
                     useWallpaperColors.setVisible(false);
                 } else {
                     if (primaryColorPref != null) {
-                        primaryColorPref.setEnabled(!useWallpaperColors.isChecked());
+                        primaryColorPref.setVisible(!useWallpaperColors.isChecked());
                     }
 
                     if (accentColorPref != null) {
-                        accentColorPref.setEnabled(!useWallpaperColors.isChecked());
+                        accentColorPref.setVisible(!useWallpaperColors.isChecked());
                     }
 
                     useWallpaperColors.setOnPreferenceChangeListener((preference, newValue) -> {
+                        boolean value = (boolean) newValue;
+
                         if (primaryColorPref != null) {
-                            primaryColorPref.setEnabled(!((boolean) newValue));
+                            primaryColorPref.setVisible(!value);
                         }
 
                         if (accentColorPref != null) {
-                            accentColorPref.setEnabled(!((boolean) newValue));
+                            accentColorPref.setVisible(!value);
                         }
 
-                        if ((boolean) newValue) {
+                        if (value) {
                             PhonographColorUtil.applyCurrentWallpaperColors();
-                            requireActivity().recreate();
+                            float animSpeed = Settings.Global.getFloat(requireActivity().getContentResolver(), Settings.Global.ANIMATOR_DURATION_SCALE, 1.0f);
+                            App.getMainHandler().postDelayed(() -> requireActivity().recreate(), (int)(animSpeed * 1000));
                         }
                         return true;
                     });

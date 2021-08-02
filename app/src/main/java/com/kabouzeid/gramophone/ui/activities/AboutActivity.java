@@ -50,6 +50,8 @@ public class AboutActivity extends AbsBaseActivity implements View.OnClickListen
 
     private static String ADRIAN_TWITTER = "https://twitter.com/froschgames";
 
+    private static String H07000223_GITHUB = "https://github.com/H07000223";
+
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.app_version)
@@ -80,6 +82,8 @@ public class AboutActivity extends AbsBaseActivity implements View.OnClickListen
     AppCompatButton eugeneCheungWebsite;
     @BindView(R.id.adrian_twitter)
     AppCompatButton adrianTwitter;
+    @BindView(R.id.h07000223_git_hub)
+    AppCompatButton h07000223GitHub;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,6 +130,7 @@ public class AboutActivity extends AbsBaseActivity implements View.OnClickListen
         eugeneCheungGitHub.setOnClickListener(this);
         eugeneCheungWebsite.setOnClickListener(this);
         adrianTwitter.setOnClickListener(this);
+        h07000223GitHub.setOnClickListener(this);
     }
 
     @Override
@@ -178,6 +183,8 @@ public class AboutActivity extends AbsBaseActivity implements View.OnClickListen
             openUrl(EUGENE_CHEUNG_WEBSITE);
         } else if (v == adrianTwitter) {
             openUrl(ADRIAN_TWITTER);
+        } else if (v == h07000223GitHub) {
+            openUrl(H07000223_GITHUB);
         }
     }
 

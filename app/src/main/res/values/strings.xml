@@ -312,5 +312,6 @@
     <string name="dialog_ringtone_message">Allow phonograph to modify audio settings</string>
     <string name="pref_title_use_wallpaper_colors">Use wallpaper colors</string>
     <string name="pref_summary_use_wallpaper_colors">Extract colors from wallpaper instead of setting manually.</string>
-    <string name="karim_abou_zeid_summary">For developing Phonograph</string>
+    <string name="karim_abou_zeid_summary">For developing Phonograph.</string>
+    <string name="h07000223_summary">For FlycoTabLayout.</string>
 </resources>

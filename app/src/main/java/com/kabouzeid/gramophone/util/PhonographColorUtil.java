@@ -122,6 +122,10 @@ public class PhonographColorUtil {
         return ColorUtils.calculateLuminance(backgroundColor) > 0.3f;
     }
 
+    public static boolean isColorLighter(int backgroundColor){
+        return ColorUtils.calculateLuminance(backgroundColor) > 0.5f;
+    }
+
     @Nullable
     public static Palette generatePalette(Bitmap bitmap) {
         if (bitmap == null) return null;

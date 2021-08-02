@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
@@ -43,6 +45,8 @@ import com.kabouzeid.gramophone.util.PhonographColorUtil;
 import com.kabouzeid.gramophone.util.PreferenceUtil;
 import com.kabouzeid.gramophone.util.Util;
 import com.thirdparty.flycotablayout.SlidingTabLayout;
+
+import java.lang.reflect.Field;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -125,7 +129,16 @@ public class LibraryFragment extends AbsMainActivityFragment implements CabHolde
         tabs.setTextBold(SlidingTabLayout.TEXT_BOLD_BOTH);
         toolbar.setNavigationIcon(R.drawable.ic_menu_white_24dp);
         requireActivity().setTitle(R.string.app_name);
+        tabs.setTextUnselectColor(getToolbarTitleTextColor(primaryColor) - 0x66000000);
         getMainActivity().setSupportActionBar(toolbar);
+    }
+
+    private int getToolbarTitleTextColor(int primaryColor) {
+        return getResources().getColor(
+                PhonographColorUtil.isColorLighter(primaryColor)
+                    ? android.R.color.primary_text_light
+                    : android.R.color.primary_text_dark
+        );                                                         
     }
 
     private void setUpViewPager() {

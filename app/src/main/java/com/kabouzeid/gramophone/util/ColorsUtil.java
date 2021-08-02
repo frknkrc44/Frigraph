@@ -31,8 +31,13 @@ public class ColorsUtil {
                 .primaryColor(primaryColor)
                 .commit();
 
-        if (colors.getSecondaryColor() != null) {
-            int accentColor = colors.getSecondaryColor().toArgb();
+        int accentColor = -1;
+        if (colors.getTertiaryColor() != null)
+            accentColor = colors.getTertiaryColor().toArgb();
+        else if (colors.getSecondaryColor() != null)
+            accentColor = colors.getSecondaryColor().toArgb();
+
+        if (accentColor != -1) {
             ThemeStore.editTheme(App.getInstance())
                     .accentColor(accentColor)
                     .commit();

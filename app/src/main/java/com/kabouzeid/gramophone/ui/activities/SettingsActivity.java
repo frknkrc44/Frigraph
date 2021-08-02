@@ -311,22 +311,8 @@ public class SettingsActivity extends AbsBaseActivity implements ColorChooserDia
                             accentColorPref.setEnabled(!((boolean) newValue));
                         }
 
-                        if (((boolean) newValue) && primaryColorPref != null) {
-                            WallpaperColors colors = ColorsUtil.getCurrentWallpaperColors();
-
-                            int primaryColor = colors.getPrimaryColor().toArgb();
-                            primaryColorPref.setColor(primaryColor, ColorUtil.darkenColor(primaryColor));
-                            ThemeStore.editTheme(requireActivity())
-                                    .primaryColor(primaryColor)
-                                    .commit();
-
-                            if (colors.getSecondaryColor() != null && accentColorPref != null) {
-                                int accentColor = colors.getSecondaryColor().toArgb();
-                                accentColorPref.setColor(accentColor, ColorUtil.darkenColor(accentColor));
-                                ThemeStore.editTheme(requireActivity())
-                                        .accentColor(accentColor)
-                                        .commit();
-                            }
+                        if ((boolean) newValue) {
+                            ColorsUtil.applyCurrentWallpaperColors();
                             requireActivity().recreate();
                         }
                         return true;

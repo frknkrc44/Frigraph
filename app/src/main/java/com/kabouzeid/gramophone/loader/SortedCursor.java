@@ -17,6 +17,7 @@ package com.kabouzeid.gramophone.loader;
 
 import android.database.AbstractCursor;
 import android.database.Cursor;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 

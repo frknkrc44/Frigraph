@@ -19,7 +19,7 @@ package com.kabouzeid.gramophone.loader;
 import android.content.Context;
 import android.database.Cursor;
 import android.provider.BaseColumns;
-import android.provider.MediaStore;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -27,7 +27,6 @@ import com.kabouzeid.gramophone.model.Song;
 import com.kabouzeid.gramophone.provider.HistoryStore;
 import com.kabouzeid.gramophone.provider.SongPlayCountStore;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TopAndRecentlyPlayedTracksLoader {

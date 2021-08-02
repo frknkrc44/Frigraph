@@ -1,8 +1,5 @@
 package com.kabouzeid.gramophone.helper;
 
-import android.os.Handler;
-import android.os.Looper;
-
 import com.kabouzeid.gramophone.App;
 
 public abstract class AsyncProcess<X, Y> extends Thread {

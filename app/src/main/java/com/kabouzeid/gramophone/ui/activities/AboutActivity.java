@@ -1,5 +1,6 @@
 package com.kabouzeid.gramophone.ui.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -17,10 +18,7 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.internal.ThemeSingleton;
 import com.kabouzeid.appthemehelper.ThemeStore;
-import com.kabouzeid.gramophone.App;
 import com.kabouzeid.gramophone.R;
-import com.kabouzeid.gramophone.dialogs.ChangelogDialog;
-import com.kabouzeid.gramophone.dialogs.DonationsDialog;
 import com.kabouzeid.gramophone.ui.activities.base.AbsBaseActivity;
 
 import butterknife.BindView;
@@ -31,15 +29,12 @@ import de.psdev.licensesdialog.LicensesDialog;
  * @author Karim Abou Zeid (kabouzeid)
  */
 @SuppressWarnings("FieldCanBeLocal")
+@SuppressLint("NonConstantResourceId")
 public class AboutActivity extends AbsBaseActivity implements View.OnClickListener {
 
-    private static String GITHUB = "https://github.com/kabouzeid/Phonograph";
-
-    private static String TWITTER = "https://twitter.com/swiftkarim";
-    private static String WEBSITE = "https://kabouzeid.com/";
-
-    private static String TRANSLATE = "https://phonograph.oneskyapp.com/collaboration/project?id=26521";
-    private static String RATE_ON_GOOGLE_PLAY = "https://play.google.com/store/apps/details?id=com.kabouzeid.gramophone";
+    private static String KARIM_ABOU_ZEID_GITHUB = "https://github.com/kabouzeid";
+    private static String KARIM_ABOU_ZEID_TWITTER = "https://twitter.com/swiftkarim";
+    private static String KARIM_ABOU_ZEID_WEBSITE = "https://kabouzeid.com/";
 
     private static String AIDAN_FOLLESTAD_GITHUB = "https://github.com/afollestad";
 
@@ -59,24 +54,16 @@ public class AboutActivity extends AbsBaseActivity implements View.OnClickListen
     Toolbar toolbar;
     @BindView(R.id.app_version)
     TextView appVersion;
-    @BindView(R.id.changelog)
-    LinearLayout changelog;
     @BindView(R.id.licenses)
     LinearLayout licenses;
-    @BindView(R.id.write_an_email)
-    LinearLayout writeAnEmail;
-    @BindView(R.id.follow_on_twitter)
-    LinearLayout followOnTwitter;
-    @BindView(R.id.fork_on_github)
-    LinearLayout forkOnGitHub;
-    @BindView(R.id.visit_website)
-    LinearLayout visitWebsite;
-    @BindView(R.id.translate)
-    LinearLayout translate;
-    @BindView(R.id.donate)
-    LinearLayout donate;
-    @BindView(R.id.rate_on_google_play)
-    LinearLayout rateOnGooglePlay;
+    @BindView(R.id.karim_abou_zeid_email)
+    AppCompatButton karimAbouZeidEmail;
+    @BindView(R.id.karim_abou_zeid_git_hub)
+    AppCompatButton karimAbouZeidGitHub;
+    @BindView(R.id.karim_abou_zeid_website)
+    AppCompatButton karimAbouZeidWebsite;
+    @BindView(R.id.karim_abou_zeid_twitter)
+    AppCompatButton karimAbouZeidTwitter;
     @BindView(R.id.aidan_follestad_git_hub)
     AppCompatButton aidanFollestadGitHub;
     @BindView(R.id.michael_cook_website)
@@ -126,15 +113,11 @@ public class AboutActivity extends AbsBaseActivity implements View.OnClickListen
     }
 
     private void setUpOnClickListeners() {
-        changelog.setOnClickListener(this);
         licenses.setOnClickListener(this);
-        followOnTwitter.setOnClickListener(this);
-        forkOnGitHub.setOnClickListener(this);
-        visitWebsite.setOnClickListener(this);
-        writeAnEmail.setOnClickListener(this);
-        translate.setOnClickListener(this);
-        rateOnGooglePlay.setOnClickListener(this);
-        donate.setOnClickListener(this);
+        karimAbouZeidGitHub.setOnClickListener(this);
+        karimAbouZeidTwitter.setOnClickListener(this);
+        karimAbouZeidWebsite.setOnClickListener(this);
+        karimAbouZeidEmail.setOnClickListener(this);
         aidanFollestadGitHub.setOnClickListener(this);
         michaelCookWebsite.setOnClickListener(this);
         maartenCorpelWebsite.setOnClickListener(this);
@@ -156,7 +139,7 @@ public class AboutActivity extends AbsBaseActivity implements View.OnClickListen
 
     private static String getCurrentVersionName(@NonNull final Context context) {
         try {
-            return context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName + (App.isProVersion() ? " Pro" : "");
+            return context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName + " MOD";
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
@@ -165,28 +148,20 @@ public class AboutActivity extends AbsBaseActivity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        if (v == changelog) {
-            ChangelogDialog.create().show(getSupportFragmentManager(), "CHANGELOG_DIALOG");
-        } else if (v == licenses) {
+        if (v == licenses) {
             showLicenseDialog();
-        } else if (v == followOnTwitter) {
-            openUrl(TWITTER);
-        } else if (v == forkOnGitHub) {
-            openUrl(GITHUB);
-        } else if (v == visitWebsite) {
-            openUrl(WEBSITE);
-        } else if (v == writeAnEmail) {
+        } else if (v == karimAbouZeidTwitter) {
+            openUrl(KARIM_ABOU_ZEID_TWITTER);
+        } else if (v == karimAbouZeidGitHub) {
+            openUrl(KARIM_ABOU_ZEID_GITHUB);
+        } else if (v == karimAbouZeidWebsite) {
+            openUrl(KARIM_ABOU_ZEID_WEBSITE);
+        } else if (v == karimAbouZeidEmail) {
             Intent intent = new Intent(Intent.ACTION_SENDTO);
             intent.setData(Uri.parse("mailto:contact@kabouzeid.com"));
             intent.putExtra(Intent.EXTRA_EMAIL, "contact@kabouzeid.com");
             intent.putExtra(Intent.EXTRA_SUBJECT, "Phonograph");
             startActivity(Intent.createChooser(intent, "E-Mail"));
-        } else if (v == translate) {
-            openUrl(TRANSLATE);
-        } else if (v == rateOnGooglePlay) {
-            openUrl(RATE_ON_GOOGLE_PLAY);
-        } else if (v == donate) {
-            DonationsDialog.create().show(getSupportFragmentManager(), "DONATION_DIALOG");
         } else if (v == aidanFollestadGitHub) {
             openUrl(AIDAN_FOLLESTAD_GITHUB);
         } else if (v == michaelCookWebsite) {

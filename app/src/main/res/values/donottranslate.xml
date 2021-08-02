@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">Phonograph</string>
+    <string name="app_name" translatable="false">Frigraph</string>
 
     <string name="karim_abou_zeid" translatable="false">Karim Abou Zeid</string>
     <string name="aidan_follestad" translatable="false">Aidan Follestad</string>
@@ -9,8 +9,6 @@
     <string name="aleksandar_tesic" translatable="false">Aleksandar Tešić</string>
     <string name="eugene_cheung" translatable="false">Eugene Cheung</string>
     <string name="adrian" translatable="false">Adrian</string>
-
-    <string name="aachen_germany" translatable="false">Aachen, Germany</string>
 
     <string name="git_hub" translatable="false">GitHub</string>
     <string name="twitter" translatable="false">Twitter</string>
@@ -40,5 +38,7 @@
             white-space: pre-wrap;
         }
     </string>
+
+    <string name="frknkrc44" translatable="false">Furkan Karcıoğlu</string>
 
 </resources>

@@ -17,7 +17,7 @@
 
     <dimen name="status_bar_padding">0dp</dimen>
 
-    <dimen name="tab_height">48dp</dimen>
+    <dimen name="tab_height">56dp</dimen>
 
     <dimen name="tagEditorHeaderVariableSpace">100dp</dimen>
 

@@ -9,7 +9,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.tabs.TabLayout;
+
+import androidx.core.graphics.ColorUtils;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.widget.Toolbar;
@@ -24,6 +25,7 @@ import android.view.ViewGroup;
 import com.afollestad.materialcab.MaterialCab;
 import com.kabouzeid.appthemehelper.ThemeStore;
 import com.kabouzeid.appthemehelper.common.ATHToolbarActivity;
+import com.kabouzeid.appthemehelper.util.ColorUtil;
 import com.kabouzeid.appthemehelper.util.TabLayoutUtil;
 import com.kabouzeid.appthemehelper.util.ToolbarContentTintHelper;
 import com.kabouzeid.gramophone.R;
@@ -45,6 +47,8 @@ import com.kabouzeid.gramophone.util.PhonographColorUtil;
 import com.kabouzeid.gramophone.util.PreferenceUtil;
 import com.kabouzeid.gramophone.util.Util;
 
+import com.thirdparty.flycotablayout.SlidingTabLayout;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -58,7 +62,7 @@ public class LibraryFragment extends AbsMainActivityFragment implements CabHolde
     Toolbar toolbar;
 
     @BindView(R.id.tabs)
-    TabLayout tabs;
+    SlidingTabLayout tabs;
 
     @BindView(R.id.appbar)
     AppBarLayout appbar;
@@ -121,6 +125,9 @@ public class LibraryFragment extends AbsMainActivityFragment implements CabHolde
         int primaryColor = ThemeStore.primaryColor(requireActivity());
         appbar.setBackgroundColor(primaryColor);
         toolbar.setBackgroundColor(primaryColor);
+        tabs.setBackgroundColor(primaryColor);
+        tabs.setIndicatorColor(ThemeStore.accentColor(requireActivity()));
+        tabs.setTextBold(SlidingTabLayout.TEXT_BOLD_BOTH);
         toolbar.setNavigationIcon(R.drawable.ic_menu_white_24dp);
         requireActivity().setTitle(R.string.app_name);
         getMainActivity().setSupportActionBar(toolbar);
@@ -131,15 +138,7 @@ public class LibraryFragment extends AbsMainActivityFragment implements CabHolde
         pager.setAdapter(pagerAdapter);
         pager.setOffscreenPageLimit(pagerAdapter.getCount() - 1);
 
-        tabs.setupWithViewPager(pager);
-
-        int primaryColor = ThemeStore.primaryColor(requireActivity());
-        int normalColor = ToolbarContentTintHelper.toolbarSubtitleColor(requireActivity(), primaryColor);
-        int selectedColor = ToolbarContentTintHelper.toolbarTitleColor(requireActivity(), primaryColor);
-        TabLayoutUtil.setTabIconColors(tabs, normalColor, selectedColor);
-        tabs.setTabTextColors(normalColor, selectedColor);
-        tabs.setSelectedTabIndicatorColor(ThemeStore.accentColor(requireActivity()));
-
+        tabs.setViewPager(pager);
         updateTabVisibility();
 
         if (PreferenceUtil.getInstance(requireContext()).rememberLastTab()) {

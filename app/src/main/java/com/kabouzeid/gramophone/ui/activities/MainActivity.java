@@ -65,8 +65,6 @@ public class MainActivity extends AbsSlidingMusicPanelActivity {
     @Nullable
     private View navigationDrawerHeader;
 
-    private boolean blockRequestPermissions;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,14 +112,8 @@ public class MainActivity extends AbsSlidingMusicPanelActivity {
     }
 
     @Override
-    protected void requestPermissions() {
-        if (!blockRequestPermissions) super.requestPermissions();
-    }
-
-    @Override
     protected View createContentView() {
-        @SuppressLint("InflateParams")
-        View contentView = getLayoutInflater().inflate(R.layout.activity_main_drawer_layout, null);
+        View contentView = getLayoutInflater().inflate(R.layout.activity_main_drawer_layout, findViewById(android.R.id.content), false);
         ViewGroup drawerContent = contentView.findViewById(R.id.drawer_content_container);
         drawerContent.addView(wrapSlidingMusicPanel(R.layout.activity_main_content));
         return contentView;

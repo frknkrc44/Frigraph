@@ -4,10 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,13 +12,11 @@ import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -52,9 +47,6 @@ import com.kabouzeid.gramophone.util.PhonographColorUtil;
 import com.kabouzeid.gramophone.util.PreferenceUtil;
 import com.kabouzeid.gramophone.util.Util;
 import com.thirdparty.flycotablayout.SlidingTabLayout;
-
-import java.lang.reflect.Field;
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -139,23 +131,25 @@ public class LibraryFragment extends AbsMainActivityFragment implements CabHolde
         requireActivity().setTitle(R.string.app_name);
         tabs.setTextUnselectColor(getToolbarTitleTextColor(primaryColor) - 0x66000000);
         getMainActivity().setSupportActionBar(toolbar);
-        AppCompatActivity activity = (AppCompatActivity) requireActivity();
-        ViewGroup group = (ViewGroup) tabs.getParent();
-        group.removeView(tabs);
-        ActionBar bar = activity.getSupportActionBar();
-        if (bar != null) {
-            bar.setDisplayShowHomeEnabled(false);
-            bar.setDisplayShowCustomEnabled(true);
-            bar.setDisplayShowTitleEnabled(false);
-            bar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-            bar.setCustomView(tabs);
-            // toolbar = (Toolbar) tabs.getParent();
-            toolbar.setPadding(0,0,0,0);
-            toolbar.setContentInsetsAbsolute(0,0);
-            appbar.setPadding(0,0,0,0);
-            appbar.getLayoutParams().height = (int)(64 * getResources().getDisplayMetrics().density);
-            toolbar.getLayoutParams().height = appbar.getLayoutParams().height;
-            tabs.getLayoutParams().height = appbar.getLayoutParams().height;
+        if (PreferenceUtil.getInstance(requireActivity()).enableCompactMode()) {
+            AppCompatActivity activity = (AppCompatActivity) requireActivity();
+            ActionBar bar = activity.getSupportActionBar();
+            if (bar != null) {
+                ViewGroup group = (ViewGroup) tabs.getParent();
+                group.removeView(tabs);
+                bar.setDisplayShowHomeEnabled(false);
+                bar.setDisplayShowCustomEnabled(true);
+                bar.setDisplayShowTitleEnabled(false);
+                bar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+                bar.setCustomView(tabs);
+                // toolbar = (Toolbar) tabs.getParent();
+                toolbar.setPadding(0,0,0,0);
+                toolbar.setContentInsetsAbsolute(0,0);
+                appbar.setPadding(0,0,0,0);
+                appbar.getLayoutParams().height = (int)(64 * getResources().getDisplayMetrics().density);
+                toolbar.getLayoutParams().height = appbar.getLayoutParams().height;
+                tabs.getLayoutParams().height = appbar.getLayoutParams().height;
+            }
         }
     }
 
@@ -201,7 +195,7 @@ public class LibraryFragment extends AbsMainActivityFragment implements CabHolde
         cab = new MaterialCab(getMainActivity(), R.id.cab_stub)
                 .setMenu(menuRes)
                 .setCloseDrawableRes(R.drawable.ic_close_white_24dp)
-                .setBackgroundColor(PhonographColorUtil.shiftBackgroundColorForLightText(ThemeStore.primaryColor(getActivity())))
+                .setBackgroundColor(PhonographColorUtil.shiftBackgroundColorForLightText(ThemeStore.primaryColor(requireActivity())))
                 .start(callback);
         return cab;
     }
@@ -225,6 +219,9 @@ public class LibraryFragment extends AbsMainActivityFragment implements CabHolde
         inflater.inflate(R.menu.menu_main, menu);
         if (isPlaylistPage()) {
             menu.add(0, R.id.action_new_playlist, 0, R.string.new_playlist_title);
+        }
+        if (!PreferenceUtil.getInstance(requireActivity()).enableCompactMode()) {
+            menu.removeItem(R.id.action_menu);
         }
         Fragment currentFragment = getCurrentFragment();
         if (currentFragment instanceof AbsLibraryPagerRecyclerViewCustomGridSizeFragment && currentFragment.isAdded()) {

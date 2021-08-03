@@ -27,6 +27,7 @@ import java.util.List;
 public final class PreferenceUtil {
     public static final String GENERAL_THEME = "general_theme";
     public static final String REMEMBER_LAST_TAB = "remember_last_tab";
+    public static final String ENABLE_COMPACT_MODE = "enable_compact_mode";
     public static final String LAST_PAGE = "last_start_page";
     public static final String LAST_MUSIC_CHOOSER = "last_music_chooser";
     public static final String NOW_PLAYING_SCREEN_ID = "now_playing_screen_id";
@@ -73,9 +74,6 @@ public final class PreferenceUtil {
     public static final String SLEEP_TIMER_FINISH_SONG = "sleep_timer_finish_music";
 
     public static final String IGNORE_MEDIA_STORE_ARTWORK = "ignore_media_store_artwork";
-
-    public static final String LAST_CHANGELOG_VERSION = "last_changelog_version";
-    public static final String INTRO_SHOWN = "intro_shown";
 
     public static final String AUTO_DOWNLOAD_IMAGES_POLICY = "auto_download_images_policy";
 
@@ -152,6 +150,10 @@ public final class PreferenceUtil {
 
     public final boolean rememberLastTab() {
         return mPreferences.getBoolean(REMEMBER_LAST_TAB, true);
+    }
+
+    public final boolean enableCompactMode() {
+        return mPreferences.getBoolean(ENABLE_COMPACT_MODE, false);
     }
 
     public void setLastPage(final int value) {
@@ -278,7 +280,7 @@ public final class PreferenceUtil {
     public void setSongSortOrder(final String sortOrder) {
         final SharedPreferences.Editor editor = mPreferences.edit();
         editor.putString(SONG_SORT_ORDER, sortOrder);
-        editor.commit();
+        editor.apply();
     }
 
     public final String getGenreSortOrder() {
@@ -447,24 +449,6 @@ public final class PreferenceUtil {
 
     public final boolean artistColoredFooters() {
         return mPreferences.getBoolean(ARTIST_COLORED_FOOTERS, true);
-    }
-
-    public void setLastChangeLogVersion(int version) {
-        mPreferences.edit().putInt(LAST_CHANGELOG_VERSION, version).apply();
-    }
-
-    public final int getLastChangelogVersion() {
-        return mPreferences.getInt(LAST_CHANGELOG_VERSION, -1);
-    }
-
-    @SuppressLint("CommitPrefEdits")
-    public void setIntroShown() {
-        // don't use apply here
-        mPreferences.edit().putBoolean(INTRO_SHOWN, true).apply();
-    }
-
-    public final boolean introShown() {
-        return mPreferences.getBoolean(INTRO_SHOWN, false);
     }
 
     public final boolean rememberShuffle() {

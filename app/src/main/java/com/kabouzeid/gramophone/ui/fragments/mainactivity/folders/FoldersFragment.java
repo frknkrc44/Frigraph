@@ -99,8 +99,7 @@ public class FoldersFragment extends AbsMainActivityFragment implements MainActi
     private SongFileAdapter adapter;
     private MaterialCab cab;
 
-    public FoldersFragment() {
-    }
+    public FoldersFragment() {}
 
     public static FoldersFragment newInstance(Context context) {
         return newInstance(PreferenceUtil.getInstance(context).getStartDirectory());
@@ -121,13 +120,15 @@ public class FoldersFragment extends AbsMainActivityFragment implements MainActi
         if (addToHistory) {
             breadCrumbs.addHistory(crumb);
         }
-        getLoaderManager().restartLoader(LOADER_ID, null, this);
+        LoaderManager.getInstance(this).restartLoader(LOADER_ID, null, this);
     }
 
     private void saveScrollPosition() {
         BreadCrumbLayout.Crumb crumb = getActiveCrumb();
         if (crumb != null) {
-            crumb.setScrollPosition(((LinearLayoutManager) recyclerView.getLayoutManager()).findFirstVisibleItemPosition());
+            LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
+            assert manager != null;
+            crumb.setScrollPosition(manager.findFirstVisibleItemPosition());
         }
     }
 
@@ -146,10 +147,10 @@ public class FoldersFragment extends AbsMainActivityFragment implements MainActi
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState == null) {
-            setCrumb(new BreadCrumbLayout.Crumb(FileUtil.safeGetCanonicalFile((File) getArguments().getSerializable(PATH))), true);
+            setCrumb(new BreadCrumbLayout.Crumb(FileUtil.safeGetCanonicalFile((File) requireArguments().getSerializable(PATH))), true);
         } else {
             breadCrumbs.restoreFromStateWrapper(savedInstanceState.getParcelable(CRUMBS));
-            getLoaderManager().initLoader(LOADER_ID, null, this);
+            LoaderManager.getInstance(this).initLoader(LOADER_ID, null, this);
         }
     }
 
@@ -174,46 +175,48 @@ public class FoldersFragment extends AbsMainActivityFragment implements MainActi
     }
 
     private void setUpAppbarColor() {
-        int primaryColor = ThemeStore.primaryColor(getActivity());
+        int primaryColor = ThemeStore.primaryColor(requireActivity());
         appbar.setBackgroundColor(primaryColor);
         toolbar.setBackgroundColor(primaryColor);
         breadCrumbs.setBackgroundColor(primaryColor);
-        breadCrumbs.setActivatedContentColor(ToolbarContentTintHelper.toolbarTitleColor(getActivity(), primaryColor));
-        breadCrumbs.setDeactivatedContentColor(ToolbarContentTintHelper.toolbarSubtitleColor(getActivity(), primaryColor));
+        breadCrumbs.setActivatedContentColor(ToolbarContentTintHelper.toolbarTitleColor(requireActivity(), primaryColor));
+        breadCrumbs.setDeactivatedContentColor(ToolbarContentTintHelper.toolbarSubtitleColor(requireActivity(), primaryColor));
     }
 
     private void setUpToolbar() {
         toolbar.setNavigationIcon(R.drawable.ic_menu_white_24dp);
-        getActivity().setTitle(R.string.app_name);
+        requireActivity().setTitle(R.string.app_name);
         getMainActivity().setSupportActionBar(toolbar);
     }
 
     private void setUpBreadCrumbs() {
         breadCrumbs.setCallback(this);
-        ViewGroup group = (ViewGroup) breadCrumbs.getParent();
-        group.removeView(breadCrumbs);
-        AppCompatActivity activity = (AppCompatActivity) requireActivity();
-        ActionBar bar = activity.getSupportActionBar();
-        if (bar != null) {
-            bar.setDisplayShowHomeEnabled(false);
-            bar.setDisplayShowCustomEnabled(true);
-            bar.setDisplayShowTitleEnabled(false);
-            bar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-            bar.setCustomView(breadCrumbs);
-            // toolbar = (Toolbar) tabs.getParent();
-            toolbar.setPadding(0,0,0,0);
-            toolbar.setContentInsetsAbsolute(0,0);
-            appbar.setPadding(0,0,0,0);
-            appbar.getLayoutParams().height = (int)(64 * getResources().getDisplayMetrics().density);
-            toolbar.getLayoutParams().height = appbar.getLayoutParams().height;
-            breadCrumbs.getLayoutParams().height = appbar.getLayoutParams().height;
+        if (PreferenceUtil.getInstance(requireActivity()).enableCompactMode()) {
+            AppCompatActivity activity = (AppCompatActivity) requireActivity();
+            ActionBar bar = activity.getSupportActionBar();
+            if (bar != null) {
+                ViewGroup group = (ViewGroup) breadCrumbs.getParent();
+                group.removeView(breadCrumbs);
+                bar.setDisplayShowHomeEnabled(false);
+                bar.setDisplayShowCustomEnabled(true);
+                bar.setDisplayShowTitleEnabled(false);
+                bar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+                bar.setCustomView(breadCrumbs);
+                // toolbar = (Toolbar) tabs.getParent();
+                toolbar.setPadding(0,0,0,0);
+                toolbar.setContentInsetsAbsolute(0,0);
+                appbar.setPadding(0,0,0,0);
+                appbar.getLayoutParams().height = (int)(64 * getResources().getDisplayMetrics().density);
+                toolbar.getLayoutParams().height = appbar.getLayoutParams().height;
+                breadCrumbs.getLayoutParams().height = appbar.getLayoutParams().height;
+            }
         }
     }
 
     private void setUpRecyclerView() {
-        ViewUtil.setUpFastScrollRecyclerViewColor(getActivity(), recyclerView, ThemeStore.accentColor(getActivity()));
+        ViewUtil.setUpFastScrollRecyclerViewColor(requireActivity(), recyclerView, ThemeStore.accentColor(requireActivity()));
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
 
         appbar.addOnOffsetChangedListener(this);
     }
@@ -264,22 +267,25 @@ public class FoldersFragment extends AbsMainActivityFragment implements MainActi
         cab = new MaterialCab(getMainActivity(), R.id.cab_stub)
                 .setMenu(menuRes)
                 .setCloseDrawableRes(R.drawable.ic_close_white_24dp)
-                .setBackgroundColor(PhonographColorUtil.shiftBackgroundColorForLightText(ThemeStore.primaryColor(getActivity())))
+                .setBackgroundColor(PhonographColorUtil.shiftBackgroundColorForLightText(ThemeStore.primaryColor(requireActivity())))
                 .start(callback);
         return cab;
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_folders, menu);
-        ToolbarContentTintHelper.handleOnCreateOptionsMenu(getActivity(), toolbar, menu, ATHToolbarActivity.getToolbarBackgroundColor(toolbar));
+        if (!PreferenceUtil.getInstance(requireActivity()).enableCompactMode()) {
+            menu.removeItem(R.id.action_menu);
+        }
+        ToolbarContentTintHelper.handleOnCreateOptionsMenu(requireActivity(), toolbar, menu, ATHToolbarActivity.getToolbarBackgroundColor(toolbar));
     }
 
     @Override
-    public void onPrepareOptionsMenu(Menu menu) {
+    public void onPrepareOptionsMenu(@NonNull Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        ToolbarContentTintHelper.handleOnPrepareOptionsMenu(getActivity(), toolbar);
+        ToolbarContentTintHelper.handleOnPrepareOptionsMenu(requireActivity(), toolbar);
     }
 
     public static final FileFilter AUDIO_FILE_FILTER = file -> !file.isHidden() && (file.isDirectory() ||
@@ -315,7 +321,7 @@ public class FoldersFragment extends AbsMainActivityFragment implements MainActi
                 drawer.openDrawer(GravityCompat.START);
                 return true;
             case R.id.action_go_to_start_directory:
-                setCrumb(new BreadCrumbLayout.Crumb(FileUtil.safeGetCanonicalFile(PreferenceUtil.getInstance(getActivity()).getStartDirectory())), true);
+                setCrumb(new BreadCrumbLayout.Crumb(FileUtil.safeGetCanonicalFile(PreferenceUtil.getInstance(requireActivity()).getStartDirectory())), true);
                 return true;
             case R.id.action_scan:
                 BreadCrumbLayout.Crumb crumb = getActiveCrumb();
@@ -347,7 +353,7 @@ public class FoldersFragment extends AbsMainActivityFragment implements MainActi
                 } else {
                     Snackbar.make(coordinatorLayout, Html.fromHtml(String.format(getString(R.string.not_listed_in_media_store), canonicalFile.getName())), Snackbar.LENGTH_LONG)
                             .setAction(R.string.action_scan, v -> scanPaths(new String[]{canonicalFile.getPath()}))
-                            .setActionTextColor(ThemeStore.accentColor(getActivity()))
+                            .setActionTextColor(ThemeStore.accentColor(requireActivity()))
                             .show();
                 }
             }).execute(new ListSongsAsyncTask.LoadingInfo(toList(canonicalFile.getParentFile()), fileFilter, getFileComparator()));
@@ -359,7 +365,7 @@ public class FoldersFragment extends AbsMainActivityFragment implements MainActi
         final int itemId = item.getItemId();
         new ListSongsAsyncTask(getActivity(), null, (songs, extra) -> {
             if (!songs.isEmpty()) {
-                SongsMenuHelper.handleMenuClick(getActivity(), songs, itemId);
+                SongsMenuHelper.handleMenuClick(requireActivity(), songs, itemId);
             }
             if (songs.size() != files.size()) {
                 Snackbar.make(coordinatorLayout, R.string.some_files_are_not_listed_in_the_media_store, Snackbar.LENGTH_LONG)
@@ -370,7 +376,7 @@ public class FoldersFragment extends AbsMainActivityFragment implements MainActi
                             }
                             scanPaths(paths);
                         })
-                        .setActionTextColor(ThemeStore.accentColor(getActivity()))
+                        .setActionTextColor(ThemeStore.accentColor(requireActivity()))
                         .show();
             }
         }).execute(new ListSongsAsyncTask.LoadingInfo(files, AUDIO_FILE_FILTER, getFileComparator()));
@@ -411,16 +417,16 @@ public class FoldersFragment extends AbsMainActivityFragment implements MainActi
                     case R.id.action_delete_from_device:
                         new ListSongsAsyncTask(getActivity(), null, (songs, extra) -> {
                             if (!songs.isEmpty()) {
-                                SongsMenuHelper.handleMenuClick(getActivity(), songs, itemId);
+                                SongsMenuHelper.handleMenuClick(requireActivity(), songs, itemId);
                             }
                         }).execute(new ListSongsAsyncTask.LoadingInfo(toList(file), AUDIO_FILE_FILTER, getFileComparator()));
                         return true;
                     case R.id.action_set_as_start_directory:
-                        PreferenceUtil.getInstance(getActivity()).setStartDirectory(file);
-                        Toast.makeText(getActivity(), String.format(getString(R.string.new_start_directory), file.getPath()), Toast.LENGTH_SHORT).show();
+                        PreferenceUtil.getInstance(requireActivity()).setStartDirectory(file);
+                        Toast.makeText(requireActivity(), String.format(getString(R.string.new_start_directory), file.getPath()), Toast.LENGTH_SHORT).show();
                         return true;
                     case R.id.action_scan:
-                        new ArrayListPathsAsyncTask(getActivity(), this::scanPaths).execute(new ArrayListPathsAsyncTask.LoadingInfo(file, AUDIO_FILE_FILTER));
+                        new ArrayListPathsAsyncTask(requireActivity(), this::scanPaths).execute(new ArrayListPathsAsyncTask.LoadingInfo(file, AUDIO_FILE_FILTER));
                         return true;
                 }
                 return false;
@@ -442,11 +448,11 @@ public class FoldersFragment extends AbsMainActivityFragment implements MainActi
                     case R.id.action_delete_from_device:
                         new ListSongsAsyncTask(getActivity(), null, (songs, extra) -> {
                             if (!songs.isEmpty()) {
-                                SongMenuHelper.handleMenuClick(getActivity(), songs.get(0), itemId);
+                                SongMenuHelper.handleMenuClick(requireActivity(), songs.get(0), itemId);
                             } else {
                                 Snackbar.make(coordinatorLayout, Html.fromHtml(String.format(getString(R.string.not_listed_in_media_store), file.getName())), Snackbar.LENGTH_LONG)
                                         .setAction(R.string.action_scan, v -> scanPaths(new String[]{FileUtil.safeGetCanonicalPath(file)}))
-                                        .setActionTextColor(ThemeStore.accentColor(getActivity()))
+                                        .setActionTextColor(ThemeStore.accentColor(requireActivity()))
                                         .show();
                             }
                         }).execute(new ListSongsAsyncTask.LoadingInfo(toList(file), AUDIO_FILE_FILTER, getFileComparator()));
@@ -485,10 +491,13 @@ public class FoldersFragment extends AbsMainActivityFragment implements MainActi
         adapter.swapDataSet(files);
         BreadCrumbLayout.Crumb crumb = getActiveCrumb();
         if (crumb != null && recyclerView != null) {
-            ((LinearLayoutManager) recyclerView.getLayoutManager()).scrollToPositionWithOffset(crumb.getScrollPosition(), 0);
+            LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
+            assert manager != null;
+            manager.scrollToPositionWithOffset(crumb.getScrollPosition(), 0);
         }
     }
 
+    @NonNull
     @Override
     public Loader<List<File>> onCreateLoader(int id, Bundle args) {
         return new AsyncFileLoader(this);
@@ -505,7 +514,7 @@ public class FoldersFragment extends AbsMainActivityFragment implements MainActi
     }
 
     private static class AsyncFileLoader extends WrappedAsyncTaskLoader<List<File>> {
-        private WeakReference<FoldersFragment> fragmentWeakReference;
+        private final WeakReference<FoldersFragment> fragmentWeakReference;
 
         public AsyncFileLoader(FoldersFragment foldersFragment) {
             super(foldersFragment.getActivity());
@@ -533,8 +542,8 @@ public class FoldersFragment extends AbsMainActivityFragment implements MainActi
     }
 
     private static class ListSongsAsyncTask extends ListingFilesDialogAsyncTask<ListSongsAsyncTask.LoadingInfo, Void, List<Song>> {
-        private WeakReference<Context> contextWeakReference;
-        private WeakReference<OnSongsListedCallback> callbackWeakReference;
+        private final WeakReference<Context> contextWeakReference;
+        private final WeakReference<OnSongsListedCallback> callbackWeakReference;
         private final Object extra;
 
         public ListSongsAsyncTask(Context context, Object extra, OnSongsListedCallback callback) {
@@ -616,7 +625,7 @@ public class FoldersFragment extends AbsMainActivityFragment implements MainActi
     }
 
     public static class ArrayListPathsAsyncTask extends ListingFilesDialogAsyncTask<ArrayListPathsAsyncTask.LoadingInfo, String, String[]> {
-        private WeakReference<OnPathsListedCallback> onPathsListedCallbackWeakReference;
+        private final WeakReference<OnPathsListedCallback> onPathsListedCallbackWeakReference;
 
         public ArrayListPathsAsyncTask(Context context, OnPathsListedCallback callback) {
             super(context, 500);
@@ -696,10 +705,6 @@ public class FoldersFragment extends AbsMainActivityFragment implements MainActi
     }
 
     private static abstract class ListingFilesDialogAsyncTask<Params, Progress, Result> extends DialogAsyncTask<Params, Progress, Result> {
-        public ListingFilesDialogAsyncTask(Context context) {
-            super(context);
-        }
-
         public ListingFilesDialogAsyncTask(Context context, int showDelay) {
             super(context, showDelay);
         }

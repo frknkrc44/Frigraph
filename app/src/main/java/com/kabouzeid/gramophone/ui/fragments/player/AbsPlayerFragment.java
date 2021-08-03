@@ -1,10 +1,12 @@
 package com.kabouzeid.gramophone.ui.fragments.player;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.MenuItem;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 
@@ -23,13 +25,14 @@ import com.kabouzeid.gramophone.ui.fragments.AbsMusicServiceFragment;
 import com.kabouzeid.gramophone.util.MusicUtil;
 import com.kabouzeid.gramophone.util.NavigationUtil;
 
+@SuppressLint("NonConstantResourceId")
 public abstract class AbsPlayerFragment extends AbsMusicServiceFragment implements Toolbar.OnMenuItemClickListener, PaletteColorHolder {
 
     private Callbacks callbacks;
     private static boolean isToolbarShown = true;
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         try {
             callbacks = (Callbacks) context;
@@ -49,25 +52,25 @@ public abstract class AbsPlayerFragment extends AbsMusicServiceFragment implemen
         final Song song = MusicPlayerRemote.getCurrentSong();
         switch (item.getItemId()) {
             case R.id.action_sleep_timer:
-                new SleepTimerDialog().show(getFragmentManager(), "SET_SLEEP_TIMER");
+                new SleepTimerDialog().show(getChildFragmentManager(), "SET_SLEEP_TIMER");
                 return true;
             case R.id.action_toggle_favorite:
                 toggleFavorite(song);
                 return true;
             case R.id.action_share:
-                SongShareDialog.create(song).show(getFragmentManager(), "SHARE_SONG");
+                SongShareDialog.create(song).show(getChildFragmentManager(), "SHARE_SONG");
                 return true;
             case R.id.action_equalizer:
-                NavigationUtil.openEqualizer(getActivity());
+                NavigationUtil.openEqualizer(requireActivity());
                 return true;
             case R.id.action_add_to_playlist:
-                AddToPlaylistDialog.create(song).show(getFragmentManager(), "ADD_PLAYLIST");
+                AddToPlaylistDialog.create(song).show(getChildFragmentManager(), "ADD_PLAYLIST");
                 return true;
             case R.id.action_clear_playing_queue:
                 MusicPlayerRemote.clearQueue();
                 return true;
             case R.id.action_save_playing_queue:
-                CreatePlaylistDialog.create(MusicPlayerRemote.getPlayingQueue()).show(getActivity().getSupportFragmentManager(), "ADD_TO_PLAYLIST");
+                CreatePlaylistDialog.create(MusicPlayerRemote.getPlayingQueue()).show(requireActivity().getSupportFragmentManager(), "ADD_TO_PLAYLIST");
                 return true;
             case R.id.action_tag_editor:
                 Intent intent = new Intent(getActivity(), SongTagEditorActivity.class);
@@ -75,20 +78,20 @@ public abstract class AbsPlayerFragment extends AbsMusicServiceFragment implemen
                 startActivity(intent);
                 return true;
             case R.id.action_details:
-                SongDetailDialog.create(song).show(getFragmentManager(), "SONG_DETAIL");
+                SongDetailDialog.create(song).show(getChildFragmentManager(), "SONG_DETAIL");
                 return true;
             case R.id.action_go_to_album:
-                NavigationUtil.goToAlbum(getActivity(), song.albumId);
+                NavigationUtil.goToAlbum(requireActivity(), song.albumId);
                 return true;
             case R.id.action_go_to_artist:
-                NavigationUtil.goToArtist(getActivity(), song.artistId);
+                NavigationUtil.goToArtist(requireActivity(), song.artistId);
                 return true;
         }
         return false;
     }
 
     protected void toggleFavorite(Song song) {
-        MusicUtil.toggleFavorite(getActivity(), song);
+        MusicUtil.toggleFavorite(requireActivity(), song);
     }
 
     protected boolean isToolbarShown() {

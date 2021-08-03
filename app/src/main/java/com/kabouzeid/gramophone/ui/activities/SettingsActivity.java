@@ -325,6 +325,14 @@ public class SettingsActivity extends AbsBaseActivity implements ColorChooserDia
                 }
             }
 
+            final TwoStatePreference enableCompactMode = (TwoStatePreference) findPreference(PreferenceUtil.ENABLE_COMPACT_MODE);
+            if (enableCompactMode != null) {
+                enableCompactMode.setOnPreferenceChangeListener((preference, newValue) -> {
+                    ThemeStore.markChanged(requireActivity());
+                    return true;
+                });
+            }
+
             final Preference equalizer = findPreference("equalizer");
             if(equalizer != null) {
                 if (!hasEqualizer()) {

@@ -146,7 +146,7 @@ public class LibraryFragment extends AbsMainActivityFragment implements CabHolde
                 toolbar.setPadding(0,0,0,0);
                 toolbar.setContentInsetsAbsolute(0,0);
                 appbar.setPadding(0,0,0,0);
-                appbar.getLayoutParams().height = (int)(64 * getResources().getDisplayMetrics().density);
+                appbar.getLayoutParams().height = getResources().getDimensionPixelSize(R.dimen.tab_height);
                 toolbar.getLayoutParams().height = appbar.getLayoutParams().height;
                 tabs.getLayoutParams().height = appbar.getLayoutParams().height;
             }

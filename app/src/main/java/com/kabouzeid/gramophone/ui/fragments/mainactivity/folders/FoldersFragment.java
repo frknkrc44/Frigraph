@@ -313,7 +313,6 @@ public class FoldersFragment extends AbsMainActivityFragment implements MainActi
     }
 
     private void openActionMenu() {
-        Toast.makeText(requireActivity(), "TTT", Toast.LENGTH_LONG).show();
         int theme = PreferenceUtil.getInstance(requireActivity()).getBottomSheetTheme();
         BottomSheetMainActivity sheet = new BottomSheetMainActivity();
         sheet.show(getChildFragmentManager(), "ActionMenu");

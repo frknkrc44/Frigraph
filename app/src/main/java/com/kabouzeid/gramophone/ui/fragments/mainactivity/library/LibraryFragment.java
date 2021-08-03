@@ -127,9 +127,9 @@ public class LibraryFragment extends AbsMainActivityFragment implements CabHolde
         tabs.setIndicatorColor(ThemeStore.accentColor(requireActivity()));
         tabs.setTextBold(SlidingTabLayout.TEXT_BOLD_BOTH);
         toolbar.setNavigationIcon(R.drawable.ic_menu_white_24dp);
-        requireActivity().setTitle(R.string.app_name);
         tabs.setTextUnselectColor(getToolbarTitleTextColor(primaryColor) - 0x66000000);
         getMainActivity().setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener((view) -> openActionMenu());
         if (PreferenceUtil.getInstance(requireActivity()).enableCompactMode()) {
             AppCompatActivity activity = (AppCompatActivity) requireActivity();
             ActionBar bar = activity.getSupportActionBar();
@@ -219,6 +219,9 @@ public class LibraryFragment extends AbsMainActivityFragment implements CabHolde
         if (isPlaylistPage()) {
             menu.add(0, R.id.action_new_playlist, 0, R.string.new_playlist_title);
         }
+        if (!PreferenceUtil.getInstance(requireActivity()).enableCompactMode()) {
+            menu.removeItem(R.id.action_menu);
+        }
         Fragment currentFragment = getCurrentFragment();
         if (currentFragment instanceof AbsLibraryPagerRecyclerViewCustomGridSizeFragment && currentFragment.isAdded()) {
             AbsLibraryPagerRecyclerViewCustomGridSizeFragment absLibraryRecyclerViewCustomGridSizeFragment = (AbsLibraryPagerRecyclerViewCustomGridSizeFragment) currentFragment;
@@ -271,13 +274,9 @@ public class LibraryFragment extends AbsMainActivityFragment implements CabHolde
             }
         }
 
-        int id = item.getItemId();
-        switch (id) {
+        switch (item.getItemId()) {
             case R.id.action_menu:
-                int theme = PreferenceUtil.getInstance(requireActivity()).getBottomSheetTheme();
-                BottomSheetMainActivity sheet = new BottomSheetMainActivity();
-                sheet.show(getChildFragmentManager(), "ActionMenu");
-                sheet.setStyle(BottomSheetMainActivity.STYLE_NORMAL, theme);
+                openActionMenu();
                 return true;
             case R.id.action_shuffle_all:
                 MusicPlayerRemote.openAndShuffleQueue(SongLoader.getAllSongs(requireActivity()), true);
@@ -289,7 +288,15 @@ public class LibraryFragment extends AbsMainActivityFragment implements CabHolde
                 startActivity(new Intent(getActivity(), SearchActivity.class));
                 return true;
         }
+
         return super.onOptionsItemSelected(item);
+    }
+
+    private void openActionMenu() {
+        int theme = PreferenceUtil.getInstance(requireActivity()).getBottomSheetTheme();
+        BottomSheetMainActivity sheet = new BottomSheetMainActivity();
+        sheet.show(getChildFragmentManager(), "ActionMenu");
+        sheet.setStyle(BottomSheetMainActivity.STYLE_NORMAL, theme);
     }
 
     private void setUpGridSizeMenu(@NonNull AbsLibraryPagerRecyclerViewCustomGridSizeFragment fragment, @NonNull SubMenu gridSizeMenu) {

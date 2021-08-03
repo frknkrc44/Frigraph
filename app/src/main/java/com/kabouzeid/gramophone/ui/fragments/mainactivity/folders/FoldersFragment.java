@@ -184,8 +184,8 @@ public class FoldersFragment extends AbsMainActivityFragment implements MainActi
 
     private void setUpToolbar() {
         toolbar.setNavigationIcon(R.drawable.ic_menu_white_24dp);
-        requireActivity().setTitle(R.string.app_name);
         getMainActivity().setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener((view) -> openActionMenu());
     }
 
     private void setUpBreadCrumbs() {
@@ -275,6 +275,9 @@ public class FoldersFragment extends AbsMainActivityFragment implements MainActi
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_folders, menu);
+        if (!PreferenceUtil.getInstance(requireActivity()).enableCompactMode()) {
+            menu.removeItem(R.id.action_menu);
+        }
         ToolbarContentTintHelper.handleOnCreateOptionsMenu(requireActivity(), toolbar, menu, ATHToolbarActivity.getToolbarBackgroundColor(toolbar));
     }
 
@@ -309,14 +312,19 @@ public class FoldersFragment extends AbsMainActivityFragment implements MainActi
         return startFolder;
     }
 
+    private void openActionMenu() {
+        Toast.makeText(requireActivity(), "TTT", Toast.LENGTH_LONG).show();
+        int theme = PreferenceUtil.getInstance(requireActivity()).getBottomSheetTheme();
+        BottomSheetMainActivity sheet = new BottomSheetMainActivity();
+        sheet.show(getChildFragmentManager(), "ActionMenu");
+        sheet.setStyle(BottomSheetMainActivity.STYLE_NORMAL, theme);
+    }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_menu:
-                int theme = PreferenceUtil.getInstance(requireActivity()).getBottomSheetTheme();
-                BottomSheetMainActivity sheet = new BottomSheetMainActivity();
-                sheet.show(getChildFragmentManager(), "ActionMenu");
-                sheet.setStyle(BottomSheetMainActivity.STYLE_NORMAL, theme);
+                openActionMenu();
                 return true;
             case R.id.action_go_to_start_directory:
                 setCrumb(new BreadCrumbLayout.Crumb(FileUtil.safeGetCanonicalFile(PreferenceUtil.getInstance(requireActivity()).getStartDirectory())), true);

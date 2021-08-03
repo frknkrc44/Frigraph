@@ -17,7 +17,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.ViewPager;
 
-import com.kabouzeid.gramophone.R;
 import com.kabouzeid.gramophone.adapter.AlbumCoverPagerAdapter;
 import com.kabouzeid.gramophone.helper.MusicPlayerRemote;
 import com.kabouzeid.gramophone.helper.MusicProgressViewUpdateHelper;
@@ -27,6 +26,8 @@ import com.kabouzeid.gramophone.model.lyrics.Lyrics;
 import com.kabouzeid.gramophone.ui.fragments.AbsMusicServiceFragment;
 import com.kabouzeid.gramophone.util.PreferenceUtil;
 import com.kabouzeid.gramophone.util.ViewUtil;
+
+import org.frknkrc44.frigraph.R;
 
 import java.util.Objects;
 

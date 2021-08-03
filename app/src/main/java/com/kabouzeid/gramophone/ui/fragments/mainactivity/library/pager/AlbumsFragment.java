@@ -8,13 +8,14 @@ import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
 import androidx.recyclerview.widget.GridLayoutManager;
 
-import com.kabouzeid.gramophone.R;
 import com.kabouzeid.gramophone.adapter.album.AlbumAdapter;
 import com.kabouzeid.gramophone.interfaces.LoaderIds;
 import com.kabouzeid.gramophone.loader.AlbumLoader;
 import com.kabouzeid.gramophone.misc.WrappedAsyncTaskLoader;
 import com.kabouzeid.gramophone.model.Album;
 import com.kabouzeid.gramophone.util.PreferenceUtil;
+
+import org.frknkrc44.frigraph.R;
 
 import java.util.ArrayList;
 import java.util.List;

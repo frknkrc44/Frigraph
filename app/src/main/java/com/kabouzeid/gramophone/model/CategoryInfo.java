@@ -3,7 +3,7 @@ package com.kabouzeid.gramophone.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.kabouzeid.gramophone.R;
+import org.frknkrc44.frigraph.R;
 
 public class CategoryInfo implements Parcelable {
     public Category category;

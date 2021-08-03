@@ -8,6 +8,7 @@ import android.os.Looper;
 import com.kabouzeid.appthemehelper.ThemeStore;
 import com.kabouzeid.gramophone.appshortcuts.DynamicShortcutManager;
 
+import org.frknkrc44.frigraph.R;
 
 /**
  * @author Karim Abou Zeid (kabouzeid)

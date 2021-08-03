@@ -16,13 +16,14 @@ import androidx.palette.graphics.Palette;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.kabouzeid.gramophone.R;
 import com.kabouzeid.gramophone.glide.SongGlideRequest;
 import com.kabouzeid.gramophone.glide.palette.BitmapPaletteWrapper;
 import com.kabouzeid.gramophone.model.Song;
 import com.kabouzeid.gramophone.service.MusicService;
 import com.kabouzeid.gramophone.ui.activities.MainActivity;
 import com.kabouzeid.gramophone.util.PreferenceUtil;
+
+import org.frknkrc44.frigraph.R;
 
 import static com.kabouzeid.gramophone.service.MusicService.ACTION_REWIND;
 import static com.kabouzeid.gramophone.service.MusicService.ACTION_SKIP;

@@ -13,11 +13,12 @@ import androidx.annotation.StyleRes;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
-import com.kabouzeid.gramophone.R;
 import com.kabouzeid.gramophone.helper.SortOrder;
 import com.kabouzeid.gramophone.model.CategoryInfo;
 import com.kabouzeid.gramophone.ui.fragments.mainactivity.folders.FoldersFragment;
 import com.kabouzeid.gramophone.ui.fragments.player.NowPlayingScreen;
+
+import org.frknkrc44.frigraph.R;
 
 import java.io.File;
 import java.lang.reflect.Type;

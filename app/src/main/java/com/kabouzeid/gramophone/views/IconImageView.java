@@ -7,7 +7,8 @@ import android.util.AttributeSet;
 import androidx.appcompat.widget.AppCompatImageView;
 
 import com.kabouzeid.appthemehelper.util.ATHUtil;
-import com.kabouzeid.gramophone.R;
+
+import org.frknkrc44.frigraph.R;
 
 /**
  * @author Karim Abou Zeid (kabouzeid)

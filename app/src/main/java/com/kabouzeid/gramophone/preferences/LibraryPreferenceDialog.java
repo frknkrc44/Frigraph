@@ -10,10 +10,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.kabouzeid.gramophone.R;
 import com.kabouzeid.gramophone.adapter.CategoryInfoAdapter;
 import com.kabouzeid.gramophone.model.CategoryInfo;
 import com.kabouzeid.gramophone.util.PreferenceUtil;
+
+import org.frknkrc44.frigraph.R;
 
 import java.util.ArrayList;
 import java.util.List;

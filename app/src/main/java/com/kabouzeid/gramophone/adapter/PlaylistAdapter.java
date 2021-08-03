@@ -17,7 +17,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.kabouzeid.appthemehelper.util.ATHUtil;
 import com.kabouzeid.gramophone.App;
-import com.kabouzeid.gramophone.R;
 import com.kabouzeid.gramophone.adapter.base.AbsMultiSelectAdapter;
 import com.kabouzeid.gramophone.adapter.base.MediaEntryViewHolder;
 import com.kabouzeid.gramophone.dialogs.ClearSmartPlaylistDialog;
@@ -35,6 +34,8 @@ import com.kabouzeid.gramophone.model.smartplaylist.LastAddedPlaylist;
 import com.kabouzeid.gramophone.util.MusicUtil;
 import com.kabouzeid.gramophone.util.NavigationUtil;
 import com.kabouzeid.gramophone.util.PlaylistsUtil;
+
+import org.frknkrc44.frigraph.R;
 
 import java.io.IOException;
 import java.util.ArrayList;

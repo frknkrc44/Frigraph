@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 
-import com.kabouzeid.gramophone.R;
 import com.kabouzeid.gramophone.dialogs.AddToPlaylistDialog;
 import com.kabouzeid.gramophone.dialogs.DeleteSongsDialog;
 import com.kabouzeid.gramophone.dialogs.SongDetailDialog;
@@ -21,6 +20,8 @@ import com.kabouzeid.gramophone.ui.activities.tageditor.SongTagEditorActivity;
 import com.kabouzeid.gramophone.util.MusicUtil;
 import com.kabouzeid.gramophone.util.NavigationUtil;
 import com.kabouzeid.gramophone.util.RingtoneManager;
+
+import org.frknkrc44.frigraph.R;
 
 /**
  * @author Karim Abou Zeid (kabouzeid)

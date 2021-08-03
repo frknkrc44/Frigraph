@@ -15,9 +15,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener;
 import com.kabouzeid.appthemehelper.ThemeStore;
-import com.kabouzeid.gramophone.R;
 import com.kabouzeid.gramophone.util.ViewUtil;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
+
+import org.frknkrc44.frigraph.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

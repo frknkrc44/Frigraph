@@ -18,7 +18,7 @@ import android.view.animation.DecelerateInterpolator;
 
 import androidx.annotation.NonNull;
 
-import com.kabouzeid.gramophone.R;
+import org.frknkrc44.frigraph.R;
 
 public class PlayPauseDrawable extends Drawable {
     private static final long PLAY_PAUSE_ANIMATION_DURATION = 250;

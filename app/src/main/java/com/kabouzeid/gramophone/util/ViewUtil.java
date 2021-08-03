@@ -22,8 +22,9 @@ import androidx.annotation.ColorInt;
 import com.kabouzeid.appthemehelper.util.ATHUtil;
 import com.kabouzeid.appthemehelper.util.ColorUtil;
 import com.kabouzeid.appthemehelper.util.MaterialValueHelper;
-import com.kabouzeid.gramophone.R;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
+
+import org.frknkrc44.frigraph.R;
 
 /**
  * @author Karim Abou Zeid (kabouzeid)

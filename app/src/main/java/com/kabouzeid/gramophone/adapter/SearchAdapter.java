@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.kabouzeid.appthemehelper.util.ATHUtil;
-import com.kabouzeid.gramophone.R;
 import com.kabouzeid.gramophone.adapter.base.MediaEntryViewHolder;
 import com.kabouzeid.gramophone.glide.ArtistGlideRequest;
 import com.kabouzeid.gramophone.glide.SongGlideRequest;
@@ -23,6 +22,8 @@ import com.kabouzeid.gramophone.model.Artist;
 import com.kabouzeid.gramophone.model.Song;
 import com.kabouzeid.gramophone.util.MusicUtil;
 import com.kabouzeid.gramophone.util.NavigationUtil;
+
+import org.frknkrc44.frigraph.R;
 
 import java.util.ArrayList;
 import java.util.List;

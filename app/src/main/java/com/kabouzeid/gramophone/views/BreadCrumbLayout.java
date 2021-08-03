@@ -18,7 +18,8 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 
 import com.kabouzeid.appthemehelper.ThemeStore;
-import com.kabouzeid.gramophone.R;
+
+import org.frknkrc44.frigraph.R;
 
 import java.io.File;
 import java.util.ArrayList;

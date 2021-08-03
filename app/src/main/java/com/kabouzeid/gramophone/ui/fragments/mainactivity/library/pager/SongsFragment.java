@@ -8,7 +8,6 @@ import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
 import androidx.recyclerview.widget.GridLayoutManager;
 
-import com.kabouzeid.gramophone.R;
 import com.kabouzeid.gramophone.adapter.song.ShuffleButtonSongAdapter;
 import com.kabouzeid.gramophone.adapter.song.SongAdapter;
 import com.kabouzeid.gramophone.interfaces.LoaderIds;
@@ -16,6 +15,8 @@ import com.kabouzeid.gramophone.loader.SongLoader;
 import com.kabouzeid.gramophone.misc.WrappedAsyncTaskLoader;
 import com.kabouzeid.gramophone.model.Song;
 import com.kabouzeid.gramophone.util.PreferenceUtil;
+
+import org.frknkrc44.frigraph.R;
 
 import java.util.ArrayList;
 import java.util.List;

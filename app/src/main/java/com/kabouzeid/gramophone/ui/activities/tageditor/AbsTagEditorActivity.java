@@ -27,7 +27,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.kabouzeid.appthemehelper.ThemeStore;
 import com.kabouzeid.appthemehelper.util.ColorUtil;
 import com.kabouzeid.appthemehelper.util.TintHelper;
-import com.kabouzeid.gramophone.R;
 import com.kabouzeid.gramophone.misc.DialogAsyncTask;
 import com.kabouzeid.gramophone.misc.SimpleObservableScrollViewCallbacks;
 import com.kabouzeid.gramophone.misc.UpdateToastMediaScannerCompletionListener;
@@ -35,6 +34,7 @@ import com.kabouzeid.gramophone.ui.activities.base.AbsBaseActivity;
 import com.kabouzeid.gramophone.util.MusicUtil;
 import com.kabouzeid.gramophone.util.Util;
 
+import org.frknkrc44.frigraph.R;
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
 import org.jaudiotagger.audio.exceptions.CannotReadException;

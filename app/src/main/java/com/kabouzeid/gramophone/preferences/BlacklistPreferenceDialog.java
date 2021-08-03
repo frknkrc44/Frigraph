@@ -8,9 +8,10 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.kabouzeid.gramophone.R;
 import com.kabouzeid.gramophone.dialogs.BlacklistFolderChooserDialog;
 import com.kabouzeid.gramophone.provider.BlacklistStore;
+
+import org.frknkrc44.frigraph.R;
 
 import java.io.File;
 import java.util.List;

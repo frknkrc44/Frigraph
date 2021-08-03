@@ -13,10 +13,11 @@ import android.os.IBinder;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.kabouzeid.gramophone.R;
 import com.kabouzeid.gramophone.helper.MusicPlayerRemote;
 import com.kabouzeid.gramophone.interfaces.MusicServiceEventListener;
 import com.kabouzeid.gramophone.service.MusicService;
+
+import org.frknkrc44.frigraph.R;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;

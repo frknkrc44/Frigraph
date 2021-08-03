@@ -26,7 +26,7 @@ import android.view.KeyEvent;
 
 import androidx.core.content.ContextCompat;
 
-import com.kabouzeid.gramophone.BuildConfig;
+import org.frknkrc44.frigraph.BuildConfig;
 
 /**
  * Used to control headset playback.

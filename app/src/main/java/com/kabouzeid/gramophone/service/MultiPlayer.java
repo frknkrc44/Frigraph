@@ -13,9 +13,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.kabouzeid.gramophone.R;
 import com.kabouzeid.gramophone.service.playback.Playback;
 import com.kabouzeid.gramophone.util.PreferenceUtil;
+
+import org.frknkrc44.frigraph.R;
 
 /**
  * @author Andrew Neal, Karim Abou Zeid (kabouzeid)

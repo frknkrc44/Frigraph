@@ -20,12 +20,13 @@ import androidx.fragment.app.DialogFragment;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.internal.ThemeSingleton;
-import com.kabouzeid.gramophone.R;
 import com.kabouzeid.gramophone.helper.MusicPlayerRemote;
 import com.kabouzeid.gramophone.service.MusicService;
 import com.kabouzeid.gramophone.util.MusicUtil;
 import com.kabouzeid.gramophone.util.PreferenceUtil;
 import com.triggertrap.seekarc.SeekArc;
+
+import org.frknkrc44.frigraph.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

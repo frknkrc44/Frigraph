@@ -10,11 +10,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.util.Pair;
 
 import com.kabouzeid.appthemehelper.ThemeStore;
-import com.kabouzeid.gramophone.R;
 import com.kabouzeid.gramophone.interfaces.CabHolder;
 import com.kabouzeid.gramophone.model.Song;
 import com.kabouzeid.gramophone.util.MusicUtil;
 import com.kabouzeid.gramophone.util.NavigationUtil;
+
+import org.frknkrc44.frigraph.R;
 
 import java.util.List;
 

@@ -19,7 +19,7 @@ import androidx.annotation.AttrRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.kabouzeid.gramophone.R;
+import org.frknkrc44.frigraph.R;
 
 /**
  * @author Karim Abou Zeid (kabouzeid)

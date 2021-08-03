@@ -9,8 +9,9 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.afollestad.materialcab.MaterialCab;
-import com.kabouzeid.gramophone.R;
 import com.kabouzeid.gramophone.interfaces.CabHolder;
+
+import org.frknkrc44.frigraph.R;
 
 import java.util.ArrayList;
 import java.util.List;

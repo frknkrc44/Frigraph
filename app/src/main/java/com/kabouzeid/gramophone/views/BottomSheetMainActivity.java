@@ -19,10 +19,11 @@ import androidx.annotation.NonNull;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.kabouzeid.gramophone.App;
-import com.kabouzeid.gramophone.R;
 import com.kabouzeid.gramophone.ui.activities.AboutActivity;
 import com.kabouzeid.gramophone.ui.activities.MainActivity;
 import com.kabouzeid.gramophone.ui.activities.SettingsActivity;
+
+import org.frknkrc44.frigraph.R;
 
 import java.lang.reflect.Constructor;
 

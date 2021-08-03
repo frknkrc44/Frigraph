@@ -26,7 +26,6 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.kabouzeid.appthemehelper.ThemeStore;
 import com.kabouzeid.appthemehelper.common.ATHToolbarActivity;
 import com.kabouzeid.appthemehelper.util.ToolbarContentTintHelper;
-import com.kabouzeid.gramophone.R;
 import com.kabouzeid.gramophone.adapter.MusicLibraryPagerAdapter;
 import com.kabouzeid.gramophone.dialogs.CreatePlaylistDialog;
 import com.kabouzeid.gramophone.helper.MusicPlayerRemote;
@@ -46,6 +45,8 @@ import com.kabouzeid.gramophone.util.PreferenceUtil;
 import com.kabouzeid.gramophone.util.Util;
 import com.kabouzeid.gramophone.views.BottomSheetMainActivity;
 import com.thirdparty.flycotablayout.SlidingTabLayout;
+
+import org.frknkrc44.frigraph.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

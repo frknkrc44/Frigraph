@@ -8,7 +8,6 @@ import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.kabouzeid.gramophone.R;
 import com.kabouzeid.gramophone.adapter.PlaylistAdapter;
 import com.kabouzeid.gramophone.interfaces.LoaderIds;
 import com.kabouzeid.gramophone.loader.PlaylistLoader;
@@ -17,6 +16,8 @@ import com.kabouzeid.gramophone.model.Playlist;
 import com.kabouzeid.gramophone.model.smartplaylist.HistoryPlaylist;
 import com.kabouzeid.gramophone.model.smartplaylist.LastAddedPlaylist;
 import com.kabouzeid.gramophone.model.smartplaylist.MyTopTracksPlaylist;
+
+import org.frknkrc44.frigraph.R;
 
 import java.util.ArrayList;
 import java.util.List;

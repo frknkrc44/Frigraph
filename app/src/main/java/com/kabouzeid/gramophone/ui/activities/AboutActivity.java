@@ -17,8 +17,9 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.afollestad.materialdialogs.internal.ThemeSingleton;
 import com.kabouzeid.appthemehelper.ThemeStore;
-import com.kabouzeid.gramophone.R;
 import com.kabouzeid.gramophone.ui.activities.base.AbsBaseActivity;
+
+import org.frknkrc44.frigraph.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

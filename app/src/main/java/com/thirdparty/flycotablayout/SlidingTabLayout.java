@@ -32,7 +32,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.kabouzeid.gramophone.R;
+import org.frknkrc44.frigraph.R;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -5,9 +5,10 @@ import android.os.Parcel;
 
 import androidx.annotation.NonNull;
 
-import com.kabouzeid.gramophone.R;
 import com.kabouzeid.gramophone.loader.SongLoader;
 import com.kabouzeid.gramophone.model.Song;
+
+import org.frknkrc44.frigraph.R;
 
 import java.util.List;
 

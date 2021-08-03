@@ -27,7 +27,6 @@ import com.kabouzeid.appthemehelper.common.prefs.supportv7.ATEColorPreference;
 import com.kabouzeid.appthemehelper.common.prefs.supportv7.ATEPreferenceFragmentCompat;
 import com.kabouzeid.appthemehelper.util.ColorUtil;
 import com.kabouzeid.gramophone.App;
-import com.kabouzeid.gramophone.R;
 import com.kabouzeid.gramophone.appshortcuts.DynamicShortcutManager;
 import com.kabouzeid.gramophone.preferences.BlacklistPreference;
 import com.kabouzeid.gramophone.preferences.BlacklistPreferenceDialog;
@@ -39,6 +38,8 @@ import com.kabouzeid.gramophone.ui.activities.base.AbsBaseActivity;
 import com.kabouzeid.gramophone.util.NavigationUtil;
 import com.kabouzeid.gramophone.util.PhonographColorUtil;
 import com.kabouzeid.gramophone.util.PreferenceUtil;
+
+import org.frknkrc44.frigraph.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

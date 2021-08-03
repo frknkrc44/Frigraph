@@ -13,9 +13,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.kabouzeid.gramophone.R;
 import com.kabouzeid.gramophone.model.CategoryInfo;
 import com.kabouzeid.gramophone.util.SwipeAndDragHelper;
+
+import org.frknkrc44.frigraph.R;
 
 import java.util.List;
 

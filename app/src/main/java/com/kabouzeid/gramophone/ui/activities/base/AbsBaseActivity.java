@@ -18,7 +18,8 @@ import androidx.core.app.ActivityCompat;
 import com.google.android.material.snackbar.Snackbar;
 import com.kabouzeid.appthemehelper.ThemeStore;
 import com.kabouzeid.gramophone.App;
-import com.kabouzeid.gramophone.R;
+
+import org.frknkrc44.frigraph.R;
 
 /**
  * @author Karim Abou Zeid (kabouzeid)

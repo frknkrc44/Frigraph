@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.kabouzeid.gramophone.App;
-import com.kabouzeid.gramophone.R;
 import com.kabouzeid.gramophone.dialogs.AddToPlaylistDialog;
 import com.kabouzeid.gramophone.dialogs.DeletePlaylistDialog;
 import com.kabouzeid.gramophone.dialogs.RenamePlaylistDialog;
@@ -20,6 +19,8 @@ import com.kabouzeid.gramophone.model.AbsCustomPlaylist;
 import com.kabouzeid.gramophone.model.Playlist;
 import com.kabouzeid.gramophone.model.Song;
 import com.kabouzeid.gramophone.util.PlaylistsUtil;
+
+import org.frknkrc44.frigraph.R;
 
 import java.io.IOException;
 import java.util.ArrayList;

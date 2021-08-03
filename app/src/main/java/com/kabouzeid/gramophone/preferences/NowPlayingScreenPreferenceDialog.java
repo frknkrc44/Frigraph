@@ -19,10 +19,11 @@ import androidx.viewpager.widget.ViewPager;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.heinrichreimersoftware.materialintro.view.InkPageIndicator;
-import com.kabouzeid.gramophone.R;
 import com.kabouzeid.gramophone.ui.fragments.player.NowPlayingScreen;
 import com.kabouzeid.gramophone.util.PreferenceUtil;
 import com.kabouzeid.gramophone.util.ViewUtil;
+
+import org.frknkrc44.frigraph.R;
 
 /**
  * @author Karim Abou Zeid (kabouzeid)

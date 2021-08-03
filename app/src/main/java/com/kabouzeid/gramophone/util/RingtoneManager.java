@@ -15,7 +15,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.kabouzeid.gramophone.R;
+
+import org.frknkrc44.frigraph.R;
 
 public class RingtoneManager {
 

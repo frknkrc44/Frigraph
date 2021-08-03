@@ -38,7 +38,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.kabouzeid.gramophone.App;
-import com.kabouzeid.gramophone.R;
 import com.kabouzeid.gramophone.appwidgets.AppWidgetBig;
 import com.kabouzeid.gramophone.appwidgets.AppWidgetCard;
 import com.kabouzeid.gramophone.appwidgets.AppWidgetClassic;
@@ -61,6 +60,8 @@ import com.kabouzeid.gramophone.service.playback.Playback;
 import com.kabouzeid.gramophone.util.MusicUtil;
 import com.kabouzeid.gramophone.util.PreferenceUtil;
 import com.kabouzeid.gramophone.util.Util;
+
+import org.frknkrc44.frigraph.R;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;

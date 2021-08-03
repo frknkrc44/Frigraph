@@ -15,7 +15,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.target.Target;
 import com.kabouzeid.gramophone.App;
-import com.kabouzeid.gramophone.R;
 import com.kabouzeid.gramophone.glide.artistimage.AlbumCover;
 import com.kabouzeid.gramophone.glide.artistimage.ArtistImage;
 import com.kabouzeid.gramophone.glide.palette.BitmapPaletteTranscoder;
@@ -25,6 +24,8 @@ import com.kabouzeid.gramophone.model.Artist;
 import com.kabouzeid.gramophone.model.Song;
 import com.kabouzeid.gramophone.util.ArtistSignatureUtil;
 import com.kabouzeid.gramophone.util.CustomArtistImageUtil;
+
+import org.frknkrc44.frigraph.R;
 
 import java.util.ArrayList;
 import java.util.List;

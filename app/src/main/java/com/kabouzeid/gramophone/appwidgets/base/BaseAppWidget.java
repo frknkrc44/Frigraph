@@ -18,10 +18,11 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.widget.RemoteViews;
 
-import com.kabouzeid.gramophone.R;
 import com.kabouzeid.gramophone.model.Song;
 import com.kabouzeid.gramophone.service.MusicService;
 import com.kabouzeid.gramophone.util.MusicUtil;
+
+import org.frknkrc44.frigraph.R;
 
 public abstract class BaseAppWidget extends AppWidgetProvider {
     public static final String NAME = "app_widget";

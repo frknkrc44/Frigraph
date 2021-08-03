@@ -12,9 +12,10 @@ import androidx.annotation.RequiresApi;
 import androidx.core.graphics.drawable.IconCompat;
 
 import com.kabouzeid.appthemehelper.ThemeStore;
-import com.kabouzeid.gramophone.R;
 import com.kabouzeid.gramophone.util.ImageUtil;
 import com.kabouzeid.gramophone.util.PreferenceUtil;
+
+import org.frknkrc44.frigraph.R;
 
 /**
  * @author Adrian Campos

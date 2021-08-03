@@ -18,7 +18,6 @@ import androidx.annotation.NonNull;
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 
 import com.kabouzeid.appthemehelper.util.MaterialValueHelper;
-import com.kabouzeid.gramophone.R;
 import com.kabouzeid.gramophone.helper.MusicPlayerRemote;
 import com.kabouzeid.gramophone.helper.MusicProgressViewUpdateHelper;
 import com.kabouzeid.gramophone.helper.PlayPauseButtonOnClickHandler;
@@ -27,6 +26,8 @@ import com.kabouzeid.gramophone.service.MusicService;
 import com.kabouzeid.gramophone.ui.fragments.AbsMusicServiceFragment;
 import com.kabouzeid.gramophone.util.MusicUtil;
 import com.kabouzeid.gramophone.views.PlayPauseDrawable;
+
+import org.frknkrc44.frigraph.R;
 
 import java.util.Collection;
 import java.util.LinkedList;

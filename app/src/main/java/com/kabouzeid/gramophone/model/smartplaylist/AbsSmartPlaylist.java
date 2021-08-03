@@ -6,8 +6,9 @@ import android.os.Parcel;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
 
-import com.kabouzeid.gramophone.R;
 import com.kabouzeid.gramophone.model.AbsCustomPlaylist;
+
+import org.frknkrc44.frigraph.R;
 
 /**
  * @author Karim Abou Zeid (kabouzeid)

@@ -16,9 +16,10 @@ import androidx.annotation.NonNull;
 
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
-import com.kabouzeid.gramophone.BuildConfig;
 import com.kabouzeid.gramophone.helper.StackBlur;
 import com.kabouzeid.gramophone.util.ImageUtil;
+
+import org.frknkrc44.frigraph.BuildConfig;
 
 /**
  * @author Karim Abou Zeid (kabouzeid)

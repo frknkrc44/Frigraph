@@ -18,10 +18,11 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.kabouzeid.gramophone.R;
 import com.kabouzeid.gramophone.misc.UpdateToastMediaScannerCompletionListener;
 import com.kabouzeid.gramophone.ui.fragments.mainactivity.folders.FoldersFragment;
 import com.kabouzeid.gramophone.util.PreferenceUtil;
+
+import org.frknkrc44.frigraph.R;
 
 import java.io.File;
 import java.lang.ref.WeakReference;

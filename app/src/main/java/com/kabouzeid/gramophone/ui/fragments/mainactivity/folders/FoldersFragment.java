@@ -183,7 +183,7 @@ public class FoldersFragment extends AbsMainActivityFragment implements MainActi
     }
 
     private void setUpToolbar() {
-        toolbar.setNavigationIcon(R.drawable.ic_menu_white_24dp);
+        toolbar.setNavigationIcon(R.drawable.baseline_tune_24);
         getMainActivity().setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener((view) -> openActionMenu());
     }
@@ -205,7 +205,7 @@ public class FoldersFragment extends AbsMainActivityFragment implements MainActi
                 toolbar.setPadding(0,0,0,0);
                 toolbar.setContentInsetsAbsolute(0,0);
                 appbar.setPadding(0,0,0,0);
-                appbar.getLayoutParams().height = (int)(64 * getResources().getDisplayMetrics().density);
+                appbar.getLayoutParams().height = getResources().getDimensionPixelSize(R.dimen.tab_height);
                 toolbar.getLayoutParams().height = appbar.getLayoutParams().height;
                 breadCrumbs.getLayoutParams().height = appbar.getLayoutParams().height;
             }

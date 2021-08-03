@@ -126,7 +126,7 @@ public class LibraryFragment extends AbsMainActivityFragment implements CabHolde
         tabs.setBackgroundColor(primaryColor);
         tabs.setIndicatorColor(ThemeStore.accentColor(requireActivity()));
         tabs.setTextBold(SlidingTabLayout.TEXT_BOLD_BOTH);
-        toolbar.setNavigationIcon(R.drawable.ic_menu_white_24dp);
+        toolbar.setNavigationIcon(R.drawable.baseline_tune_24);
         tabs.setTextUnselectColor(getToolbarTitleTextColor(primaryColor) - 0x66000000);
         getMainActivity().setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener((view) -> openActionMenu());

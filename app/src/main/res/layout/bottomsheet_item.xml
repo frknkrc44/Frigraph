@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:clickable="true"
+    android:focusable="true"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/default_item_margin"
+    tools:ignore="UseCompoundDrawables">
+    
+    <ImageView
+        android:contentDescription="@android:string/unknownName"
+        android:id="@+id/bottom_sheet_icon"
+        android:layout_width="@dimen/bottom_sheet_icon_size"
+        android:layout_height="@dimen/bottom_sheet_icon_size"
+        android:layout_marginEnd="@dimen/list_item_image_icon_padding"
+        app:tint="@color/ate_primary_text_light" />
+
+    <TextView
+        android:layout_toEndOf="@id/bottom_sheet_icon"
+        android:layout_centerVertical="true"
+        android:id="@+id/bottom_sheet_text"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

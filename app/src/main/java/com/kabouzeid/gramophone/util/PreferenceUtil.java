@@ -129,6 +129,10 @@ public final class PreferenceUtil {
         return getThemeResFromPrefValue(mPreferences.getString(GENERAL_THEME, "light"));
     }
 
+    public int getBottomSheetTheme() {
+        return getBottomSheetResFromPrefValue(mPreferences.getString(GENERAL_THEME, "light"));
+    }
+
     public void setGeneralTheme(String theme) {
         final SharedPreferences.Editor editor = mPreferences.edit();
         editor.putString(GENERAL_THEME, theme);
@@ -145,6 +149,17 @@ public final class PreferenceUtil {
             case "light":
             default:
                 return R.style.Theme_Phonograph_Light;
+        }
+    }
+
+    @StyleRes
+    public static int getBottomSheetResFromPrefValue(String themePrefValue) {
+        switch (themePrefValue) {
+            case "dark":
+            case "black":
+                return R.style.Theme_Design_BottomSheetDialog;
+            default:
+                return R.style.Theme_Design_Light_BottomSheetDialog;
         }
     }
 

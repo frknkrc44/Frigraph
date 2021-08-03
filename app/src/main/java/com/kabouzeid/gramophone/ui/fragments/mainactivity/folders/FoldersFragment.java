@@ -24,8 +24,6 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -55,6 +53,7 @@ import com.kabouzeid.gramophone.util.FileUtil;
 import com.kabouzeid.gramophone.util.PhonographColorUtil;
 import com.kabouzeid.gramophone.util.PreferenceUtil;
 import com.kabouzeid.gramophone.util.ViewUtil;
+import com.kabouzeid.gramophone.views.BottomSheetMainActivity;
 import com.kabouzeid.gramophone.views.BreadCrumbLayout;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 
@@ -276,9 +275,6 @@ public class FoldersFragment extends AbsMainActivityFragment implements MainActi
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_folders, menu);
-        if (!PreferenceUtil.getInstance(requireActivity()).enableCompactMode()) {
-            menu.removeItem(R.id.action_menu);
-        }
         ToolbarContentTintHelper.handleOnCreateOptionsMenu(requireActivity(), toolbar, menu, ATHToolbarActivity.getToolbarBackgroundColor(toolbar));
     }
 
@@ -317,8 +313,10 @@ public class FoldersFragment extends AbsMainActivityFragment implements MainActi
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_menu:
-                DrawerLayout drawer = requireActivity().findViewById(R.id.drawer_layout);
-                drawer.openDrawer(GravityCompat.START);
+                int theme = PreferenceUtil.getInstance(requireActivity()).getBottomSheetTheme();
+                BottomSheetMainActivity sheet = new BottomSheetMainActivity();
+                sheet.show(getChildFragmentManager(), "ActionMenu");
+                sheet.setStyle(BottomSheetMainActivity.STYLE_NORMAL, theme);
                 return true;
             case R.id.action_go_to_start_directory:
                 setCrumb(new BreadCrumbLayout.Crumb(FileUtil.safeGetCanonicalFile(PreferenceUtil.getInstance(requireActivity()).getStartDirectory())), true);

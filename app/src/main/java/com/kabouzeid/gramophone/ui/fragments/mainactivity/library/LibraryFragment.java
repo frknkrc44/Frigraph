@@ -18,8 +18,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
@@ -46,6 +44,7 @@ import com.kabouzeid.gramophone.ui.fragments.mainactivity.library.pager.SongsFra
 import com.kabouzeid.gramophone.util.PhonographColorUtil;
 import com.kabouzeid.gramophone.util.PreferenceUtil;
 import com.kabouzeid.gramophone.util.Util;
+import com.kabouzeid.gramophone.views.BottomSheetMainActivity;
 import com.thirdparty.flycotablayout.SlidingTabLayout;
 
 import butterknife.BindView;
@@ -220,9 +219,6 @@ public class LibraryFragment extends AbsMainActivityFragment implements CabHolde
         if (isPlaylistPage()) {
             menu.add(0, R.id.action_new_playlist, 0, R.string.new_playlist_title);
         }
-        if (!PreferenceUtil.getInstance(requireActivity()).enableCompactMode()) {
-            menu.removeItem(R.id.action_menu);
-        }
         Fragment currentFragment = getCurrentFragment();
         if (currentFragment instanceof AbsLibraryPagerRecyclerViewCustomGridSizeFragment && currentFragment.isAdded()) {
             AbsLibraryPagerRecyclerViewCustomGridSizeFragment absLibraryRecyclerViewCustomGridSizeFragment = (AbsLibraryPagerRecyclerViewCustomGridSizeFragment) currentFragment;
@@ -278,8 +274,10 @@ public class LibraryFragment extends AbsMainActivityFragment implements CabHolde
         int id = item.getItemId();
         switch (id) {
             case R.id.action_menu:
-                DrawerLayout drawer = requireActivity().findViewById(R.id.drawer_layout);
-                drawer.openDrawer(GravityCompat.START);
+                int theme = PreferenceUtil.getInstance(requireActivity()).getBottomSheetTheme();
+                BottomSheetMainActivity sheet = new BottomSheetMainActivity();
+                sheet.show(getChildFragmentManager(), "ActionMenu");
+                sheet.setStyle(BottomSheetMainActivity.STYLE_NORMAL, theme);
                 return true;
             case R.id.action_shuffle_all:
                 MusicPlayerRemote.openAndShuffleQueue(SongLoader.getAllSongs(requireActivity()), true);

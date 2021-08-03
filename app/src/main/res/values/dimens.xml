@@ -18,6 +18,7 @@
     <dimen name="status_bar_padding">0dp</dimen>
 
     <dimen name="tab_height">56dp</dimen>
+    <dimen name="bottom_sheet_icon_size">36dp</dimen>
 
     <dimen name="tagEditorHeaderVariableSpace">100dp</dimen>
 

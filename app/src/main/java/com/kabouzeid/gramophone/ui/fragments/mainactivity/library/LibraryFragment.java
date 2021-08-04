@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -115,7 +116,6 @@ public class LibraryFragment extends AbsMainActivityFragment implements CabHolde
             if (position < 0) position = 0;
             pager.setCurrentItem(position);
             PreferenceUtil.getInstance(requireContext()).setLastPage(position);
-
             updateTabVisibility();
         }
     }
@@ -131,26 +131,7 @@ public class LibraryFragment extends AbsMainActivityFragment implements CabHolde
         tabs.setTextUnselectColor(getToolbarTitleTextColor(primaryColor) - 0x66000000);
         getMainActivity().setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener((view) -> openActionMenu());
-        if (PreferenceUtil.getInstance(requireActivity()).enableCompactMode()) {
-            AppCompatActivity activity = (AppCompatActivity) requireActivity();
-            ActionBar bar = activity.getSupportActionBar();
-            if (bar != null) {
-                ViewGroup group = (ViewGroup) tabs.getParent();
-                group.removeView(tabs);
-                bar.setDisplayShowHomeEnabled(false);
-                bar.setDisplayShowCustomEnabled(true);
-                bar.setDisplayShowTitleEnabled(false);
-                bar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-                bar.setCustomView(tabs);
-                // toolbar = (Toolbar) tabs.getParent();
-                toolbar.setPadding(0,0,0,0);
-                toolbar.setContentInsetsAbsolute(0,0);
-                appbar.setPadding(0,0,0,0);
-                appbar.getLayoutParams().height = getResources().getDimensionPixelSize(R.dimen.tab_height);
-                toolbar.getLayoutParams().height = appbar.getLayoutParams().height;
-                tabs.getLayoutParams().height = appbar.getLayoutParams().height;
-            }
-        }
+        setCompactMode(appbar, toolbar, tabs);
     }
 
     private int getToolbarTitleTextColor(int primaryColor) {
@@ -170,7 +151,9 @@ public class LibraryFragment extends AbsMainActivityFragment implements CabHolde
         updateTabVisibility();
 
         if (PreferenceUtil.getInstance(requireContext()).rememberLastTab()) {
-            pager.setCurrentItem(PreferenceUtil.getInstance(requireContext()).getLastPage());
+            int page = PreferenceUtil.getInstance(requireContext()).getLastPage();
+            pager.setCurrentItem(page);
+            tabs.setCurrentTab(page, true);
         }
         pager.addOnPageChangeListener(this);
     }

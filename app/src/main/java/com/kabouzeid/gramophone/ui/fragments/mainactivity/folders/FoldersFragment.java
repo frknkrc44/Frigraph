@@ -8,6 +8,7 @@ import android.media.MediaScannerConnection;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.Html;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -191,26 +192,7 @@ public class FoldersFragment extends AbsMainActivityFragment implements MainActi
 
     private void setUpBreadCrumbs() {
         breadCrumbs.setCallback(this);
-        if (PreferenceUtil.getInstance(requireActivity()).enableCompactMode()) {
-            AppCompatActivity activity = (AppCompatActivity) requireActivity();
-            ActionBar bar = activity.getSupportActionBar();
-            if (bar != null) {
-                ViewGroup group = (ViewGroup) breadCrumbs.getParent();
-                group.removeView(breadCrumbs);
-                bar.setDisplayShowHomeEnabled(false);
-                bar.setDisplayShowCustomEnabled(true);
-                bar.setDisplayShowTitleEnabled(false);
-                bar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-                bar.setCustomView(breadCrumbs);
-                // toolbar = (Toolbar) tabs.getParent();
-                toolbar.setPadding(0,0,0,0);
-                toolbar.setContentInsetsAbsolute(0,0);
-                appbar.setPadding(0,0,0,0);
-                appbar.getLayoutParams().height = getResources().getDimensionPixelSize(R.dimen.tab_height);
-                toolbar.getLayoutParams().height = appbar.getLayoutParams().height;
-                breadCrumbs.getLayoutParams().height = appbar.getLayoutParams().height;
-            }
-        }
+        setCompactMode(appbar, toolbar, breadCrumbs);
     }
 
     private void setUpRecyclerView() {

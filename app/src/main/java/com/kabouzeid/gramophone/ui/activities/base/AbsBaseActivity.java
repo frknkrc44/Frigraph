@@ -45,15 +45,14 @@ public abstract class AbsBaseActivity extends AbsThemeActivity {
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        if (!hasPermissions()) {
-            requestPermissions();
-        }
+        requestPermissionsAutomatically();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         final boolean hasPermissions = hasPermissions();
+
         if (hasPermissions != hadPermissions) {
             hadPermissions = hasPermissions;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -156,14 +155,5 @@ public abstract class AbsBaseActivity extends AbsThemeActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-    }
-
-    @Override
-    protected void onPostResume() {
-        super.onPostResume();
-        if (hasPermissions())
-            if (!App.isAppInit())
-                if (!setAutoColor())
-                    App.getMainHandler().post(this::postRecreate);
     }
 }

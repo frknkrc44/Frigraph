@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.preference.PreferenceManager;
 
 import androidx.annotation.NonNull;
@@ -29,6 +30,7 @@ public final class PreferenceUtil {
     public static final String GENERAL_THEME = "general_theme";
     public static final String REMEMBER_LAST_TAB = "remember_last_tab";
     public static final String ENABLE_COMPACT_MODE = "enable_compact_mode";
+    public static final String USE_WALLPAPER_COLORS = "use_wallpaper_colors";
     public static final String LAST_PAGE = "last_start_page";
     public static final String LAST_MUSIC_CHOOSER = "last_music_chooser";
     public static final String NOW_PLAYING_SCREEN_ID = "now_playing_screen_id";
@@ -170,6 +172,10 @@ public final class PreferenceUtil {
 
     public final boolean enableCompactMode() {
         return mPreferences.getBoolean(ENABLE_COMPACT_MODE, false);
+    }
+
+    public final boolean useWallpaperColors() {
+        return Build.VERSION.SDK_INT >= 27 && mPreferences.getBoolean(USE_WALLPAPER_COLORS, false);
     }
 
     public void setLastPage(final int value) {

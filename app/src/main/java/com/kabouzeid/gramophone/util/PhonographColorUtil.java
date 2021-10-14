@@ -3,10 +3,13 @@ package com.kabouzeid.gramophone.util;
 import android.app.WallpaperColors;
 import android.app.WallpaperManager;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Build;
 
 import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.graphics.ColorUtils;
@@ -18,6 +21,9 @@ import com.kabouzeid.gramophone.App;
 
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Karim Abou Zeid (kabouzeid)
@@ -60,6 +66,13 @@ public class PhonographColorUtil {
 
     @RequiresApi(api = Build.VERSION_CODES.O_MR1)
     public static WallpaperColors getCurrentWallpaperColors(){
+        if (Build.VERSION.SDK_INT >= 31) {
+            return new WallpaperColors(
+                    Color.valueOf(SDK31.getAccentColors3().get(500)),
+                    Color.valueOf(SDK31.getAccentColors2().get(500)),
+                    Color.valueOf(SDK31.getAccentColors1().get(500))
+            );
+        }
         WallpaperManager wallpaperManager = (WallpaperManager) App.getInstance().getSystemService(Context.WALLPAPER_SERVICE);
         return wallpaperManager.getWallpaperColors(WallpaperManager.FLAG_SYSTEM);
     }
@@ -116,6 +129,11 @@ public class PhonographColorUtil {
         g = (g << 8) & 0x0000FF00;
         b = b & 0x000000FF;
         return 0xFF000000 | r | g | b;
+    }
+
+    private static int toRGB(int color) {
+        int r = red(color), g = green(color), b = blue(color);
+        return calculateColors(r, g, b);
     }
 
     public static boolean isColorLight(int backgroundColor){
@@ -184,5 +202,52 @@ public class PhonographColorUtil {
             backgroundColor = ColorUtil.lightenColor(backgroundColor);
         }
         return backgroundColor;
+    }
+
+    // Pull monet colors
+    private static class SDK31 {
+        public static Map<Integer, Integer> getAccentColors1() {
+            return getColorTable("accent1");
+        }
+
+        public static Map<Integer, Integer> getAccentColors2() {
+            return getColorTable("accent2");
+        }
+
+        public static Map<Integer, Integer> getAccentColors3() {
+            return getColorTable("accent3");
+        }
+
+        public static Map<Integer, Integer> getNeutralColors1() {
+            return getColorTable("neutral1");
+        }
+
+        public static Map<Integer, Integer> getNeutralColors2() {
+            return getColorTable("neutral2");
+        }
+
+        private static Map<Integer, Integer> getColorTable(String resType) {
+            Map<Integer, Integer> out = new LinkedHashMap<>();
+            out.put(0, getColor(String.format("system_%s_0", resType)));
+            out.put(50, getColor(String.format("system_%s_50", resType)));
+            out.put(100, getColor(String.format("system_%s_100", resType)));
+            out.put(200, getColor(String.format("system_%s_200", resType)));
+            out.put(300, getColor(String.format("system_%s_300", resType)));
+            out.put(400, getColor(String.format("system_%s_400", resType)));
+            out.put(500, getColor(String.format("system_%s_500", resType)));
+            out.put(600, getColor(String.format("system_%s_600", resType)));
+            out.put(700, getColor(String.format("system_%s_700", resType)));
+            out.put(800, getColor(String.format("system_%s_800", resType)));
+            out.put(900, getColor(String.format("system_%s_900", resType)));
+            out.put(1000, getColor(String.format("system_%s_1000", resType)));
+            return out;
+        }
+
+        @ColorInt
+        private static int getColor(String resName) {
+            Resources res = App.getInstance().getResources();
+            int id = res.getIdentifier(resName, "color", "android");
+            return id > 0 ? toRGB(res.getColor(id)) : 0;
+        }
     }
 }

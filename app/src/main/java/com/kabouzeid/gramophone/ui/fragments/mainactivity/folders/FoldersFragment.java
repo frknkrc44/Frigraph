@@ -48,6 +48,7 @@ import com.kabouzeid.gramophone.misc.UpdateToastMediaScannerCompletionListener;
 import com.kabouzeid.gramophone.misc.WrappedAsyncTaskLoader;
 import com.kabouzeid.gramophone.model.Song;
 import com.kabouzeid.gramophone.ui.activities.MainActivity;
+import com.kabouzeid.gramophone.ui.activities.base.AbsThemeActivity;
 import com.kabouzeid.gramophone.ui.fragments.mainactivity.AbsMainActivityFragment;
 import com.kabouzeid.gramophone.util.FileUtil;
 import com.kabouzeid.gramophone.util.PhonographColorUtil;
@@ -176,6 +177,7 @@ public class FoldersFragment extends AbsMainActivityFragment implements MainActi
     }
 
     private void setUpAppbarColor() {
+        ((AbsThemeActivity) requireActivity()).setAutoColor();
         int primaryColor = ThemeStore.primaryColor(requireActivity());
         appbar.setBackgroundColor(primaryColor);
         toolbar.setBackgroundColor(primaryColor);

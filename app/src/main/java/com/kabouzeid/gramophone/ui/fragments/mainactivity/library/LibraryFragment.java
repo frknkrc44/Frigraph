@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -35,6 +36,7 @@ import com.kabouzeid.gramophone.interfaces.CabHolder;
 import com.kabouzeid.gramophone.loader.SongLoader;
 import com.kabouzeid.gramophone.ui.activities.MainActivity;
 import com.kabouzeid.gramophone.ui.activities.SearchActivity;
+import com.kabouzeid.gramophone.ui.activities.base.AbsThemeActivity;
 import com.kabouzeid.gramophone.ui.fragments.mainactivity.AbsMainActivityFragment;
 import com.kabouzeid.gramophone.ui.fragments.mainactivity.library.pager.AbsLibraryPagerRecyclerViewCustomGridSizeFragment;
 import com.kabouzeid.gramophone.ui.fragments.mainactivity.library.pager.AlbumsFragment;
@@ -121,6 +123,7 @@ public class LibraryFragment extends AbsMainActivityFragment implements CabHolde
     }
 
     private void setUpToolbar() {
+        ((AbsThemeActivity) requireActivity()).setAutoColor();
         int primaryColor = ThemeStore.primaryColor(requireActivity());
         appbar.setBackgroundColor(primaryColor);
         toolbar.setBackgroundColor(primaryColor);

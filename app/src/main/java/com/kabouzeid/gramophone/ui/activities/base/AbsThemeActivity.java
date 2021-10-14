@@ -12,6 +12,7 @@ import com.kabouzeid.appthemehelper.ThemeStore;
 import com.kabouzeid.appthemehelper.common.ATHToolbarActivity;
 import com.kabouzeid.appthemehelper.util.ColorUtil;
 import com.kabouzeid.appthemehelper.util.MaterialDialogsUtil;
+import com.kabouzeid.gramophone.App;
 import com.kabouzeid.gramophone.util.PhonographColorUtil;
 import com.kabouzeid.gramophone.util.PreferenceUtil;
 import com.kabouzeid.gramophone.util.Util;
@@ -23,8 +24,6 @@ import org.frknkrc44.frigraph.R;
  */
 
 public abstract class AbsThemeActivity extends ATHToolbarActivity {
-
-    private boolean listenerInvoked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,16 +90,9 @@ public abstract class AbsThemeActivity extends ATHToolbarActivity {
         setLightStatusbar(ColorUtil.isColorLight(bgColor));
     }
 
-    public boolean setAutoColor() {
-        if (Build.VERSION.SDK_INT >= 27 && !listenerInvoked) {
-            listenerInvoked = true;
-            if (PreferenceUtil.getInstance(this)
-                    .getPrefs()
-                    .getBoolean("use_wallpaper_colors", false)) {
-                PhonographColorUtil.applyCurrentWallpaperColors();
-            }
-            return false;
+    public void setAutoColor() {
+        if (!App.isAppInit() && PreferenceUtil.getInstance(this).useWallpaperColors()) {
+            PhonographColorUtil.applyCurrentWallpaperColors();
         }
-        return listenerInvoked = true;
     }
 }

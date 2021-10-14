@@ -42,8 +42,8 @@ android {
         vectorDrawables.useSupportLibrary = true
 
         applicationId 'org.frknkrc44.frigraph'
-        versionCode 180
-        versionName '1.4.0'
+        versionCode 181
+        versionName '1.4.1'
     }
     signingConfigs {
         release {
@@ -91,10 +91,9 @@ dependencies {
     implementation 'androidx.preference:preference:1.1.1'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'com.google.android.material:material:1.4.0'
-
     implementation 'com.github.kabouzeid:app-theme-helper:1.3.10'
     implementation 'com.github.kabouzeid:RecyclerView-FastScroll:1.0.16-kmod'
-    implementation 'com.github.kabouzeid:SeekArc:1.2-kmod'
+    implementation 'com.github.kabouzeid:SeekArc:master'
     implementation 'com.github.kabouzeid:AndroidSlidingUpPanel:6'
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
     implementation 'com.afollestad.material-dialogs:commons:0.9.6.0'

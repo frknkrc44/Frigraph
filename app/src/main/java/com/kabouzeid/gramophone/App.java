@@ -38,10 +38,6 @@ public class App extends Application {
         }
     }
 
-    public static void resetAppInit() {
-        appInit = false;
-    }
-
     public static boolean isAppInit() {
         if(!appInit) {
             appInit = true;
@@ -52,10 +48,6 @@ public class App extends Application {
 
     public static Handler getMainHandler() {
         return mainHandler;
-    }
-
-    public static boolean isProVersion() {
-        return true;
     }
 
     public static App getInstance() {

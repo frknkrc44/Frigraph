@@ -21,6 +21,7 @@ import android.widget.RemoteViews;
 import com.kabouzeid.gramophone.model.Song;
 import com.kabouzeid.gramophone.service.MusicService;
 import com.kabouzeid.gramophone.util.MusicUtil;
+import com.kabouzeid.gramophone.util.Util;
 
 import org.frknkrc44.frigraph.R;
 
@@ -79,7 +80,7 @@ public abstract class BaseAppWidget extends AppWidgetProvider {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             return PendingIntent.getForegroundService(context, 0, intent, 0);
         } else {
-            return PendingIntent.getService(context, 0, intent, 0);
+            return PendingIntent.getService(context, 0, intent, Util.PENDING_INTENT_FLAGS);
         }
     }
 

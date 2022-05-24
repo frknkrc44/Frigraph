@@ -17,6 +17,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -38,23 +39,22 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.OnPageChangeListener {
-    private Context mContext;
     private ViewPager mViewPager;
     private ArrayList<String> mTitles;
-    private LinearLayout mTabsContainer;
+    private final LinearLayout mTabsContainer;
     private int mCurrentTab;
     private float mCurrentPositionOffset;
     private int mTabCount;
 
-    private Rect mIndicatorRect = new Rect();
+    private final Rect mIndicatorRect = new Rect();
 
-    private Rect mTabRect = new Rect();
-    private GradientDrawable mIndicatorDrawable = new GradientDrawable();
+    private final Rect mTabRect = new Rect();
+    private final GradientDrawable mIndicatorDrawable = new GradientDrawable();
 
-    private Paint mRectPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private Paint mDividerPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private Paint mTrianglePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private Path mTrianglePath = new Path();
+    private final Paint mRectPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Paint mDividerPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Paint mTrianglePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Path mTrianglePath = new Path();
     public static final int STYLE_NORMAL = 0;
     public static final int STYLE_TRIANGLE = 1;
     public static final int STYLE_BLOCK = 2;
@@ -97,7 +97,6 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
     private boolean mTextAllCaps;
 
     private int mLastScrollX;
-    private int mHeight;
     private boolean mSnapOnTabClick;
 
     public SlidingTabLayout(Context context) {
@@ -115,23 +114,10 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
         setClipChildren(false);
         setClipToPadding(false);
 
-        this.mContext = context;
         mTabsContainer = new LinearLayout(context);
         addView(mTabsContainer);
 
         obtainAttributes(context, attrs);
-
-        //get layout_height
-        String height = attrs.getAttributeValue("http://schemas.android.com/apk/res/android", "layout_height");
-
-        if (height.equals(ViewGroup.LayoutParams.MATCH_PARENT + "")) {
-        } else if (height.equals(ViewGroup.LayoutParams.WRAP_CONTENT + "")) {
-        } else {
-            int[] systemAttrs = {android.R.attr.layout_height};
-            TypedArray a = context.obtainStyledAttributes(attrs, systemAttrs);
-            mHeight = a.getDimensionPixelSize(0, ViewGroup.LayoutParams.WRAP_CONTENT);
-            a.recycle();
-        }
     }
 
     private void obtainAttributes(Context context, AttributeSet attrs) {
@@ -227,7 +213,7 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
         this.mTabCount = mTitles == null ? mViewPager.getAdapter().getCount() : mTitles.size();
         View tabView;
         for (int i = 0; i < mTabCount; i++) {
-            tabView = View.inflate(mContext, R.layout.layout_tab, null);
+            tabView = View.inflate(getContext(), R.layout.layout_tab, null);
             CharSequence pageTitle = mTitles == null ? mViewPager.getAdapter().getPageTitle(i) : mTitles.get(i);
             addTab(i, pageTitle.toString(), tabView);
         }
@@ -236,7 +222,7 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
     }
 
     public void addNewTab(String title) {
-        View tabView = View.inflate(mContext, R.layout.layout_tab, null);
+        View tabView = View.inflate(getContext(), R.layout.layout_tab, null);
         if (mTitles != null) {
             mTitles.add(title);
         }
@@ -738,7 +724,7 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
     //setter and getter
 
     // show MsgTipView
-    private Paint mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Paint mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
     private OnTabSelectListener mListener;
 
@@ -746,12 +732,12 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
         this.mListener = listener;
     }
 
-    class InnerPagerAdapter extends FragmentPagerAdapter {
-        private ArrayList<Fragment> fragments;
-        private String[] titles;
+    static class InnerPagerAdapter extends FragmentPagerAdapter {
+        private final ArrayList<Fragment> fragments;
+        private final String[] titles;
 
         public InnerPagerAdapter(FragmentManager fm, ArrayList<Fragment> fragments, String[] titles) {
-            super(fm);
+            super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
             this.fragments = fragments;
             this.titles = titles;
         }
@@ -804,13 +790,17 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
         super.onRestoreInstanceState(state);
     }
 
+    private DisplayMetrics getDisplayMetrics() {
+        return getContext().getResources().getDisplayMetrics();
+    }
+
     protected int dp2px(float dp) {
-        final float scale = mContext.getResources().getDisplayMetrics().density;
+        final float scale = getDisplayMetrics().density;
         return (int) (dp * scale + 0.5f);
     }
 
     protected int sp2px(float sp) {
-        final float scale = this.mContext.getResources().getDisplayMetrics().scaledDensity;
+        final float scale = getDisplayMetrics().scaledDensity;
         return (int) (sp * scale + 0.5f);
     }
 

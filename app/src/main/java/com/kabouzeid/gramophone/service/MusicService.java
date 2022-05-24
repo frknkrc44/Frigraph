@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.database.ContentObserver;
 import android.graphics.Bitmap;
 import android.graphics.Point;
@@ -228,6 +229,16 @@ public class MusicService extends Service implements SharedPreferences.OnSharedP
         sendBroadcast(new Intent("com.kabouzeid.gramophone.PHONOGRAPH_MUSIC_SERVICE_CREATED"));
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        if(PreferenceUtil.getInstance(this).classicNotification() && getResources().getConfiguration().uiMode != newConfig.uiMode) {
+            initNotification();
+            updateNotification();
+        }
+
+        super.onConfigurationChanged(newConfig);
+    }
+
     private AudioManager getAudioManager() {
         if (audioManager == null) {
             audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
@@ -241,7 +252,7 @@ public class MusicService extends Service implements SharedPreferences.OnSharedP
         Intent mediaButtonIntent = new Intent(Intent.ACTION_MEDIA_BUTTON);
         mediaButtonIntent.setComponent(mediaButtonReceiverComponentName);
 
-        PendingIntent mediaButtonReceiverPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, mediaButtonIntent, 0);
+        PendingIntent mediaButtonReceiverPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, mediaButtonIntent, Util.PENDING_INTENT_FLAGS);
 
         mediaSession = new MediaSessionCompat(this, "Phonograph", mediaButtonReceiverComponentName, mediaButtonReceiverPendingIntent);
         mediaSession.setCallback(new MediaSessionCompat.Callback() {
@@ -280,9 +291,6 @@ public class MusicService extends Service implements SharedPreferences.OnSharedP
                 return MediaButtonIntentReceiver.handleIntent(MusicService.this, mediaButtonEvent);
             }
         });
-
-        mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS
-                | MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS);
 
         mediaSession.setMediaButtonReceiver(mediaButtonReceiverPendingIntent);
     }

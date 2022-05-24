@@ -25,6 +25,7 @@ import com.kabouzeid.gramophone.model.Song;
 import com.kabouzeid.gramophone.service.MusicService;
 import com.kabouzeid.gramophone.ui.activities.MainActivity;
 import com.kabouzeid.gramophone.util.ImageUtil;
+import com.kabouzeid.gramophone.util.Util;
 
 import org.frknkrc44.frigraph.R;
 
@@ -149,7 +150,7 @@ public class AppWidgetSmall extends BaseAppWidget {
         // Home
         action = new Intent(context, MainActivity.class);
         action.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        pendingIntent = PendingIntent.getActivity(context, 0, action, 0);
+        pendingIntent = PendingIntent.getActivity(context, 0, action, Util.PENDING_INTENT_FLAGS);
         views.setOnClickPendingIntent(R.id.image, pendingIntent);
         views.setOnClickPendingIntent(R.id.media_titles, pendingIntent);
 

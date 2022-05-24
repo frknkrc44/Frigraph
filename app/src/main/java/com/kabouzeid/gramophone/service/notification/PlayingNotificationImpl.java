@@ -5,9 +5,11 @@ import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.RemoteViews;
@@ -29,6 +31,7 @@ import com.kabouzeid.gramophone.ui.activities.MainActivity;
 import com.kabouzeid.gramophone.util.ImageUtil;
 import com.kabouzeid.gramophone.util.PhonographColorUtil;
 import com.kabouzeid.gramophone.util.PreferenceUtil;
+import com.kabouzeid.gramophone.util.Util;
 
 import org.frknkrc44.frigraph.R;
 
@@ -68,7 +71,7 @@ public class PlayingNotificationImpl extends PlayingNotification {
 
         Intent action = new Intent(service, MainActivity.class);
         action.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        final PendingIntent clickIntent = PendingIntent.getActivity(service, 0, action, 0);
+        final PendingIntent clickIntent = PendingIntent.getActivity(service, 0, action, Util.PENDING_INTENT_FLAGS);
         final PendingIntent deleteIntent = buildPendingIntent(service, MusicService.ACTION_QUIT, null);
 
         final Notification notification = new NotificationCompat.Builder(service, NOTIFICATION_CHANNEL_ID)
@@ -114,11 +117,16 @@ public class PlayingNotificationImpl extends PlayingNotification {
                                     notificationLayoutBig.setImageViewResource(R.id.image, R.drawable.default_album_art);
                                 }
 
-                                if (!PreferenceUtil.getInstance(service).coloredNotification()) {
-                                    bgColor = Color.WHITE;
+                                if (Build.VERSION.SDK_INT < 31) {
+                                    if (!PreferenceUtil.getInstance(service).coloredNotification()) {
+                                        bgColor = Color.WHITE;
+                                    }
+                                    setBackgroundColor(bgColor);
+                                    setNotificationContent(ColorUtil.isColorLight(bgColor));
+                                } else {
+                                    boolean isLight = (service.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) != Configuration.UI_MODE_NIGHT_YES;
+                                    setNotificationContent(isLight);
                                 }
-                                setBackgroundColor(bgColor);
-                                setNotificationContent(ColorUtil.isColorLight(bgColor));
 
                                 if (stopped)
                                     return; // notification has been stopped before loading was finished
@@ -180,7 +188,7 @@ public class PlayingNotificationImpl extends PlayingNotification {
     private PendingIntent buildPendingIntent(Context context, final String action, final ComponentName serviceName) {
         Intent intent = new Intent(action);
         intent.setComponent(serviceName);
-        return PendingIntent.getService(context, 0, intent, 0);
+        return PendingIntent.getService(context, 0, intent, Util.PENDING_INTENT_FLAGS);
     }
 
 }

@@ -57,7 +57,7 @@ public abstract class PlayingNotification {
 
         if (newNotifyMode == NOTIFY_MODE_FOREGROUND) {
             service.startForeground(NOTIFICATION_ID, notification);
-        } else if (newNotifyMode == NOTIFY_MODE_BACKGROUND) {
+        } else {
             notificationManager.notify(NOTIFICATION_ID, notification);
         }
 

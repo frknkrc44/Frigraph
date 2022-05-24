@@ -2,6 +2,7 @@ package com.kabouzeid.gramophone.util;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -25,6 +26,8 @@ import org.frknkrc44.frigraph.R;
  * @author Karim Abou Zeid (kabouzeid)
  */
 public class Util {
+
+    public static final int PENDING_INTENT_FLAGS = Build.VERSION.SDK_INT > 22 ? PendingIntent.FLAG_IMMUTABLE : 0;
 
     public static int getActionBarSize(@NonNull Context context) {
         TypedValue typedValue = new TypedValue();
@@ -83,10 +86,8 @@ public class Util {
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     public static boolean isRTL(@NonNull Context context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            Configuration config = context.getResources().getConfiguration();
-            return config.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL;
-        } else return false;
+        Configuration config = context.getResources().getConfiguration();
+        return config.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL;
     }
 
 }

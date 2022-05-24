@@ -32,13 +32,6 @@ public class PhonographColorUtil {
 
     private PhonographColorUtil() {}
 
-/*
-    @RequiresApi(api = Build.VERSION_CODES.O_MR1)
-    private static final WallpaperManager.OnColorsChangedListener listener = (colors, which) -> {
-        applyWallpaperColors(colors);
-    };
-*/
-
     @RequiresApi(api = Build.VERSION_CODES.O_MR1)
     public static void applyCurrentWallpaperColors() {
         applyWallpaperColors(getCurrentWallpaperColors());
@@ -68,37 +61,14 @@ public class PhonographColorUtil {
     public static WallpaperColors getCurrentWallpaperColors(){
         if (Build.VERSION.SDK_INT >= 31) {
             return new WallpaperColors(
-                    Color.valueOf(SDK31.getAccentColors3().get(500)),
-                    Color.valueOf(SDK31.getAccentColors2().get(500)),
-                    Color.valueOf(SDK31.getAccentColors1().get(500))
+                    Color.valueOf(SDK31.getNormalAccentColor3()),
+                    Color.valueOf(SDK31.getNormalAccentColor2()),
+                    Color.valueOf(SDK31.getNormalAccentColor1())
             );
         }
         WallpaperManager wallpaperManager = (WallpaperManager) App.getInstance().getSystemService(Context.WALLPAPER_SERVICE);
         return wallpaperManager.getWallpaperColors(WallpaperManager.FLAG_SYSTEM);
     }
-
-    /*
-    @RequiresApi(api = Build.VERSION_CODES.O_MR1)
-    public static void toggleRegisterForColorChanges(boolean enabled) {
-        if (enabled) {
-            registerForColorChanges();
-        } else {
-            unregisterForColorChanges();
-        }
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O_MR1)
-    public static void registerForColorChanges() {
-        WallpaperManager wallpaperManager = (WallpaperManager) App.getInstance().getSystemService(Context.WALLPAPER_SERVICE);
-        wallpaperManager.addOnColorsChangedListener(listener, App.getMainHandler());
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O_MR1)
-    public static void unregisterForColorChanges() {
-        WallpaperManager wallpaperManager = (WallpaperManager) App.getInstance().getSystemService(Context.WALLPAPER_SERVICE);
-        wallpaperManager.removeOnColorsChangedListener(listener);
-    }
-    */
 
     public static int lightenColorIfDark(int color) {
         int r = red(color), g = green(color), b = blue(color);
@@ -206,6 +176,23 @@ public class PhonographColorUtil {
 
     // Pull monet colors
     private static class SDK31 {
+        private static int getNormalAccentColor(String resType) {
+            return getColor(String.format("system_%s_500", resType));
+        }
+
+        public static int getNormalAccentColor1() {
+            return getNormalAccentColor("accent1");
+        }
+
+        public static int getNormalAccentColor2() {
+            return getNormalAccentColor("accent2");
+        }
+
+        public static int getNormalAccentColor3() {
+            return getNormalAccentColor("accent3");
+        }
+
+        /*
         public static Map<Integer, Integer> getAccentColors1() {
             return getColorTable("accent1");
         }
@@ -242,6 +229,7 @@ public class PhonographColorUtil {
             out.put(1000, getColor(String.format("system_%s_1000", resType)));
             return out;
         }
+        */
 
         @ColorInt
         private static int getColor(String resName) {

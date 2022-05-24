@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 static def gitBranch() {
     def branch = 'GitHub'
     try {
-        def gitcheck = 'command -v git >/dev/null 2>&1'.execute()
+        def gitcheck = 'git >/dev/null 2>&1'.execute()
         gitcheck.waitFor()
         if (gitcheck.exitValue() == 0) {
             def proc = 'git rev-parse --abbrev-ref HEAD'.execute()
@@ -32,11 +32,11 @@ static def getProperty(Properties properties, String name) {
 }
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     buildToolsVersion '30.0.3'
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 31
 
         renderscriptTargetApi 29
         vectorDrawables.useSupportLibrary = true
@@ -59,7 +59,7 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+            signingConfig signingConfigs.debug
         }
         debug {
             applicationIdSuffix '.debug'

@@ -29,7 +29,7 @@ public class ArtistImageFetcher implements DataFetcher<InputStream> {
 
     private InputStream stream;
 
-    private boolean ignoreMediaStore;
+    private final boolean ignoreMediaStore;
 
     public ArtistImageFetcher(final ArtistImage model, boolean ignoreMediaStore) {
         this.model = model;
@@ -142,8 +142,8 @@ public class ArtistImageFetcher implements DataFetcher<InputStream> {
 
             }
         } finally {
-            retriever.release();
             try {
+                retriever.release();
                 for (final InputStream stream : streams) {
                     stream.close();
                 }

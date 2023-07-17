@@ -80,7 +80,10 @@ public abstract class AbsBaseActivity extends AbsThemeActivity {
 
     @Nullable
     protected String[] getPermissionsToRequest() {
-        return new String[]{Manifest.permission.READ_EXTERNAL_STORAGE};
+        String perm = Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU
+                ? Manifest.permission.READ_EXTERNAL_STORAGE
+                : Manifest.permission.READ_MEDIA_AUDIO;
+        return new String[]{perm};
     }
 
     protected View getSnackBarContainer() {

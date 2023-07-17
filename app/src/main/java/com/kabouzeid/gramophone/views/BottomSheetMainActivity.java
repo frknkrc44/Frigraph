@@ -1,8 +1,13 @@
 package com.kabouzeid.gramophone.views;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.TypedArray;
+import android.graphics.drawable.GradientDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -10,14 +15,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.kabouzeid.appthemehelper.ThemeStore;
 import com.kabouzeid.gramophone.App;
 import com.kabouzeid.gramophone.ui.activities.AboutActivity;
 import com.kabouzeid.gramophone.ui.activities.MainActivity;
@@ -29,11 +37,33 @@ import java.lang.reflect.Constructor;
 
 @SuppressLint("NonConstantResourceId")
 public class BottomSheetMainActivity extends BottomSheetDialogFragment implements View.OnClickListener {
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        Dialog ret = super.onCreateDialog(savedInstanceState);
+        ret.setOnShowListener(d -> {
+            FrameLayout bottomSheet = ret.findViewById(
+                    com.google.android.material.R.id.design_bottom_sheet);
+            TypedArray array = requireActivity().getTheme()
+                    .obtainStyledAttributes(new int[]{android.R.attr.windowBackground});
+            int color = array.getColor(0, ThemeStore.accentColor(requireContext()));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                array.close();
+            }
+            GradientDrawable gradientDrawable = new GradientDrawable();
+            gradientDrawable.setColor(color);
+            gradientDrawable.setCornerRadius(64);
+            gradientDrawable.setStroke(32, 0);
+            bottomSheet.setBackground(gradientDrawable);
+        });
+        return ret;
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         LinearLayout view = new LinearLayout(inflater.getContext());
         int margin = inflater.getContext().getResources().getDimensionPixelSize(R.dimen.default_item_margin);
-        view.setPadding(0, margin, 0, margin);
+        view.setPadding(margin, margin, margin, margin);
         view.setOrientation(LinearLayout.VERTICAL);
         Menu menu;
         try {

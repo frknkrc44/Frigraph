@@ -45,13 +45,9 @@ public abstract class AbsThemeActivity extends ATHToolbarActivity {
     public void setStatusbarColor(int color) {
         final View statusBar = getWindow().getDecorView().getRootView().findViewById(R.id.status_bar);
         if (statusBar != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                statusBar.setBackgroundColor(ColorUtil.darkenColor(color));
-                setLightStatusbarAuto(color);
-            } else {
-                statusBar.setBackgroundColor(color);
-            }
-        } else if (Build.VERSION.SDK_INT >= 21) {
+            statusBar.setBackgroundColor(ColorUtil.darkenColor(color));
+            setLightStatusbarAuto(color);
+        } else {
             getWindow().setStatusBarColor(ColorUtil.darkenColor(color));
             setLightStatusbarAuto(color);
         }

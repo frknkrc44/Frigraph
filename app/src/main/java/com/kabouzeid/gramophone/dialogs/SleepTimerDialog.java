@@ -24,6 +24,7 @@ import com.kabouzeid.gramophone.helper.MusicPlayerRemote;
 import com.kabouzeid.gramophone.service.MusicService;
 import com.kabouzeid.gramophone.util.MusicUtil;
 import com.kabouzeid.gramophone.util.PreferenceUtil;
+import com.kabouzeid.gramophone.util.Util;
 import com.triggertrap.seekarc.SeekArc;
 
 import org.frknkrc44.frigraph.R;
@@ -159,7 +160,7 @@ public class SleepTimerDialog extends DialogFragment {
     }
 
     private PendingIntent makeTimerPendingIntent(int flag) {
-        return PendingIntent.getService(getActivity(), 0, makeTimerIntent(), flag);
+        return PendingIntent.getService(getActivity(), 0, makeTimerIntent(), flag | Util.PENDING_INTENT_FLAGS);
     }
 
     private Intent makeTimerIntent() {

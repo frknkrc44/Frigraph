@@ -78,7 +78,7 @@ public abstract class BaseAppWidget extends AppWidgetProvider {
         Intent intent = new Intent(action);
         intent.setComponent(serviceName);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            return PendingIntent.getForegroundService(context, 0, intent, 0);
+            return PendingIntent.getForegroundService(context, 0, intent, Util.PENDING_INTENT_FLAGS);
         } else {
             return PendingIntent.getService(context, 0, intent, Util.PENDING_INTENT_FLAGS);
         }

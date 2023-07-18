@@ -92,8 +92,8 @@ dependencies {
     implementation 'androidx.preference:preference:1.2.0'
     implementation 'androidx.recyclerview:recyclerview:1.3.0'
     implementation 'com.google.android.material:material:1.9.0'
-    implementation 'com.github.kabouzeid:app-theme-helper:1.3.10'
-    implementation 'com.github.kabouzeid:RecyclerView-FastScroll:1.0.16-kmod'
+    implementation project(':appthemehelper')
+    implementation project(':recyclerview-fastscroll')
     implementation 'com.github.kabouzeid:SeekArc:master'
     implementation 'com.github.kabouzeid:AndroidSlidingUpPanel:6'
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
@@ -101,9 +101,7 @@ dependencies {
     implementation 'com.github.afollestad:material-cab:0.1.12'
     implementation 'com.github.ksoichiro:android-observablescrollview:1.6.0'
     implementation 'com.heinrichreimersoftware:material-intro:2.0.0'
-    implementation('com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:0.11.0@aar') {
-        transitive = true
-    }
+    implementation project(':advrecyclerview')
 
     implementation 'com.jakewharton:butterknife:10.2.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'

@@ -1,1 +1,4 @@
 include ':app'
+include ':appthemehelper'
+include ':advrecyclerview'
+include ':recyclerview-fastscroll'

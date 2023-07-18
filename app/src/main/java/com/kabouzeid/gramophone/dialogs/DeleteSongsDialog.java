@@ -51,15 +51,13 @@ public class DeleteSongsDialog extends DialogFragment {
             title = R.string.delete_song_title;
             content = Html.fromHtml(getString(R.string.delete_song_x, songs.get(0).title));
         }
-        return new MaterialDialog.Builder(getActivity())
+        return new MaterialDialog.Builder(requireActivity())
                 .title(title)
                 .content(content)
                 .positiveText(R.string.delete_action)
                 .negativeText(android.R.string.cancel)
                 .onPositive((dialog, which) -> {
-                    if (getActivity() == null)
-                        return;
-                    MusicUtil.deleteTracks(getActivity(), songs);
+                    MusicUtil.deleteTracks(requireActivity(), songs);
                 })
                 .build();
     }

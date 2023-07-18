@@ -1,6 +1,7 @@
 package com.kabouzeid.gramophone.helper.menu;
 
 import android.content.Intent;
+import android.os.Build;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
@@ -43,7 +44,11 @@ public class SongMenuHelper {
                 activity.startActivity(Intent.createChooser(MusicUtil.createShareSongFileIntent(song, activity), null));
                 return true;
             case R.id.action_delete_from_device:
-                DeleteSongsDialog.create(song).show(activity.getSupportFragmentManager(), "DELETE_SONGS");
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+                    DeleteSongsDialog.create(song).show(activity.getSupportFragmentManager(), "DELETE_SONGS");
+                } else {
+                    MusicUtil.deleteTracks(activity, song);
+                }
                 return true;
             case R.id.action_add_to_playlist:
                 AddToPlaylistDialog.create(song).show(activity.getSupportFragmentManager(), "ADD_PLAYLIST");

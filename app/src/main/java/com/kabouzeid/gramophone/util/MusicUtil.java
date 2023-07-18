@@ -1,12 +1,17 @@
 package com.kabouzeid.gramophone.util;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.BaseColumns;
 import android.provider.MediaStore;
@@ -225,6 +230,41 @@ public class MusicUtil {
         return albumArtDir;
     }
 
+    private static void requestDeletePermission(Activity activity, List<Uri> uriList){
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+            PendingIntent pi = MediaStore.createDeleteRequest(activity.getContentResolver(), uriList);
+
+            try {
+                activity.startIntentSenderForResult(pi.getIntentSender(), Util.DELETE_REQUEST_CODE,
+                        null, 0, 0, 0);
+            } catch (IntentSender.SendIntentException e) { }
+        }
+    }
+
+    private static boolean deleteFileLegacy(Cursor cursor, Context context) throws SecurityException {
+        final long id = cursor.getLong(0);
+        final String name = cursor.getString(1);
+        // File.delete can throw a security exception
+        final File f = new File(name);
+        if (f.delete()) {
+            // Step 3: Remove selected track from the database
+            context.getContentResolver().delete(ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id), null, null);
+            return true;
+        } else {
+            // I'm not sure if we'd ever get here (deletion would
+            // have to fail, but no exception thrown)
+            Log.e("MusicUtils", "Failed to delete file " + name);
+        }
+
+        return false;
+    }
+
+    public static void deleteTracks(@NonNull final Context context, @NonNull final Song song) {
+        List<Song> songs = new ArrayList<>();
+        songs.add(song);
+        deleteTracks(context, songs);
+    }
+
     public static void deleteTracks(@NonNull final Context context, @NonNull final List<Song> songs) {
         final String[] projection = new String[]{
                 BaseColumns._ID, MediaStore.MediaColumns.DATA
@@ -259,33 +299,35 @@ public class MusicUtil {
 
                 // Step 2: Remove files from card
                 cursor.moveToFirst();
+                List<Uri> uris = new ArrayList<>();
                 while (!cursor.isAfterLast()) {
                     final long id = cursor.getLong(0);
-                    final String name = cursor.getString(1);
-                    try { // File.delete can throw a security exception
-                        final File f = new File(name);
-                        if (f.delete()) {
-                            // Step 3: Remove selected track from the database
-                            context.getContentResolver().delete(ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id),null, null);
-                            deletedCount++;
+                    try {
+                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+                            if (deleteFileLegacy(cursor, context)) {
+                                deletedCount++;
+                            }
                         } else {
-                            // I'm not sure if we'd ever get here (deletion would
-                            // have to fail, but no exception thrown)
-                            Log.e("MusicUtils", "Failed to delete file " + name);
+                            uris.add(ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id));
                         }
-
                         cursor.moveToNext();
                     } catch (@NonNull final SecurityException ex) {
                         cursor.moveToNext();
                     } catch (NullPointerException e) {
-                        Log.e("MusicUtils", "Failed to find file " + name);
+                        // Log.e("MusicUtils", "Failed to find file " + name);
                     }
                 }
                 cursor.close();
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    requestDeletePermission((Activity) context, uris);
+                }
             }
-            Toast.makeText(context, context.getString(R.string.deleted_x_songs, Integer.toString(deletedCount)), Toast.LENGTH_SHORT).show();
-        } catch (SecurityException ignored) {
-        }
+
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+                Toast.makeText(context, context.getString(R.string.deleted_x_songs, deletedCount), Toast.LENGTH_SHORT).show();
+            }
+        } catch (Throwable ignored) {}
     }
 
     public static boolean isFavoritePlaylist(@NonNull final Context context, @NonNull final Playlist playlist) {

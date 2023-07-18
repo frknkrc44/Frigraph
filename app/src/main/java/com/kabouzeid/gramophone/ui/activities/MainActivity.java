@@ -1,6 +1,9 @@
 package com.kabouzeid.gramophone.ui.activities;
 
+import static com.kabouzeid.gramophone.util.Util.DELETE_REQUEST_CODE;
+
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,6 +12,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -90,10 +94,17 @@ public class MainActivity extends AbsSlidingMusicPanelActivity {
         currentFragment = (MainActivityFragmentCallbacks) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
     }
 
+    @SuppressLint("StringFormatMatches")
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (!hasPermissions()) {
+
+        if (requestCode == DELETE_REQUEST_CODE) {
+            int count = resultCode == Activity.RESULT_OK ? 1 : 0;
+            Toast.makeText(this,
+                    String.format(getString(R.string.deleted_x_songs), count),
+                    Toast.LENGTH_SHORT).show();
+        } else if (!hasPermissions()) {
             requestPermissions();
         }
     }

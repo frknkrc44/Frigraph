@@ -28,6 +28,7 @@ import org.frknkrc44.frigraph.R;
 public class Util {
 
     public static final int PENDING_INTENT_FLAGS = Build.VERSION.SDK_INT > 22 ? PendingIntent.FLAG_IMMUTABLE : 0;
+    public static final int DELETE_REQUEST_CODE = 999;
 
     public static int getActionBarSize(@NonNull Context context) {
         TypedValue typedValue = new TypedValue();

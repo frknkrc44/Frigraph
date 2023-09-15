@@ -1,7 +1,6 @@
 package com.kabouzeid.gramophone.ui.activities.base;
 
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 

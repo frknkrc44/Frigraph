@@ -16,7 +16,6 @@
 #   public *;
 #}
 
--dontwarn
 -ignorewarnings
 
 # RetroFit

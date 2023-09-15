@@ -16,9 +16,9 @@
 
 package com.h6ah4i.android.widget.advrecyclerview.expandable;
 
-import java.util.Arrays;
-
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.Arrays;
 
 class ExpandablePositionTranslator {
     public static final int BUILD_OPTION_DEFAULT = 0;
@@ -569,7 +569,7 @@ class ExpandablePositionTranslator {
 
 
     private void enlargeArraysIfNeeded(int size, boolean preserveData) {
-        int allocSize = (size + (2 * ALLOCATE_UNIT - 1)) & ~(ALLOCATE_UNIT - 1);
+        int allocSize = (size + (2 * ALLOCATE_UNIT - 1)) & -ALLOCATE_UNIT;
 
         long[] curInfo = mCachedGroupPosInfo;
         int[] curId = mCachedGroupId;

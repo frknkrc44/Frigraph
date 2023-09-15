@@ -26,6 +26,10 @@ import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.h6ah4i.android.widget.advrecyclerview.adapter.ItemIdComposer;
 import com.h6ah4i.android.widget.advrecyclerview.animator.SwipeDismissItemAnimator;
 import com.h6ah4i.android.widget.advrecyclerview.swipeable.action.SwipeResultAction;
@@ -33,14 +37,9 @@ import com.h6ah4i.android.widget.advrecyclerview.swipeable.action.SwipeResultAct
 import com.h6ah4i.android.widget.advrecyclerview.utils.CustomRecyclerViewUtils;
 import com.h6ah4i.android.widget.advrecyclerview.utils.WrapperAdapterUtils;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
-
 /**
  * Provides item swipe operation for {@link androidx.recyclerview.widget.RecyclerView}
  */
-@SuppressWarnings("PointlessBitwiseExpression")
 public class RecyclerViewSwipeManager implements SwipeableItemConstants {
     private static final String TAG = "ARVSwipeManager";
 
@@ -652,7 +651,6 @@ public class RecyclerViewSwipeManager implements SwipeableItemConstants {
 
         verifyAfterReaction(result, afterReaction);
 
-        //noinspection UnusedAssignment
         boolean slideAnimated = false;
 
         switch (afterReaction) {

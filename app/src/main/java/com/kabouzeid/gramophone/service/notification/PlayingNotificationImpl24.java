@@ -1,5 +1,9 @@
 package com.kabouzeid.gramophone.service.notification;
 
+import static com.kabouzeid.gramophone.service.MusicService.ACTION_REWIND;
+import static com.kabouzeid.gramophone.service.MusicService.ACTION_SKIP;
+import static com.kabouzeid.gramophone.service.MusicService.ACTION_TOGGLE_PAUSE;
+
 import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -25,10 +29,6 @@ import com.kabouzeid.gramophone.util.PreferenceUtil;
 import com.kabouzeid.gramophone.util.Util;
 
 import org.frknkrc44.frigraph.R;
-
-import static com.kabouzeid.gramophone.service.MusicService.ACTION_REWIND;
-import static com.kabouzeid.gramophone.service.MusicService.ACTION_SKIP;
-import static com.kabouzeid.gramophone.service.MusicService.ACTION_TOGGLE_PAUSE;
 
 public class PlayingNotificationImpl24 extends PlayingNotification {
 

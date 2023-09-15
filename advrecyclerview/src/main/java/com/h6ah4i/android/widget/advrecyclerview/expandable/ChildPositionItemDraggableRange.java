@@ -16,9 +16,9 @@
 
 package com.h6ah4i.android.widget.advrecyclerview.expandable;
 
-import com.h6ah4i.android.widget.advrecyclerview.draggable.ItemDraggableRange;
-
 import androidx.annotation.NonNull;
+
+import com.h6ah4i.android.widget.advrecyclerview.draggable.ItemDraggableRange;
 
 public class ChildPositionItemDraggableRange extends ItemDraggableRange {
     public ChildPositionItemDraggableRange(int start, int end) {

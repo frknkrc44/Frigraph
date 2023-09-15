@@ -22,7 +22,7 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.ViewHolder> 
     @NonNull
     private final AppCompatActivity activity;
     private List<Genre> dataSet;
-    private int itemLayoutRes;
+    private final int itemLayoutRes;
 
     public GenreAdapter(@NonNull AppCompatActivity activity, List<Genre> dataSet, @LayoutRes int itemLayoutRes) {
         this.activity = activity;

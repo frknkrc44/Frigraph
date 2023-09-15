@@ -26,17 +26,17 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 
-import com.h6ah4i.android.widget.advrecyclerview.swipeable.action.SwipeResultAction;
-
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.List;
-
 import androidx.core.view.ViewCompat;
 import androidx.core.view.ViewPropertyAnimatorCompat;
 import androidx.core.view.ViewPropertyAnimatorListener;
 import androidx.core.view.ViewPropertyAnimatorUpdateListener;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.h6ah4i.android.widget.advrecyclerview.swipeable.action.SwipeResultAction;
+
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ItemSlidingAnimator {
     private static final String TAG = "ItemSlidingAnimator";

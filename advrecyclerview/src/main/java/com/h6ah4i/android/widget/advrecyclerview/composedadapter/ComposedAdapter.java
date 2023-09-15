@@ -17,6 +17,11 @@ package com.h6ah4i.android.widget.advrecyclerview.composedadapter;
 
 import android.view.ViewGroup;
 
+import androidx.annotation.CallSuper;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.h6ah4i.android.widget.advrecyclerview.adapter.AdapterPathSegment;
 import com.h6ah4i.android.widget.advrecyclerview.adapter.BridgeAdapterDataObserver;
 import com.h6ah4i.android.widget.advrecyclerview.adapter.ItemIdComposer;
@@ -26,11 +31,6 @@ import com.h6ah4i.android.widget.advrecyclerview.adapter.WrapperAdapter;
 import com.h6ah4i.android.widget.advrecyclerview.utils.WrappedAdapterUtils;
 
 import java.util.List;
-
-import androidx.annotation.CallSuper;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * A wrapper adapter which can compose and manage several children adapters.

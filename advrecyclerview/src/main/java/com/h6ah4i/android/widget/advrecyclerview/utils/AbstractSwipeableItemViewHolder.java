@@ -18,6 +18,9 @@ package com.h6ah4i.android.widget.advrecyclerview.utils;
 
 import android.view.View;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.h6ah4i.android.widget.advrecyclerview.swipeable.RecyclerViewSwipeManager;
 import com.h6ah4i.android.widget.advrecyclerview.swipeable.SwipeableItemState;
 import com.h6ah4i.android.widget.advrecyclerview.swipeable.SwipeableItemViewHolder;
@@ -25,11 +28,8 @@ import com.h6ah4i.android.widget.advrecyclerview.swipeable.annotation.SwipeableI
 import com.h6ah4i.android.widget.advrecyclerview.swipeable.annotation.SwipeableItemResults;
 import com.h6ah4i.android.widget.advrecyclerview.swipeable.annotation.SwipeableItemStateFlags;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 public abstract class AbstractSwipeableItemViewHolder extends RecyclerView.ViewHolder implements SwipeableItemViewHolder {
-    private SwipeableItemState mSwipeState = new SwipeableItemState();
+    private final SwipeableItemState mSwipeState = new SwipeableItemState();
     @SwipeableItemResults
     private int mSwipeResult = RecyclerViewSwipeManager.RESULT_NONE;
     @SwipeableItemAfterReactions

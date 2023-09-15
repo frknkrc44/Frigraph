@@ -1,6 +1,5 @@
 package com.kabouzeid.gramophone.ui.activities.base;
 
-import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -12,7 +11,6 @@ import android.os.Bundle;
 import android.os.IBinder;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.kabouzeid.gramophone.helper.MusicPlayerRemote;
 import com.kabouzeid.gramophone.interfaces.MusicServiceEventListener;
@@ -88,7 +86,11 @@ public abstract class AbsMusicServiceActivity extends AbsBaseActivity implements
             filter.addAction(MusicService.QUEUE_CHANGED);
             filter.addAction(MusicService.MEDIA_STORE_CHANGED);
 
-            registerReceiver(musicStateReceiver, filter);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                registerReceiver(musicStateReceiver, filter, Context.RECEIVER_EXPORTED);
+            } else {
+                registerReceiver(musicStateReceiver, filter);
+            }
 
             receiverRegistered = true;
         }
@@ -211,14 +213,5 @@ public abstract class AbsMusicServiceActivity extends AbsBaseActivity implements
         Intent intent = new Intent(MusicService.MEDIA_STORE_CHANGED);
         intent.putExtra("from_permissions_changed", true); // just in case we need to know this at some point
         sendBroadcast(intent);
-    }
-
-    @Nullable
-    @Override
-    protected String[] getPermissionsToRequest() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
-            return new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-        else
-            return new String[]{Manifest.permission.READ_MEDIA_AUDIO};
     }
 }

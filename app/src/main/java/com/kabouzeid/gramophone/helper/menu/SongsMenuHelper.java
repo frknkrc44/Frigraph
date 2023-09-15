@@ -21,16 +21,16 @@ import java.util.List;
 public class SongsMenuHelper {
     public static boolean handleMenuClick(@NonNull FragmentActivity activity, @NonNull List<Song> songs, int menuItemId) {
         switch (menuItemId) {
-            case R.id.action_play_next:
+            case (R.id.action_play_next):
                 MusicPlayerRemote.playNext(songs);
                 return true;
-            case R.id.action_add_to_current_playing:
+            case (R.id.action_add_to_current_playing):
                 MusicPlayerRemote.enqueue(songs);
                 return true;
-            case R.id.action_add_to_playlist:
+            case (R.id.action_add_to_playlist):
                 AddToPlaylistDialog.create(songs).show(activity.getSupportFragmentManager(), "ADD_PLAYLIST");
                 return true;
-            case R.id.action_delete_from_device:
+            case (R.id.action_delete_from_device):
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
                     DeleteSongsDialog.create(songs).show(activity.getSupportFragmentManager(), "DELETE_SONGS");
                 } else {

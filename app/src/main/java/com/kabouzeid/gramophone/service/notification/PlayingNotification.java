@@ -1,5 +1,7 @@
 package com.kabouzeid.gramophone.service.notification;
 
+import static android.content.Context.NOTIFICATION_SERVICE;
+
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -10,8 +12,6 @@ import androidx.annotation.RequiresApi;
 import com.kabouzeid.gramophone.service.MusicService;
 
 import org.frknkrc44.frigraph.R;
-
-import static android.content.Context.NOTIFICATION_SERVICE;
 
 public abstract class PlayingNotification {
 

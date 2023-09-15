@@ -2,6 +2,7 @@ package com.kabouzeid.appthemehelper.util;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+
 import androidx.annotation.AttrRes;
 import androidx.annotation.NonNull;
 

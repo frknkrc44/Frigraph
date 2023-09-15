@@ -9,7 +9,6 @@ import android.graphics.Color;
 import android.os.Build;
 
 import androidx.annotation.ColorInt;
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.graphics.ColorUtils;
@@ -21,9 +20,6 @@ import com.kabouzeid.gramophone.App;
 
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author Karim Abou Zeid (kabouzeid)
@@ -40,21 +36,21 @@ public class PhonographColorUtil {
     @RequiresApi(api = Build.VERSION_CODES.O_MR1)
     private static void applyWallpaperColors(WallpaperColors colors) {
         int primaryColor = colors.getPrimaryColor().toArgb();
-        ThemeStore.editTheme(App.getInstance())
-                .primaryColor(primaryColor)
-                .commit();
-
         int accentColor = -1;
         if (colors.getTertiaryColor() != null)
             accentColor = colors.getTertiaryColor().toArgb();
         else if (colors.getSecondaryColor() != null)
             accentColor = colors.getSecondaryColor().toArgb();
 
-        if (accentColor != -1) {
-            ThemeStore.editTheme(App.getInstance())
-                    .accentColor(lightenColorIfDark(accentColor))
-                    .commit();
+        if(accentColor == -1) {
+            accentColor = primaryColor;
+            primaryColor = darkerColorIfLight(primaryColor);
         }
+
+        ThemeStore.editTheme(App.getInstance())
+                .primaryColor(primaryColor)
+                .accentColor(lightenColorIfDark(accentColor))
+                .commit();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O_MR1)
@@ -75,6 +71,15 @@ public class PhonographColorUtil {
         for(int i = 1;!isColorLight(color);i++){
             int m = 0x04 * i;
             color = calculateColors(r+m,g+m,b+m);
+        }
+        return color;
+    }
+
+    public static int darkerColorIfLight(int color) {
+        int r = red(color), g = green(color), b = blue(color);
+        for(int i = 1;isColorLight(color);i++){
+            int m = 0x04 * i;
+            color = calculateColors(r-m,g-m,b-m);
         }
         return color;
     }

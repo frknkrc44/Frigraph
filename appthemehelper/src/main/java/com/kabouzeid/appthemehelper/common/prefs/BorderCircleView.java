@@ -7,9 +7,10 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
-import androidx.core.content.ContextCompat;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
+
+import androidx.core.content.ContextCompat;
 
 import com.kabouzeid.appthemehelper.R;
 

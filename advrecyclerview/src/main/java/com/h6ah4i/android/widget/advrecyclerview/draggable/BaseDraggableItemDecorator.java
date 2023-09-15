@@ -30,7 +30,6 @@ abstract class BaseDraggableItemDecorator extends RecyclerView.ItemDecoration {
     private static final int RETURN_TO_DEFAULT_POS_ANIMATE_THRESHOLD_MSEC = 20;
 
     private int mReturnToDefaultPositionDuration = 200;
-    private final int mReturnToDefaultPositionAnimateThreshold;
     private Interpolator mReturnToDefaultPositionInterpolator;
 
     protected final RecyclerView mRecyclerView;
@@ -41,7 +40,7 @@ abstract class BaseDraggableItemDecorator extends RecyclerView.ItemDecoration {
         mDraggingItemViewHolder = draggingItemViewHolder;
 
         final float displayDensity = recyclerView.getResources().getDisplayMetrics().density;
-        mReturnToDefaultPositionAnimateThreshold = (int) (RETURN_TO_DEFAULT_POS_ANIMATE_THRESHOLD_DP * displayDensity + 0.5f);
+        int mReturnToDefaultPositionAnimateThreshold = (int) (RETURN_TO_DEFAULT_POS_ANIMATE_THRESHOLD_DP * displayDensity + 0.5f);
     }
 
     public void setReturnToDefaultPositionAnimationDuration(int duration) {

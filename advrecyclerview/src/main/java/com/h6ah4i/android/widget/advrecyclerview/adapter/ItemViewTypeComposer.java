@@ -67,7 +67,6 @@ public class ItemViewTypeComposer {
     /**
      * Bit mask of the expandable flag part.
      */
-    @SuppressWarnings("NumericOverflow")
     public static final int BIT_MASK_EXPANDABLE_FLAG = (1 << (BIT_WIDTH_EXPANDABLE_FLAG - 1)) << BIT_OFFSET_EXPANDABLE_FLAG;
 
     // ---

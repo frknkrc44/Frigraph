@@ -1,6 +1,7 @@
 package com.kabouzeid.appthemehelper.common.prefs.supportv7.dialogs;
 
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 
 import com.afollestad.materialdialogs.MaterialDialog;

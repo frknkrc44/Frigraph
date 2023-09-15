@@ -16,10 +16,10 @@
 
 package com.h6ah4i.android.widget.advrecyclerview.expandable;
 
-import com.h6ah4i.android.widget.advrecyclerview.expandable.annotation.ExpandableItemStateFlags;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.h6ah4i.android.widget.advrecyclerview.expandable.annotation.ExpandableItemStateFlags;
 
 /**
  * <p>Interface which provides required information for expanding item.</p>

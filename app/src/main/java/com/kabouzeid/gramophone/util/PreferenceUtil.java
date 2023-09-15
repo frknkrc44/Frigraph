@@ -214,11 +214,13 @@ public final class PreferenceUtil {
     }
 
     public final boolean coloredNotification() {
-        return mPreferences.getBoolean(COLORED_NOTIFICATION, true);
+        return Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU &&
+                mPreferences.getBoolean(COLORED_NOTIFICATION, true);
     }
 
     public final boolean classicNotification() {
-        return mPreferences.getBoolean(CLASSIC_NOTIFICATION, false);
+        return Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU &&
+                mPreferences.getBoolean(CLASSIC_NOTIFICATION, false);
     }
 
     public void setColoredNotification(final boolean value) {

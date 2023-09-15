@@ -1,6 +1,7 @@
 package com.kabouzeid.appthemehelper.color;
 
 import android.graphics.Color;
+
 import androidx.annotation.ColorInt;
 import androidx.annotation.ColorRes;
 
@@ -25,8 +26,8 @@ public class MaterialColor {
             HINT_TEXT("#42000000", R.color.md_light_disabled),
             DIVIDER("#1F000000", R.color.md_light_dividers);
 
-            String color;
-            int resource;
+            final String color;
+            final int resource;
 
             Light(String color, int resource) {
                 this.color = color;
@@ -63,8 +64,8 @@ public class MaterialColor {
             HINT_TEXT("#42FFFFFF", R.color.md_dark_disabled),
             DIVIDER("#1FFFFFFF", R.color.md_dark_dividers);
 
-            String color;
-            int resource;
+            final String color;
+            final int resource;
 
             Dark(String color, int resource) {
                 this.color = color;
@@ -107,8 +108,8 @@ public class MaterialColor {
         _A400("#FF1744", R.color.md_red_A400),
         _A700("#D50000", R.color.md_red_A700);
 
-        String color;
-        int resource;
+        final String color;
+        final int resource;
 
         Red(String color, int resource) {
             this.color = color;
@@ -150,8 +151,8 @@ public class MaterialColor {
         _A400("#F50057", R.color.md_pink_A400),
         _A700("#C51162", R.color.md_pink_A700);
 
-        String color;
-        int resource;
+        final String color;
+        final int resource;
 
         Pink(String color, int resource) {
             this.color = color;
@@ -193,8 +194,8 @@ public class MaterialColor {
         _A400("#D500F9", R.color.md_purple_A400),
         _A700("#AA00FF", R.color.md_purple_A700);
 
-        String color;
-        int resource;
+        final String color;
+        final int resource;
 
         Purple(String color, int resource) {
             this.color = color;
@@ -236,8 +237,8 @@ public class MaterialColor {
         _A400("#651FFF", R.color.md_purple_A400),
         _A700("#6200EA", R.color.md_purple_A700);
 
-        String color;
-        int resource;
+        final String color;
+        final int resource;
 
         DeepPurple(String color, int resource) {
             this.color = color;
@@ -279,8 +280,8 @@ public class MaterialColor {
         _A400("#3D5AFE", R.color.md_indigo_A400),
         _A700("#304FFE", R.color.md_indigo_A700);
 
-        String color;
-        int resource;
+        final String color;
+        final int resource;
 
         Indigo(String color, int resource) {
             this.color = color;
@@ -322,8 +323,8 @@ public class MaterialColor {
         _A400("#2979FF", R.color.md_blue_A400),
         _A700("#2962FF", R.color.md_blue_A700);
 
-        String color;
-        int resource;
+        final String color;
+        final int resource;
 
         Blue(String color, int resource) {
             this.color = color;
@@ -365,8 +366,8 @@ public class MaterialColor {
         _A400("#00B0FF", R.color.md_light_blue_A400),
         _A700("#0091EA", R.color.md_light_blue_A700);
 
-        String color;
-        int resource;
+        final String color;
+        final int resource;
 
         LightBlue(String color, int resource) {
             this.color = color;
@@ -408,8 +409,8 @@ public class MaterialColor {
         _A400("#00E5FF", R.color.md_cyan_A400),
         _A700("#00B8D4", R.color.md_cyan_A700);
 
-        String color;
-        int resource;
+        final String color;
+        final int resource;
 
         Cyan(String color, int resource) {
             this.color = color;
@@ -451,8 +452,8 @@ public class MaterialColor {
         _A400("#1DE9B6", R.color.md_teal_A400),
         _A700("#00BFA5", R.color.md_teal_A700);
 
-        String color;
-        int resource;
+        final String color;
+        final int resource;
 
         Teal(String color, int resource) {
             this.color = color;
@@ -494,8 +495,8 @@ public class MaterialColor {
         _A400("#00E676", R.color.md_green_A400),
         _A700("#00C853", R.color.md_green_A700);
 
-        String color;
-        int resource;
+        final String color;
+        final int resource;
 
         Green(String color, int resource) {
             this.color = color;
@@ -537,8 +538,8 @@ public class MaterialColor {
         _A400("#76FF03", R.color.md_light_green_A400),
         _A700("#64DD17", R.color.md_light_green_A700);
 
-        String color;
-        int resource;
+        final String color;
+        final int resource;
 
         LightGreen(String color, int resource) {
             this.color = color;
@@ -580,8 +581,8 @@ public class MaterialColor {
         _A400("#C6FF00", R.color.md_lime_A400),
         _A700("#AEEA00", R.color.md_lime_A700);
 
-        String color;
-        int resource;
+        final String color;
+        final int resource;
 
         Lime(String color, int resource) {
             this.color = color;
@@ -623,8 +624,8 @@ public class MaterialColor {
         _A400("#FFEA00", R.color.md_yellow_A400),
         _A700("#FFD600", R.color.md_yellow_A700);
 
-        String color;
-        int resource;
+        final String color;
+        final int resource;
 
         Yellow(String color, int resource) {
             this.color = color;
@@ -666,8 +667,8 @@ public class MaterialColor {
         _A400("#FFC400", R.color.md_amber_A400),
         _A700("#FFAB00", R.color.md_amber_A700);
 
-        String color;
-        int resource;
+        final String color;
+        final int resource;
 
         Amber(String color, int resource) {
             this.color = color;
@@ -709,8 +710,8 @@ public class MaterialColor {
         _A400("#FF9100", R.color.md_orange_A400),
         _A700("#FF6D00", R.color.md_orange_A700);
 
-        String color;
-        int resource;
+        final String color;
+        final int resource;
 
         Orange(String color, int resource) {
             this.color = color;
@@ -752,8 +753,8 @@ public class MaterialColor {
         _A400("#FF3D00", R.color.md_deep_orange_A400),
         _A700("#DD2C00", R.color.md_deep_orange_A700);
 
-        String color;
-        int resource;
+        final String color;
+        final int resource;
 
         DeepOrange(String color, int resource) {
             this.color = color;
@@ -791,8 +792,8 @@ public class MaterialColor {
         _800("#4E342E", R.color.md_brown_800),
         _900("#3E2723", R.color.md_brown_900);
 
-        String color;
-        int resource;
+        final String color;
+        final int resource;
 
         Brown(String color, int resource) {
             this.color = color;
@@ -830,8 +831,8 @@ public class MaterialColor {
         _800("#424242", R.color.md_grey_800),
         _900("#212121", R.color.md_grey_900);
 
-        String color;
-        int resource;
+        final String color;
+        final int resource;
 
         Grey(String color, int resource) {
             this.color = color;
@@ -869,8 +870,8 @@ public class MaterialColor {
         _800("#37474F", R.color.md_blue_grey_800),
         _900("#263238", R.color.md_blue_grey_900);
 
-        String color;
-        int resource;
+        final String color;
+        final int resource;
 
         BlueGrey(String color, int resource) {
             this.color = color;
@@ -899,8 +900,8 @@ public class MaterialColor {
 
         _1000("#000000", R.color.md_black_1000);
 
-        String color;
-        int resource;
+        final String color;
+        final int resource;
 
         Black(String color, int resource) {
             this.color = color;
@@ -930,8 +931,8 @@ public class MaterialColor {
 
         _1000("#FFFFFF", R.color.md_white_1000);
 
-        String color;
-        int resource;
+        final String color;
+        final int resource;
 
         White(String color, int resource) {
             this.color = color;

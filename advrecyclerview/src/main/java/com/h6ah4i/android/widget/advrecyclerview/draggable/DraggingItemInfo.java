@@ -18,9 +18,9 @@ package com.h6ah4i.android.widget.advrecyclerview.draggable;
 
 import android.graphics.Rect;
 
-import com.h6ah4i.android.widget.advrecyclerview.utils.CustomRecyclerViewUtils;
-
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.h6ah4i.android.widget.advrecyclerview.utils.CustomRecyclerViewUtils;
 
 public class DraggingItemInfo {
     public final int width;

@@ -1,6 +1,7 @@
 package com.kabouzeid.gramophone.ui.activities.base;
 
 import android.Manifest;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
@@ -17,7 +18,6 @@ import androidx.core.app.ActivityCompat;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.kabouzeid.appthemehelper.ThemeStore;
-import com.kabouzeid.gramophone.App;
 
 import org.frknkrc44.frigraph.R;
 
@@ -80,10 +80,14 @@ public abstract class AbsBaseActivity extends AbsThemeActivity {
 
     @Nullable
     protected String[] getPermissionsToRequest() {
-        String perm = Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU
-                ? Manifest.permission.READ_EXTERNAL_STORAGE
-                : Manifest.permission.READ_MEDIA_AUDIO;
-        return new String[]{perm};
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            return new String[]{Manifest.permission.READ_EXTERNAL_STORAGE};
+        }
+
+        return new String[] {
+                Manifest.permission.READ_MEDIA_AUDIO,
+                Manifest.permission.POST_NOTIFICATIONS
+        };
     }
 
     protected View getSnackBarContainer() {
@@ -117,6 +121,13 @@ public abstract class AbsBaseActivity extends AbsThemeActivity {
                 }
             }
         }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            NotificationManager notificationManager =
+                    (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            return notificationManager.areNotificationsEnabled();
+        }
+
         return true;
     }
 

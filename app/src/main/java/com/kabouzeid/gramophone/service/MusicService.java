@@ -130,10 +130,10 @@ public class MusicService extends Service implements SharedPreferences.OnSharedP
 
     public boolean pendingQuit = false;
 
-    private AppWidgetBig appWidgetBig = AppWidgetBig.getInstance();
-    private AppWidgetClassic appWidgetClassic = AppWidgetClassic.getInstance();
-    private AppWidgetSmall appWidgetSmall = AppWidgetSmall.getInstance();
-    private AppWidgetCard appWidgetCard = AppWidgetCard.getInstance();
+    private final AppWidgetBig appWidgetBig = AppWidgetBig.getInstance();
+    private final AppWidgetClassic appWidgetClassic = AppWidgetClassic.getInstance();
+    private final AppWidgetSmall appWidgetSmall = AppWidgetSmall.getInstance();
+    private final AppWidgetCard appWidgetCard = AppWidgetCard.getInstance();
 
     private Playback playback;
     private List<Song> playingQueue = new ArrayList<>();
@@ -146,7 +146,7 @@ public class MusicService extends Service implements SharedPreferences.OnSharedP
     private boolean pausedByTransientLossOfFocus;
     private PlayingNotification playingNotification;
     private AudioManager audioManager;
-    @SuppressWarnings("deprecation")
+
     private MediaSessionCompat mediaSession;
     private PowerManager.WakeLock wakeLock;
     private PlaybackHandler playerHandler;
@@ -159,10 +159,10 @@ public class MusicService extends Service implements SharedPreferences.OnSharedP
     private QueueSaveHandler queueSaveHandler;
     private HandlerThread musicPlayerHandlerThread;
     private HandlerThread queueSaveHandlerThread;
-    private SongPlayCountHelper songPlayCountHelper = new SongPlayCountHelper();
+    private final SongPlayCountHelper songPlayCountHelper = new SongPlayCountHelper();
     private ThrottledSeekHandler throttledSeekHandler;
     private boolean becomingNoisyReceiverRegistered;
-    private IntentFilter becomingNoisyReceiverIntentFilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
+    private final IntentFilter becomingNoisyReceiverIntentFilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
     private final BroadcastReceiver becomingNoisyReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, @NonNull Intent intent) {
@@ -200,7 +200,11 @@ public class MusicService extends Service implements SharedPreferences.OnSharedP
         queueSaveHandlerThread.start();
         queueSaveHandler = new QueueSaveHandler(this, queueSaveHandlerThread.getLooper());
 
-        registerReceiver(widgetIntentReceiver, new IntentFilter(APP_WIDGET_UPDATE));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            registerReceiver(widgetIntentReceiver, new IntentFilter(APP_WIDGET_UPDATE), Context.RECEIVER_EXPORTED);
+        } else {
+            registerReceiver(widgetIntentReceiver, new IntentFilter(APP_WIDGET_UPDATE));
+        }
 
         initNotification();
 
@@ -445,7 +449,7 @@ public class MusicService extends Service implements SharedPreferences.OnSharedP
             int restoredPosition = PreferenceUtil.getInstance(this).getPrefs().getInt(SAVED_POSITION, -1);
             int restoredPositionInTrack = PreferenceUtil.getInstance(this).getPrefs().getInt(SAVED_POSITION_IN_TRACK, -1);
 
-            if (restoredQueue.size() > 0 && restoredQueue.size() == restoredOriginalQueue.size() && restoredPosition != -1) {
+            if (!restoredQueue.isEmpty() && restoredQueue.size() == restoredOriginalQueue.size() && restoredPosition != -1) {
                 this.originalPlayingQueue = restoredOriginalQueue;
                 this.playingQueue = restoredQueue;
 
@@ -474,17 +478,9 @@ public class MusicService extends Service implements SharedPreferences.OnSharedP
 
     private void releaseResources() {
         playerHandler.removeCallbacksAndMessages(null);
-        if (Build.VERSION.SDK_INT >= 18) {
-            musicPlayerHandlerThread.quitSafely();
-        } else {
-            musicPlayerHandlerThread.quit();
-        }
+        musicPlayerHandlerThread.quitSafely();
         queueSaveHandler.removeCallbacksAndMessages(null);
-        if (Build.VERSION.SDK_INT >= 18) {
-            queueSaveHandlerThread.quitSafely();
-        } else {
-            queueSaveHandlerThread.quit();
-        }
+        queueSaveHandlerThread.quitSafely();
         playback.release();
         playback = null;
         mediaSession.release();
@@ -528,16 +524,13 @@ public class MusicService extends Service implements SharedPreferences.OnSharedP
         playerHandler.obtainMessage(PREPARE_NEXT).sendToTarget();
     }
 
-    private boolean prepareNextImpl() {
+    private void prepareNextImpl() {
         synchronized (this) {
             try {
                 int nextPosition = getNextPosition(false);
                 playback.setNextDataSource(getTrackUri(getSongAt(nextPosition)));
                 this.nextPosition = nextPosition;
-                return true;
-            } catch (Exception e) {
-                return false;
-            }
+            } catch (Exception ignored) {}
         }
     }
 
@@ -594,9 +587,7 @@ public class MusicService extends Service implements SharedPreferences.OnSharedP
                 .putLong(MediaMetadataCompat.METADATA_KEY_YEAR, song.year)
                 .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, null);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            metaData.putLong(MediaMetadataCompat.METADATA_KEY_NUM_TRACKS, getPlayingQueue().size());
-        }
+        metaData.putLong(MediaMetadataCompat.METADATA_KEY_NUM_TRACKS, getPlayingQueue().size());
 
         if (PreferenceUtil.getInstance(this).albumArtOnLockscreen()) {
             final Point screenSize = Util.getScreenSize(MusicService.this);
@@ -862,7 +853,11 @@ public class MusicService extends Service implements SharedPreferences.OnSharedP
                     } else {
                         playback.start();
                         if (!becomingNoisyReceiverRegistered) {
-                            registerReceiver(becomingNoisyReceiver, becomingNoisyReceiverIntentFilter);
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                                registerReceiver(becomingNoisyReceiver, becomingNoisyReceiverIntentFilter, Context.RECEIVER_EXPORTED);
+                            } else {
+                                registerReceiver(becomingNoisyReceiver, becomingNoisyReceiverIntentFilter);
+                            }
                             becomingNoisyReceiverRegistered = true;
                         }
                         if (notHandledMetaChangedForCurrentTrack) {
@@ -1094,7 +1089,7 @@ public class MusicService extends Service implements SharedPreferences.OnSharedP
             case QUEUE_CHANGED:
                 updateMediaSessionMetaData(); // because playing queue size might have changed
                 saveState();
-                if (playingQueue.size() > 0) {
+                if (!playingQueue.isEmpty()) {
                     prepareNext();
                 } else {
                     playingNotification.stop();
@@ -1330,7 +1325,7 @@ public class MusicService extends Service implements SharedPreferences.OnSharedP
     private class MediaStoreObserver extends ContentObserver implements Runnable {
         // milliseconds to delay before calling refresh to aggregate events
         private static final long REFRESH_DELAY = 500;
-        private Handler mHandler;
+        private final Handler mHandler;
 
         public MediaStoreObserver(Handler handler) {
             super(handler);
@@ -1357,7 +1352,7 @@ public class MusicService extends Service implements SharedPreferences.OnSharedP
     private class ThrottledSeekHandler implements Runnable {
         // milliseconds to throttle before calling run() to aggregate events
         private static final long THROTTLE = 500;
-        private Handler mHandler;
+        private final Handler mHandler;
 
         public ThrottledSeekHandler(Handler handler) {
             mHandler = handler;
@@ -1380,7 +1375,7 @@ public class MusicService extends Service implements SharedPreferences.OnSharedP
     private static class SongPlayCountHelper {
         public static final String TAG = SongPlayCountHelper.class.getSimpleName();
 
-        private StopWatch stopWatch = new StopWatch();
+        private final StopWatch stopWatch = new StopWatch();
         private Song song = Song.EMPTY_SONG;
 
         public Song getSong() {

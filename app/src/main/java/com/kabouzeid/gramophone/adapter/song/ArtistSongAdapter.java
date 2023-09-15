@@ -38,7 +38,7 @@ public class ArtistSongAdapter extends ArrayAdapter<Song> implements MaterialCab
     private final CabHolder cabHolder;
     private MaterialCab cab;
     private List<Song> dataSet;
-    private List<Song> checked;
+    private final List<Song> checked;
 
     @NonNull
     private final AppCompatActivity activity;

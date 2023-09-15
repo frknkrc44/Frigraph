@@ -137,7 +137,9 @@ public class SettingsActivity extends AbsBaseActivity implements ColorChooserDia
         public void onCreatePreferences(Bundle bundle, String s) {
             addPreferencesFromResource(R.xml.pref_library);
             addPreferencesFromResource(R.xml.pref_colors);
-            addPreferencesFromResource(R.xml.pref_notification);
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+                addPreferencesFromResource(R.xml.pref_notification);
+            }
             addPreferencesFromResource(R.xml.pref_now_playing_screen);
             addPreferencesFromResource(R.xml.pref_images);
             addPreferencesFromResource(R.xml.pref_lockscreen);
@@ -248,7 +250,7 @@ public class SettingsActivity extends AbsBaseActivity implements ColorChooserDia
 
             final TwoStatePreference classicNotification = (TwoStatePreference) findPreference("classic_notification");
             if(classicNotification != null) {
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N || Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     classicNotification.setVisible(false);
                 } else {
                     classicNotification.setChecked(PreferenceUtil.getInstance(requireActivity()).classicNotification());
@@ -264,6 +266,7 @@ public class SettingsActivity extends AbsBaseActivity implements ColorChooserDia
             if(coloredNotification != null) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     coloredNotification.setEnabled(PreferenceUtil.getInstance(requireActivity()).classicNotification());
+                    coloredNotification.setVisible(classicNotification != null && classicNotification.isVisible());
                 } else {
                     coloredNotification.setChecked(PreferenceUtil.getInstance(requireActivity()).coloredNotification());
                     coloredNotification.setOnPreferenceChangeListener((preference, newValue) -> {

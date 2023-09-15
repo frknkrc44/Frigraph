@@ -3,7 +3,6 @@ package com.kabouzeid.gramophone.ui.activities.base;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,7 +49,7 @@ public abstract class AbsSlidingMusicPanelActivity extends AbsMusicServiceActivi
     private MiniPlayerFragment miniPlayerFragment;
 
     private ValueAnimator navigationBarColorAnimator;
-    private ArgbEvaluator argbEvaluator = new ArgbEvaluator();
+    private final ArgbEvaluator argbEvaluator = new ArgbEvaluator();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

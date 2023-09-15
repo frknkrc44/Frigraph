@@ -24,11 +24,11 @@ import android.graphics.drawable.NinePatchDrawable;
 import android.view.View;
 import android.view.animation.Interpolator;
 
-import com.h6ah4i.android.widget.advrecyclerview.utils.CustomRecyclerViewUtils;
-
 import androidx.annotation.NonNull;
 import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.h6ah4i.android.widget.advrecyclerview.utils.CustomRecyclerViewUtils;
 
 class DraggingItemDecorator extends BaseDraggableItemDecorator {
     @SuppressWarnings("unused")
@@ -51,7 +51,7 @@ class DraggingItemDecorator extends BaseDraggableItemDecorator {
     private int mLayoutOrientation;
     private int mLayoutType;
     private DraggingItemInfo mDraggingItemInfo;
-    private Paint mPaint;
+    private final Paint mPaint;
     private long mStartMillis;
 
     private long mStartAnimationDurationMillis = 0;

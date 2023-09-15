@@ -31,7 +31,7 @@ import butterknife.Unbinder;
  */
 public class AlbumCoverPagerAdapter extends CustomFragmentStatePagerAdapter {
 
-    private List<Song> dataSet;
+    private final List<Song> dataSet;
 
     private AlbumCoverFragment.ColorReceiver currentColorReceiver;
     private int currentColorReceiverPosition = -1;
@@ -143,11 +143,8 @@ public class AlbumCoverPagerAdapter extends CustomFragmentStatePagerAdapter {
 
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-            switch (key) {
-                case PreferenceUtil.FORCE_SQUARE_ALBUM_COVER:
-                    // TODO
+            if (PreferenceUtil.FORCE_SQUARE_ALBUM_COVER.equals(key)) {// TODO
 //                    forceSquareAlbumCover(PreferenceUtil.getInstance(getActivity()).forceSquareAlbumCover());
-                    break;
             }
         }
 

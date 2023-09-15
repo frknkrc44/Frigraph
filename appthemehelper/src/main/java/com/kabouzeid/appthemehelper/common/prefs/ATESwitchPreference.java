@@ -5,13 +5,13 @@ import android.content.Context;
 import android.os.Build;
 import android.preference.Preference;
 import android.preference.SwitchPreference;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SwitchCompat;
-
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Switch;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SwitchCompat;
 
 import com.kabouzeid.appthemehelper.ATH;
 import com.kabouzeid.appthemehelper.R;

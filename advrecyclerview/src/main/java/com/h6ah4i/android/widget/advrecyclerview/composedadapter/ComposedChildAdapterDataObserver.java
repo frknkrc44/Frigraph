@@ -15,13 +15,13 @@
  */
 package com.h6ah4i.android.widget.advrecyclerview.composedadapter;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.h6ah4i.android.widget.advrecyclerview.adapter.BridgeAdapterDataObserver;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 class ComposedChildAdapterDataObserver extends BridgeAdapterDataObserver {
     public ComposedChildAdapterDataObserver(@NonNull Subscriber subscriber, @NonNull RecyclerView.Adapter sourceAdapter) {

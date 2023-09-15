@@ -223,7 +223,6 @@ public class CardPlayerFragment extends AbsPlayerFragment implements PlayerAlbum
         }
     }
 
-    @SuppressWarnings("ConstantConditions")
     private void updateCurrentSong() {
         impl.updateCurrentSong(MusicPlayerRemote.getCurrentSong());
     }
@@ -244,11 +243,10 @@ public class CardPlayerFragment extends AbsPlayerFragment implements PlayerAlbum
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_show_lyrics:
-                if (lyrics != null)
-                    LyricsDialog.create(lyrics).show(getFragmentManager(), "LYRICS");
-                return true;
+        if (item.getItemId() == R.id.action_show_lyrics) {
+            if (lyrics != null)
+                LyricsDialog.create(lyrics).show(requireFragmentManager(), "LYRICS");
+            return true;
         }
         return super.onMenuItemClick(item);
     }
@@ -354,17 +352,17 @@ public class CardPlayerFragment extends AbsPlayerFragment implements PlayerAlbum
             float density = getResources().getDisplayMetrics().density;
 
             float cardElevation = (6 * slide + 2) * density;
-            if (!isValidElevation(cardElevation)) return; // we have received some crash reports in setCardElevation()
+            if (isNotValidElevation(cardElevation)) return; // we have received some crash reports in setCardElevation()
             playingQueueCard.setCardElevation(cardElevation);
 
             float buttonElevation = (2 * Math.max(0, (1 - (slide * 16))) + 2) * density;
-            if (!isValidElevation(buttonElevation)) return;
+            if (isNotValidElevation(buttonElevation)) return;
             playbackControlsFragment.playPauseFab.setElevation(buttonElevation);
         }
     }
 
-    private boolean isValidElevation(float elevation) {
-        return elevation >= -Float.MAX_VALUE && elevation <= Float.MAX_VALUE;
+    private boolean isNotValidElevation(float elevation) {
+        return !(elevation >= -Float.MAX_VALUE) || !(elevation <= Float.MAX_VALUE);
     }
 
     @Override

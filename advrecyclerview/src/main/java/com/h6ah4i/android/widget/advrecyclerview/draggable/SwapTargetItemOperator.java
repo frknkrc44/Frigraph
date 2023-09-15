@@ -21,13 +21,13 @@ import android.graphics.Rect;
 import android.view.View;
 import android.view.animation.Interpolator;
 
-import com.h6ah4i.android.widget.advrecyclerview.utils.CustomRecyclerViewUtils;
-
 import androidx.annotation.NonNull;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.ViewPropertyAnimatorCompat;
 import androidx.core.view.ViewPropertyAnimatorListener;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.h6ah4i.android.widget.advrecyclerview.utils.CustomRecyclerViewUtils;
 
 class SwapTargetItemOperator extends BaseDraggableItemDecorator {
     @SuppressWarnings("unused")

@@ -1,6 +1,7 @@
 package com.kabouzeid.appthemehelper.util;
 
 import android.graphics.Color;
+
 import androidx.annotation.ColorInt;
 import androidx.annotation.FloatRange;
 

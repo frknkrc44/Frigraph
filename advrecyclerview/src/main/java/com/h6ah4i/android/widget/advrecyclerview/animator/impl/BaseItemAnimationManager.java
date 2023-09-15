@@ -20,17 +20,17 @@ import android.animation.TimeInterpolator;
 import android.animation.ValueAnimator;
 import android.view.View;
 
-import com.h6ah4i.android.widget.advrecyclerview.animator.BaseItemAnimator;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.ViewPropertyAnimatorCompat;
 import androidx.core.view.ViewPropertyAnimatorListener;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.h6ah4i.android.widget.advrecyclerview.animator.BaseItemAnimator;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class BaseItemAnimationManager<T extends ItemAnimationInfo> {
     private static TimeInterpolator sDefaultInterpolator;

@@ -18,6 +18,12 @@ package com.h6ah4i.android.widget.advrecyclerview.animator;
 
 import android.view.View;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.ViewPropertyAnimatorCompat;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.h6ah4i.android.widget.advrecyclerview.animator.impl.AddAnimationInfo;
 import com.h6ah4i.android.widget.advrecyclerview.animator.impl.ChangeAnimationInfo;
 import com.h6ah4i.android.widget.advrecyclerview.animator.impl.ItemAddAnimationManager;
@@ -28,12 +34,6 @@ import com.h6ah4i.android.widget.advrecyclerview.animator.impl.MoveAnimationInfo
 import com.h6ah4i.android.widget.advrecyclerview.animator.impl.RemoveAnimationInfo;
 
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.ViewPropertyAnimatorCompat;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class RefactoredDefaultItemAnimator extends GeneralItemAnimator {
 

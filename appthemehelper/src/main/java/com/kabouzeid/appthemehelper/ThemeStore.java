@@ -4,13 +4,13 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+
 import androidx.annotation.AttrRes;
 import androidx.annotation.CheckResult;
 import androidx.annotation.ColorInt;
 import androidx.annotation.ColorRes;
 import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
-import androidx.annotation.StyleRes;
 import androidx.core.content.ContextCompat;
 
 import com.kabouzeid.appthemehelper.util.ATHUtil;
@@ -201,7 +201,6 @@ public final class ThemeStore implements ThemeStorePrefKeys, ThemeStoreInterface
 
     // Commit method
 
-    @SuppressWarnings("unchecked")
     @Override
     public void commit() {
         mEditor.putLong(VALUES_CHANGED, System.currentTimeMillis())
@@ -306,7 +305,7 @@ public final class ThemeStore implements ThemeStorePrefKeys, ThemeStoreInterface
         final SharedPreferences prefs = prefs(context);
         final int lastVersion = prefs.getInt(IS_CONFIGURED_VERSION_KEY, -1);
         if (version > lastVersion) {
-            prefs.edit().putInt(IS_CONFIGURED_VERSION_KEY, version).commit();
+            prefs.edit().putInt(IS_CONFIGURED_VERSION_KEY, version).apply();
             return false;
         }
         return true;

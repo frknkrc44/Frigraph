@@ -16,7 +16,7 @@ import java.io.InputStream;
  */
 
 public class ArtistImageLoader implements StreamModelLoader<ArtistImage> {
-    private Context context;
+    private final Context context;
 
     public ArtistImageLoader(Context context) {
         this.context = context;

@@ -1,8 +1,9 @@
 package com.kabouzeid.appthemehelper.common.prefs.supportv7;
 
 import android.content.Context;
-import androidx.preference.ListPreference;
 import android.util.AttributeSet;
+
+import androidx.preference.ListPreference;
 
 import com.kabouzeid.appthemehelper.R;
 

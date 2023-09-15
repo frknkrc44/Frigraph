@@ -1,5 +1,6 @@
 package com.kabouzeid.appthemehelper.util;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -60,7 +61,6 @@ public final class ToolbarContentTintHelper {
         setToolbarContentColor(context, toolbar, null, toolbarContentColor, primaryTextColor, secondaryTextColor, menuWidgetColor);
     }
 
-    @SuppressWarnings("unchecked")
     public static void setToolbarContentColor(@NonNull Context context, Toolbar toolbar, @Nullable Menu menu, final @ColorInt int toolbarContentColor, final @ColorInt int titleTextColor, final @ColorInt int subtitleTextColor, final @ColorInt int menuWidgetColor) {
         if (toolbar == null) return;
 
@@ -124,13 +124,14 @@ public final class ToolbarContentTintHelper {
             mToolbar = toolbar;
         }
 
-        private Context mContext;
-        private int mColor;
-        private MenuPresenter.Callback mParentCb;
-        private Toolbar mToolbar;
+        private final Context mContext;
+        private final int mColor;
+        private final MenuPresenter.Callback mParentCb;
+        private final Toolbar mToolbar;
 
+        @SuppressLint("RestrictedApi")
         @Override
-        public void onCloseMenu(MenuBuilder menu, boolean allMenusAreClosing) {
+        public void onCloseMenu(@NonNull MenuBuilder menu, boolean allMenusAreClosing) {
             if (mParentCb != null)
                 mParentCb.onCloseMenu(menu, allMenusAreClosing);
         }
@@ -144,10 +145,10 @@ public final class ToolbarContentTintHelper {
 
     private static class ATHOnMenuItemClickListener implements Toolbar.OnMenuItemClickListener {
 
-        private Context mContext;
-        private int mColor;
-        private Toolbar.OnMenuItemClickListener mParentListener;
-        private Toolbar mToolbar;
+        private final Context mContext;
+        private final int mColor;
+        private final Toolbar.OnMenuItemClickListener mParentListener;
+        private final Toolbar mToolbar;
 
         public ATHOnMenuItemClickListener(Context context, final @ColorInt int color, Toolbar.OnMenuItemClickListener parentCb, Toolbar toolbar) {
             mContext = context;
@@ -221,7 +222,6 @@ public final class ToolbarContentTintHelper {
 
     public static class InternalToolbarContentTintUtil {
 
-        @SuppressWarnings("unchecked")
         public static void tintMenu(@NonNull Toolbar toolbar, @Nullable Menu menu, final @ColorInt int color) {
             try {
                 final Field field = Toolbar.class.getDeclaredField("mCollapseIcon");

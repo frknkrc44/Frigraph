@@ -20,16 +20,16 @@ import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
 
-import com.h6ah4i.android.widget.advrecyclerview.animator.impl.ItemRemoveAnimationManager;
-import com.h6ah4i.android.widget.advrecyclerview.animator.impl.RemoveAnimationInfo;
-import com.h6ah4i.android.widget.advrecyclerview.swipeable.RecyclerViewSwipeManager;
-import com.h6ah4i.android.widget.advrecyclerview.swipeable.SwipeableItemViewHolder;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.ViewPropertyAnimatorCompat;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.h6ah4i.android.widget.advrecyclerview.animator.impl.ItemRemoveAnimationManager;
+import com.h6ah4i.android.widget.advrecyclerview.animator.impl.RemoveAnimationInfo;
+import com.h6ah4i.android.widget.advrecyclerview.swipeable.RecyclerViewSwipeManager;
+import com.h6ah4i.android.widget.advrecyclerview.swipeable.SwipeableItemViewHolder;
 
 public class SwipeDismissItemAnimator extends DraggableItemAnimator {
 

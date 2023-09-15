@@ -18,6 +18,9 @@ package com.h6ah4i.android.widget.advrecyclerview.expandable;
 
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.h6ah4i.android.widget.advrecyclerview.adapter.ItemIdComposer;
 import com.h6ah4i.android.widget.advrecyclerview.adapter.ItemViewTypeComposer;
 import com.h6ah4i.android.widget.advrecyclerview.adapter.SimpleWrapperAdapter;
@@ -31,9 +34,6 @@ import com.h6ah4i.android.widget.advrecyclerview.swipeable.action.SwipeResultAct
 import com.h6ah4i.android.widget.advrecyclerview.utils.WrapperAdapterUtils;
 
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 class ExpandableRecyclerViewWrapperAdapter
         extends SimpleWrapperAdapter<RecyclerView.ViewHolder>
@@ -53,7 +53,7 @@ class ExpandableRecyclerViewWrapperAdapter
 
     private ExpandableItemAdapter mExpandableItemAdapter;
     private RecyclerViewExpandableItemManager mExpandableListManager;
-    private ExpandablePositionTranslator mPositionTranslator;
+    private final ExpandablePositionTranslator mPositionTranslator;
     private int mDraggingItemGroupRangeStart = RecyclerView.NO_POSITION;
     private int mDraggingItemGroupRangeEnd = RecyclerView.NO_POSITION;
     private int mDraggingItemChildRangeStart = RecyclerView.NO_POSITION;
@@ -398,7 +398,6 @@ class ExpandableRecyclerViewWrapperAdapter
         }
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public boolean onCheckCanDrop(int draggingPosition, int dropPosition) {
         if (!(mExpandableItemAdapter instanceof ExpandableDraggableItemAdapter)) {
@@ -552,13 +551,10 @@ class ExpandableRecyclerViewWrapperAdapter
     }
 
     private static boolean isGroupPositionRange(ItemDraggableRange range) {
+        // NOTE: ItemDraggableRange is regarded as group position
         if (range.getClass().equals(GroupPositionItemDraggableRange.class)) {
             return true;
-        } else if (range.getClass().equals(ItemDraggableRange.class)) {
-            // NOTE: ItemDraggableRange is regarded as group position
-            return true;
-        }
-        return false;
+        } else return range.getClass().equals(ItemDraggableRange.class);
     }
 
     private static boolean isChildPositionRange(ItemDraggableRange range) {
@@ -735,7 +731,6 @@ class ExpandableRecyclerViewWrapperAdapter
         }
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public SwipeResultAction onSwipeItem(@NonNull RecyclerView.ViewHolder holder, int position, int result) {
         if (!(mExpandableItemAdapter instanceof BaseExpandableSwipeableItemAdapter)) {

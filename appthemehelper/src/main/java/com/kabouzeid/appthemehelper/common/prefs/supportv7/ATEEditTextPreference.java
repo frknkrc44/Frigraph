@@ -1,8 +1,9 @@
 package com.kabouzeid.appthemehelper.common.prefs.supportv7;
 
 import android.content.Context;
-import androidx.preference.EditTextPreference;
 import android.util.AttributeSet;
+
+import androidx.preference.EditTextPreference;
 
 import com.kabouzeid.appthemehelper.R;
 

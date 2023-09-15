@@ -1,10 +1,11 @@
 package com.kabouzeid.appthemehelper.common.prefs.supportv7;
 
 import android.content.Context;
-import androidx.preference.Preference;
-import androidx.preference.PreferenceViewHolder;
 import android.util.AttributeSet;
 import android.view.View;
+
+import androidx.preference.Preference;
+import androidx.preference.PreferenceViewHolder;
 
 import com.kabouzeid.appthemehelper.R;
 import com.kabouzeid.appthemehelper.common.prefs.BorderCircleView;

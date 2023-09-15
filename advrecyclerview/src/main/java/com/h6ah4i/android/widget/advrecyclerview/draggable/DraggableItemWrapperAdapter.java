@@ -19,6 +19,9 @@ package com.h6ah4i.android.widget.advrecyclerview.draggable;
 import android.util.Log;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.h6ah4i.android.widget.advrecyclerview.adapter.SimpleWrapperAdapter;
 import com.h6ah4i.android.widget.advrecyclerview.swipeable.RecyclerViewSwipeManager;
 import com.h6ah4i.android.widget.advrecyclerview.swipeable.SwipeableItemAdapter;
@@ -28,9 +31,6 @@ import com.h6ah4i.android.widget.advrecyclerview.utils.CustomRecyclerViewUtils;
 import com.h6ah4i.android.widget.advrecyclerview.utils.WrapperAdapterUtils;
 
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 class DraggableItemWrapperAdapter<VH extends RecyclerView.ViewHolder> extends SimpleWrapperAdapter<VH> implements SwipeableItemAdapter<VH> {
     private static final String TAG = "ARVDraggableWrapper";
@@ -328,7 +328,6 @@ class DraggableItemWrapperAdapter<VH extends RecyclerView.ViewHolder> extends Si
 
     // NOTE: This method is called from RecyclerViewDragDropManager
     /*package*/
-    @SuppressWarnings("unchecked")
     boolean canDropItems(int draggingPosition, int dropPosition) {
         if (LOCAL_LOGV) {
             Log.v(TAG, "canDropItems(draggingPosition = " + draggingPosition + ", dropPosition = " + dropPosition + ")");

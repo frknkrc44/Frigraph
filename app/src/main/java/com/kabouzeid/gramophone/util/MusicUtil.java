@@ -1,6 +1,5 @@
 package com.kabouzeid.gramophone.util;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.ContentResolver;
@@ -172,11 +171,9 @@ public class MusicUtil {
     {
         // Skip empty strings
         if (TextUtils.isEmpty(string1)) {
-            //noinspection ConstantConditions
             return TextUtils.isEmpty(string2) ? "" : string2;
         }
         if (TextUtils.isEmpty(string2)) {
-            //noinspection ConstantConditions
             return TextUtils.isEmpty(string1) ? "" : string1;
         }
 

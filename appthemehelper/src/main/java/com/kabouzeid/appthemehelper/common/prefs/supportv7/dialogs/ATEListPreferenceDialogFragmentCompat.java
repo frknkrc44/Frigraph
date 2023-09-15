@@ -1,8 +1,9 @@
 package com.kabouzeid.appthemehelper.common.prefs.supportv7.dialogs;
 
 import android.os.Bundle;
-import androidx.preference.ListPreference;
 import android.view.View;
+
+import androidx.preference.ListPreference;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;

@@ -16,10 +16,10 @@
 
 package com.h6ah4i.android.widget.advrecyclerview.expandable;
 
-import com.h6ah4i.android.widget.advrecyclerview.swipeable.action.SwipeResultAction;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.h6ah4i.android.widget.advrecyclerview.swipeable.action.SwipeResultAction;
 
 public interface ExpandableSwipeableItemAdapter<GVH extends RecyclerView.ViewHolder, CVH extends RecyclerView.ViewHolder>
     extends BaseExpandableSwipeableItemAdapter<GVH, CVH> {

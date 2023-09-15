@@ -16,10 +16,10 @@
 
 package com.h6ah4i.android.widget.advrecyclerview.draggable;
 
-import com.h6ah4i.android.widget.advrecyclerview.draggable.annotation.DraggableItemStateFlags;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.h6ah4i.android.widget.advrecyclerview.draggable.annotation.DraggableItemStateFlags;
 
 /**
  * Interface which provides required information for dragging item.

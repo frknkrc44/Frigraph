@@ -3,10 +3,11 @@ package com.kabouzeid.appthemehelper.common.prefs.supportv7;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
-import androidx.preference.PreferenceCategory;
-import androidx.preference.PreferenceViewHolder;
 import android.util.AttributeSet;
 import android.widget.TextView;
+
+import androidx.preference.PreferenceCategory;
+import androidx.preference.PreferenceViewHolder;
 
 import com.kabouzeid.appthemehelper.R;
 import com.kabouzeid.appthemehelper.ThemeStore;

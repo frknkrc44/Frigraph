@@ -8,6 +8,7 @@
         </intent>
     </queries>
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
@@ -21,8 +22,10 @@
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
 
     <application
+        android:enableOnBackInvokedCallback="true"
         android:name="com.kabouzeid.gramophone.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -131,6 +134,7 @@
         <service
             android:configChanges="locale|mcc|mnc|keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:name="com.kabouzeid.gramophone.service.MusicService"
+            android:foregroundServiceType="mediaPlayback"
             android:enabled="true" />
 
         <receiver

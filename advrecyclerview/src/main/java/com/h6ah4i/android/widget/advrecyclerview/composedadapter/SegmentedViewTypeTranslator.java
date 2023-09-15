@@ -20,8 +20,8 @@ import android.util.SparseIntArray;
 import com.h6ah4i.android.widget.advrecyclerview.adapter.ItemViewTypeComposer;
 
 class SegmentedViewTypeTranslator {
-    private SparseIntArray mWrapSegmentMap = new SparseIntArray();
-    private SparseIntArray mUnwrapSegmentMap = new SparseIntArray();
+    private final SparseIntArray mWrapSegmentMap = new SparseIntArray();
+    private final SparseIntArray mUnwrapSegmentMap = new SparseIntArray();
 
     public SegmentedViewTypeTranslator() {
     }
@@ -58,9 +58,8 @@ class SegmentedViewTypeTranslator {
 
         final int packedSegments = mUnwrapSegmentMap.valueAt(index);
         //noinspection BooleanMethodIsAlwaysInverted
-        final long packedViewType = (((long) packedSegments) << 32) | (((long) viewType) & 0xFFFFFFFFL);
 
-        return packedViewType;
+        return (((long) packedSegments) << 32) | (((long) viewType) & 0xFFFFFFFFL);
     }
 
     public static int extractWrappedViewType(long packedViewType) {

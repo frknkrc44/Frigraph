@@ -16,6 +16,8 @@
 
 package com.simplecityapps.recyclerview_fastscroll.views;
 
+import static java.lang.annotation.RetentionPolicy.SOURCE;
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
@@ -23,7 +25,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -32,14 +33,6 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.ViewConfiguration;
 
-import com.simplecityapps.recyclerview_fastscroll.R;
-import com.simplecityapps.recyclerview_fastscroll.interfaces.OnFastScrollStateChangeListener;
-import com.simplecityapps.recyclerview_fastscroll.utils.Utils;
-
-import java.lang.annotation.Retention;
-
-import static java.lang.annotation.RetentionPolicy.SOURCE;
-
 import androidx.annotation.ColorInt;
 import androidx.annotation.IntDef;
 import androidx.annotation.Keep;
@@ -47,24 +40,30 @@ import androidx.interpolator.view.animation.FastOutLinearInInterpolator;
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.simplecityapps.recyclerview_fastscroll.R;
+import com.simplecityapps.recyclerview_fastscroll.interfaces.OnFastScrollStateChangeListener;
+import com.simplecityapps.recyclerview_fastscroll.utils.Utils;
+
+import java.lang.annotation.Retention;
+
 public class FastScroller {
     private static final int DEFAULT_AUTO_HIDE_DELAY = 1500;
 
-    private FastScrollRecyclerView mRecyclerView;
-    private FastScrollPopup mPopup;
+    private final FastScrollRecyclerView mRecyclerView;
+    private final FastScrollPopup mPopup;
 
-    private int mThumbHeight;
-    private int mWidth;
+    private final int mThumbHeight;
+    private final int mWidth;
 
-    private Paint mThumbPaint;
-    private Paint mTrackPaint;
+    private final Paint mThumbPaint;
+    private final Paint mTrackPaint;
 
-    private Rect mTmpRect = new Rect();
-    private Rect mInvalidateRect = new Rect();
-    private Rect mInvalidateTmpRect = new Rect();
+    private final Rect mTmpRect = new Rect();
+    private final Rect mInvalidateRect = new Rect();
+    private final Rect mInvalidateTmpRect = new Rect();
 
     // The inset is the buffer around which a point will still register as a click on the scrollbar
-    private int mTouchInset;
+    private final int mTouchInset;
 
     // This is the offset from the top of the scrollbar when the user first starts touching.  To
     // prevent jumping, this offset is applied as the user scrolls.

@@ -3,9 +3,7 @@ package com.kabouzeid.appthemehelper;
 import android.os.Bundle;
 import android.os.Handler;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 /**
  * @author Aidan Follestad (afollestad), Karim Abou Zeid (kabouzeid)
@@ -35,11 +33,6 @@ public abstract class ATHActivity extends AppCompatActivity {
     public void postRecreate() {
         // hack to prevent java.lang.RuntimeException: Performing pause of activity that is not resumed
         // makes sure recreate() is called right after and not in onResume()
-        new Handler().post(new Runnable() {
-            @Override
-            public void run() {
-                recreate();
-            }
-        });
+        new Handler().post(this::recreate);
     }
 }

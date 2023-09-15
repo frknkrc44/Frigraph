@@ -20,15 +20,15 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.core.view.ViewCompat;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.h6ah4i.android.widget.advrecyclerview.adapter.SimpleWrapperAdapter;
 import com.h6ah4i.android.widget.advrecyclerview.swipeable.action.SwipeResultAction;
 import com.h6ah4i.android.widget.advrecyclerview.utils.WrapperAdapterUtils;
 
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.core.view.ViewCompat;
-import androidx.recyclerview.widget.RecyclerView;
 
 class SwipeableItemWrapperAdapter<VH extends RecyclerView.ViewHolder> extends SimpleWrapperAdapter<VH> {
     private static final String TAG = "ARVSwipeableWrapper";
@@ -243,7 +243,6 @@ class SwipeableItemWrapperAdapter<VH extends RecyclerView.ViewHolder> extends Si
 
     // NOTE: This method is called from ItemSlidingAnimator
     /*package*/
-    @SuppressWarnings("unchecked")
     void onUpdateSlideAmount(RecyclerView.ViewHolder holder, int position, float amount, boolean proportionalAmount, boolean horizontal, boolean isSwiping) {
         if (LOCAL_LOGV) {
             Log.v(TAG, "onUpdateSlideAmount(holder = " + holder +
@@ -292,7 +291,6 @@ class SwipeableItemWrapperAdapter<VH extends RecyclerView.ViewHolder> extends Si
     }
 
     /*package*/
-    @SuppressWarnings("unchecked")
     void onSwipeItemFinished2(RecyclerView.ViewHolder holder, int position, int result, int afterReaction, SwipeResultAction resultAction) {
 
         ((SwipeableItemViewHolder) holder).setSwipeResult(result);

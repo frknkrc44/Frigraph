@@ -2,19 +2,20 @@ package com.kabouzeid.gramophone.util;
 
 import android.graphics.Canvas;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class SwipeAndDragHelper extends ItemTouchHelper.Callback {
 
-    private ActionCompletionContract contract;
+    private final ActionCompletionContract contract;
 
     public SwipeAndDragHelper(ActionCompletionContract contract) {
         this.contract = contract;
     }
 
     @Override
-    public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+    public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
         int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
         return makeMovementFlags(dragFlags, 0);
     }

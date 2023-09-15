@@ -18,15 +18,15 @@ package com.h6ah4i.android.widget.advrecyclerview.adapter;
 import android.util.Log;
 import android.view.ViewGroup;
 
-import com.h6ah4i.android.widget.advrecyclerview.utils.WrappedAdapterUtils;
-
-import java.util.Collections;
-import java.util.List;
-
 import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.h6ah4i.android.widget.advrecyclerview.utils.WrappedAdapterUtils;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * A simple wrapper class. It just bypasses all methods and events to the wrapped adapter.

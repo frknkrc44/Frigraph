@@ -3,7 +3,6 @@ package com.kabouzeid.gramophone.views;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.drawable.GradientDrawable;

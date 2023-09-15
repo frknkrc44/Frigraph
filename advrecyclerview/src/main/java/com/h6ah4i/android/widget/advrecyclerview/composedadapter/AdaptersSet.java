@@ -15,24 +15,24 @@
  */
 package com.h6ah4i.android.widget.advrecyclerview.composedadapter;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.h6ah4i.android.widget.advrecyclerview.adapter.BridgeAdapterDataObserver;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
-
 class AdaptersSet {
     public static long NO_SEGMENTED_POSITION = -1L;
 
-    private BridgeAdapterDataObserver.Subscriber mSubscriber;
-    private List<ComposedChildAdapterTag> mAdapterTags;
-    private List<RecyclerView.Adapter> mAdapters;
+    private final BridgeAdapterDataObserver.Subscriber mSubscriber;
+    private final List<ComposedChildAdapterTag> mAdapterTags;
+    private final List<RecyclerView.Adapter> mAdapters;
 
-    private List<RecyclerView.Adapter> mUniqueAdapters;
-    private List<ComposedChildAdapterDataObserver> mObservers;
+    private final List<RecyclerView.Adapter> mUniqueAdapters;
+    private final List<ComposedChildAdapterDataObserver> mObservers;
 
     public AdaptersSet(@NonNull BridgeAdapterDataObserver.Subscriber bridgeSubscriber) {
         mSubscriber = bridgeSubscriber;

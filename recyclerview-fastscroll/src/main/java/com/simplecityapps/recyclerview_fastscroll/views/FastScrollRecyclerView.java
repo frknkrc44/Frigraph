@@ -35,7 +35,7 @@ import com.simplecityapps.recyclerview_fastscroll.utils.Utils;
 
 public class FastScrollRecyclerView extends RecyclerView implements RecyclerView.OnItemTouchListener {
 
-    private FastScroller mScrollbar;
+    private final FastScroller mScrollbar;
 
     /**
      * The current scroll state of the recycler view.  We use this in onUpdateScrollbar()
@@ -52,15 +52,15 @@ public class FastScrollRecyclerView extends RecyclerView implements RecyclerView
         public int rowHeight;
     }
 
-    private ScrollPositionState mScrollPosState = new ScrollPositionState();
+    private final ScrollPositionState mScrollPosState = new ScrollPositionState();
 
     private int mDownX;
     private int mDownY;
     private int mLastY;
 
-    private SparseIntArray mScrollOffsets;
+    private final SparseIntArray mScrollOffsets;
 
-    private ScrollOffsetInvalidator mScrollOffsetInvalidator;
+    private final ScrollOffsetInvalidator mScrollOffsetInvalidator;
     private OnFastScrollStateChangeListener mStateChangeListener;
 
     public FastScrollRecyclerView(Context context) {
@@ -166,8 +166,7 @@ public class FastScrollRecyclerView extends RecyclerView implements RecyclerView
     protected int getAvailableScrollHeight(int adapterHeight, int yOffset) {
         int visibleHeight = getHeight();
         int scrollHeight = getPaddingTop() + yOffset + adapterHeight + getPaddingBottom();
-        int availableScrollHeight = scrollHeight - visibleHeight;
-        return availableScrollHeight;
+        return scrollHeight - visibleHeight;
     }
 
     /**
@@ -176,8 +175,7 @@ public class FastScrollRecyclerView extends RecyclerView implements RecyclerView
      */
     protected int getAvailableScrollBarHeight() {
         int visibleHeight = getHeight();
-        int availableScrollBarHeight = visibleHeight - mScrollbar.getThumbHeight();
-        return availableScrollBarHeight;
+        return visibleHeight - mScrollbar.getThumbHeight();
     }
 
     @Override

@@ -18,13 +18,13 @@ package com.h6ah4i.android.widget.advrecyclerview.utils;
 
 import android.view.ViewGroup;
 
-import com.h6ah4i.android.widget.advrecyclerview.expandable.ExpandableItemAdapter;
-
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.h6ah4i.android.widget.advrecyclerview.expandable.ExpandableItemAdapter;
+
+import java.util.List;
 
 public abstract class AbstractExpandableItemAdapter<GVH extends RecyclerView.ViewHolder, CVH extends RecyclerView.ViewHolder>
         extends RecyclerView.Adapter<RecyclerView.ViewHolder>

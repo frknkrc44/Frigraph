@@ -80,7 +80,6 @@ public class ItemIdComposer {
     /**
      * Bit mask of the reserved sign flag part.
      */
-    @SuppressWarnings("NumericOverflow")
     public static final long BIT_MASK_RESERVED_SIGN_FLAG = ((1L << BIT_WIDTH_RESERVED_SIGN_FLAG) - 1) << BIT_OFFSET_RESERVED_SIGN_FLAG;
 
     /**
@@ -159,7 +158,6 @@ public class ItemIdComposer {
             throw new IllegalArgumentException("Child ID value is out of range. (childId = " + childId + ")");
         }
 
-        //noinspection PointlessBitwiseExpression
         return ((groupId << BIT_OFFSET_GROUP_ID) & BIT_MASK_GROUP_ID) | ((childId << BIT_OFFSET_CHILD_ID) & BIT_MASK_CHILD_ID);
     }
 
@@ -174,7 +172,6 @@ public class ItemIdComposer {
             throw new IllegalArgumentException("Group ID value is out of range. (groupId = " + groupId + ")");
         }
 
-        //noinspection PointlessBitwiseExpression
         return ((groupId << BIT_OFFSET_GROUP_ID) & BIT_MASK_GROUP_ID) | ((RecyclerView.NO_ID << BIT_OFFSET_CHILD_ID) & BIT_MASK_CHILD_ID);
     }
 

@@ -17,6 +17,11 @@ package com.h6ah4i.android.widget.advrecyclerview.headerfooter;
 
 import android.view.ViewGroup;
 
+import androidx.annotation.IntRange;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.h6ah4i.android.widget.advrecyclerview.adapter.AdapterPathSegment;
 import com.h6ah4i.android.widget.advrecyclerview.adapter.ItemIdComposer;
 import com.h6ah4i.android.widget.advrecyclerview.adapter.ItemViewTypeComposer;
@@ -24,11 +29,6 @@ import com.h6ah4i.android.widget.advrecyclerview.composedadapter.ComposedAdapter
 import com.h6ah4i.android.widget.advrecyclerview.composedadapter.ComposedChildAdapterTag;
 
 import java.util.List;
-
-import androidx.annotation.IntRange;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * A simplified version of ComposedAdapter for creating headers and footers.
@@ -68,7 +68,6 @@ public abstract class AbstractHeaderFooterWrapperAdapter<HeaderVH extends Recycl
      *
      * @param adapter Wrapped contents adapter.
      */
-    @SuppressWarnings("unchecked")
     @NonNull
     public AbstractHeaderFooterWrapperAdapter setAdapter(@NonNull RecyclerView.Adapter<? extends RecyclerView.ViewHolder> adapter) {
         if (mWrappedAdapter != null) {

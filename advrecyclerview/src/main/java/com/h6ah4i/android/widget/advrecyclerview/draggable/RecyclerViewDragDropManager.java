@@ -30,6 +30,14 @@ import android.view.ViewParent;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 
+import androidx.annotation.FloatRange;
+import androidx.annotation.IntDef;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.view.ViewCompat;
+import androidx.core.widget.NestedScrollView;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.h6ah4i.android.widget.advrecyclerview.adapter.AdapterPath;
 import com.h6ah4i.android.widget.advrecyclerview.adapter.ItemIdComposer;
 import com.h6ah4i.android.widget.advrecyclerview.utils.CustomRecyclerViewUtils;
@@ -38,14 +46,6 @@ import com.h6ah4i.android.widget.advrecyclerview.utils.WrapperAdapterUtils;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.ref.WeakReference;
-
-import androidx.annotation.FloatRange;
-import androidx.annotation.IntDef;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.view.ViewCompat;
-import androidx.core.widget.NestedScrollView;
-import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Provides item drag &amp; drop operation for {@link androidx.recyclerview.widget.RecyclerView}
@@ -229,7 +229,7 @@ public class RecyclerViewDragDropManager implements DraggableItemConstants {
     private Interpolator mItemSettleBackIntoPlaceAnimationInterpolator = DEFAULT_ITEM_SETTLE_BACK_INTO_PLACE_ANIMATION_INTERPOLATOR;
     private int mItemMoveMode = ITEM_MOVE_MODE_DEFAULT;
 
-    private DraggingItemEffectsInfo mDraggingItemEffectsInfo = new DraggingItemEffectsInfo();
+    private final DraggingItemEffectsInfo mDraggingItemEffectsInfo = new DraggingItemEffectsInfo();
 
     // these fields are only valid while dragging
     private DraggableItemWrapperAdapter mWrapperAdapter;
@@ -259,11 +259,10 @@ public class RecyclerViewDragDropManager implements DraggableItemConstants {
     private boolean mCanDragH;
     private boolean mCanDragV;
     private float mDragEdgeScrollSpeed = 1.0f;
-    private int mCurrentItemMoveMode = ITEM_MOVE_MODE_DEFAULT;
     private Object mComposedAdapterTag;
 
-    private SwapTarget mTempSwapTarget = new SwapTarget();
-    private FindSwapTargetContext mFindSwapTargetContext = new FindSwapTargetContext();
+    private final SwapTarget mTempSwapTarget = new SwapTarget();
+    private final FindSwapTargetContext mFindSwapTargetContext = new FindSwapTargetContext();
 
     /**
      * Constructor.
@@ -756,7 +755,7 @@ public class RecyclerViewDragDropManager implements DraggableItemConstants {
         mDragStartTouchY = mDragMinTouchY = mDragMaxTouchY = mLastTouchY;
         mDragStartTouchX = mDragMinTouchX = mDragMaxTouchX = mLastTouchX;
         mScrollDirMask = SCROLL_DIR_NONE;
-        mCurrentItemMoveMode = mItemMoveMode;
+        int mCurrentItemMoveMode = mItemMoveMode;
         mComposedAdapterTag = composedAdapterTag;
 
         mRecyclerView.getParent().requestDisallowInterceptTouchEvent(true);

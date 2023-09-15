@@ -46,7 +46,6 @@ public interface ExpandableItemConstants {
      * State flag for the {@link ExpandableItemViewHolder#setExpandStateFlags(int)} and {@link ExpandableItemViewHolder#getExpandStateFlags()} methods.
      * If this flag is set, some other flags are changed and require to apply.
      */
-    @SuppressWarnings("NumericOverflow")
     int STATE_FLAG_IS_UPDATED = (1 << 31);
     // ---
 }

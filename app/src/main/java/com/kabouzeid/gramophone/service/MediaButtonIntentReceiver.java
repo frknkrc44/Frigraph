@@ -158,6 +158,9 @@ public class MediaButtonIntentReceiver extends BroadcastReceiver {
                     }
                 }
             }
+        } else if (MusicService.ACTION_QUIT.equals(intentAction)) {
+            ((MusicService) context).onStartCommand(intent, 0, 0);
+            return true;
         }
         return false;
     }

@@ -10,6 +10,7 @@ import android.os.Build;
 import androidx.annotation.RequiresApi;
 
 import com.kabouzeid.gramophone.service.MusicService;
+import com.kabouzeid.gramophone.util.PreferenceUtil;
 
 import org.frknkrc44.frigraph.R;
 
@@ -44,24 +45,29 @@ public abstract class PlayingNotification {
     }
 
     void updateNotifyModeAndPostNotification(Notification notification) {
-        int newNotifyMode;
-        if (service.isPlaying()) {
-            newNotifyMode = NOTIFY_MODE_FOREGROUND;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N ||
+                PreferenceUtil.getInstance(service).classicNotification()) {
+            int newNotifyMode;
+            if (service.isPlaying()) {
+                newNotifyMode = NOTIFY_MODE_FOREGROUND;
+            } else {
+                newNotifyMode = NOTIFY_MODE_BACKGROUND;
+            }
+
+            if (notifyMode != newNotifyMode && newNotifyMode == NOTIFY_MODE_BACKGROUND) {
+                service.stopForeground(false);
+            }
+
+            if (newNotifyMode == NOTIFY_MODE_FOREGROUND) {
+                service.startForeground(NOTIFICATION_ID, notification);
+            } else {
+                notificationManager.notify(NOTIFICATION_ID, notification);
+            }
+
+            notifyMode = newNotifyMode;
         } else {
-            newNotifyMode = NOTIFY_MODE_BACKGROUND;
-        }
-
-        if (notifyMode != newNotifyMode && newNotifyMode == NOTIFY_MODE_BACKGROUND) {
-            service.stopForeground(false);
-        }
-
-        if (newNotifyMode == NOTIFY_MODE_FOREGROUND) {
             service.startForeground(NOTIFICATION_ID, notification);
-        } else {
-            notificationManager.notify(NOTIFICATION_ID, notification);
         }
-
-        notifyMode = newNotifyMode;
     }
 
     @RequiresApi(26)

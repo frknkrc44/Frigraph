@@ -1,9 +1,11 @@
 package com.kabouzeid.gramophone.service.notification;
 
+import static com.kabouzeid.gramophone.service.MusicService.ACTION_QUIT;
 import static com.kabouzeid.gramophone.service.MusicService.ACTION_REWIND;
 import static com.kabouzeid.gramophone.service.MusicService.ACTION_SKIP;
 import static com.kabouzeid.gramophone.service.MusicService.ACTION_TOGGLE_PAUSE;
 
+import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -13,8 +15,6 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 
-import androidx.core.app.NotificationCompat;
-import androidx.media.app.NotificationCompat.MediaStyle;
 import androidx.palette.graphics.Palette;
 
 import com.bumptech.glide.Glide;
@@ -71,16 +71,19 @@ public class PlayingNotificationImpl24 extends PlayingNotification {
                     void update(Bitmap bitmap, int color) {
                         if (bitmap == null)
                             bitmap = BitmapFactory.decodeResource(service.getResources(), R.drawable.default_album_art);
-                        NotificationCompat.Action playPauseAction = new NotificationCompat.Action(playButtonResId,
+                        Notification.Action playPauseAction = new Notification.Action(playButtonResId,
                                 service.getString(R.string.action_play_pause),
                                 retrievePlaybackAction(ACTION_TOGGLE_PAUSE));
-                        NotificationCompat.Action previousAction = new NotificationCompat.Action(R.drawable.ic_skip_previous_white_24dp,
+                        Notification.Action previousAction = new Notification.Action(R.drawable.ic_skip_previous_white_24dp,
                                 service.getString(R.string.action_previous),
                                 retrievePlaybackAction(ACTION_REWIND));
-                        NotificationCompat.Action nextAction = new NotificationCompat.Action(R.drawable.ic_skip_next_white_24dp,
+                        Notification.Action nextAction = new Notification.Action(R.drawable.ic_skip_next_white_24dp,
                                 service.getString(R.string.action_next),
                                 retrievePlaybackAction(ACTION_SKIP));
-                        NotificationCompat.Builder builder = new NotificationCompat.Builder(service, NOTIFICATION_CHANNEL_ID)
+                        Notification.Action closeAction = new Notification.Action(R.drawable.ic_close_white_24dp,
+                                service.getString(R.string.notices_close),
+                                retrievePlaybackAction(ACTION_QUIT));
+                        Notification.Builder builder = new Notification.Builder(service)
                                 .setSmallIcon(R.drawable.ic_notification)
                                 .setSubText(song.albumName)
                                 .setLargeIcon(bitmap)
@@ -90,12 +93,21 @@ public class PlayingNotificationImpl24 extends PlayingNotification {
                                 .setContentText(song.artistName)
                                 .setOngoing(isPlaying)
                                 .setShowWhen(false)
+                                .setVisibility(Notification.VISIBILITY_PUBLIC)
                                 .addAction(previousAction)
                                 .addAction(playPauseAction)
-                                .addAction(nextAction);
+                                .addAction(nextAction)
+                                .addAction(closeAction);
 
-                        builder.setStyle(new MediaStyle().setMediaSession(service.getMediaSession().getSessionToken()).setShowActionsInCompactView(0, 1, 2))
-                                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            builder.setChannelId(NOTIFICATION_CHANNEL_ID);
+                        }
+
+                        Notification.Style style = new Notification.MediaStyle()
+                                .setMediaSession(service.getMediaSession().getSessionToken())
+                                .setShowActionsInCompactView(0, 1, 2);
+                        builder.setStyle(style);
+
                         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.O && PreferenceUtil.getInstance(service).coloredNotification())
                             builder.setColor(color);
 

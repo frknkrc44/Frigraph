@@ -15,9 +15,13 @@ import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
+import android.media.MediaMetadata;
 import android.media.audiofx.AudioEffect;
+import android.media.session.MediaSession;
+import android.media.session.PlaybackState;
 import android.os.Binder;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.IBinder;
@@ -26,9 +30,6 @@ import android.os.Message;
 import android.os.PowerManager;
 import android.os.Process;
 import android.provider.MediaStore;
-import android.support.v4.media.MediaMetadataCompat;
-import android.support.v4.media.session.MediaSessionCompat;
-import android.support.v4.media.session.PlaybackStateCompat;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -147,7 +148,7 @@ public class MusicService extends Service implements SharedPreferences.OnSharedP
     private PlayingNotification playingNotification;
     private AudioManager audioManager;
 
-    private MediaSessionCompat mediaSession;
+    private MediaSession mediaSession;
     private PowerManager.WakeLock wakeLock;
     private PlaybackHandler playerHandler;
     private final AudioManager.OnAudioFocusChangeListener audioFocusListener = new AudioManager.OnAudioFocusChangeListener() {
@@ -258,8 +259,9 @@ public class MusicService extends Service implements SharedPreferences.OnSharedP
 
         PendingIntent mediaButtonReceiverPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, mediaButtonIntent, Util.PENDING_INTENT_FLAGS);
 
-        mediaSession = new MediaSessionCompat(this, "Phonograph", mediaButtonReceiverComponentName, mediaButtonReceiverPendingIntent);
-        mediaSession.setCallback(new MediaSessionCompat.Callback() {
+        mediaSession = new MediaSession(this, "Phonograph");
+        mediaSession.setMediaButtonReceiver(mediaButtonReceiverPendingIntent);
+        mediaSession.setCallback(new MediaSession.Callback() {
             @Override
             public void onPlay() {
                 play();
@@ -288,6 +290,11 @@ public class MusicService extends Service implements SharedPreferences.OnSharedP
             @Override
             public void onSeekTo(long pos) {
                 seek((int) pos);
+            }
+
+            @Override
+            public void onCustomAction(@NonNull String action, @Nullable Bundle extras) {
+                onMediaButtonEvent(new Intent(action).putExtras(extras));
             }
 
             @Override
@@ -562,9 +569,10 @@ public class MusicService extends Service implements SharedPreferences.OnSharedP
 
     private void updateMediaSessionPlaybackState() {
         mediaSession.setPlaybackState(
-                new PlaybackStateCompat.Builder()
+                new PlaybackState.Builder()
                         .setActions(MEDIA_SESSION_ACTIONS)
-                        .setState(isPlaying() ? PlaybackStateCompat.STATE_PLAYING : PlaybackStateCompat.STATE_PAUSED,
+                        .addCustomAction(ACTION_QUIT, getString(R.string.notices_close), R.drawable.ic_close_white_24dp)
+                        .setState(isPlaying() ? PlaybackState.STATE_PLAYING : PlaybackState.STATE_PAUSED,
                                 getSongProgressMillis(), 1)
                         .build());
     }
@@ -577,17 +585,17 @@ public class MusicService extends Service implements SharedPreferences.OnSharedP
             return;
         }
 
-        final MediaMetadataCompat.Builder metaData = new MediaMetadataCompat.Builder()
-                .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, song.artistName)
-                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ARTIST, song.artistName)
-                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, song.albumName)
-                .putString(MediaMetadataCompat.METADATA_KEY_TITLE, song.title)
-                .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, song.duration)
-                .putLong(MediaMetadataCompat.METADATA_KEY_TRACK_NUMBER, getPosition() + 1)
-                .putLong(MediaMetadataCompat.METADATA_KEY_YEAR, song.year)
-                .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, null);
+        final MediaMetadata.Builder metaData = new MediaMetadata.Builder()
+                .putString(MediaMetadata.METADATA_KEY_ARTIST, song.artistName)
+                .putString(MediaMetadata.METADATA_KEY_ALBUM_ARTIST, song.artistName)
+                .putString(MediaMetadata.METADATA_KEY_ALBUM, song.albumName)
+                .putString(MediaMetadata.METADATA_KEY_TITLE, song.title)
+                .putLong(MediaMetadata.METADATA_KEY_DURATION, song.duration)
+                .putLong(MediaMetadata.METADATA_KEY_TRACK_NUMBER, getPosition() + 1)
+                .putLong(MediaMetadata.METADATA_KEY_YEAR, song.year)
+                .putBitmap(MediaMetadata.METADATA_KEY_ALBUM_ART, null);
 
-        metaData.putLong(MediaMetadataCompat.METADATA_KEY_NUM_TRACKS, getPlayingQueue().size());
+        metaData.putLong(MediaMetadata.METADATA_KEY_NUM_TRACKS, getPlayingQueue().size());
 
         if (PreferenceUtil.getInstance(this).albumArtOnLockscreen()) {
             final Point screenSize = Util.getScreenSize(MusicService.this);
@@ -609,7 +617,7 @@ public class MusicService extends Service implements SharedPreferences.OnSharedP
 
                         @Override
                         public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                            metaData.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, copy(resource));
+                            metaData.putBitmap(MediaMetadata.METADATA_KEY_ALBUM_ART, copy(resource));
                             mediaSession.setMetadata(metaData.build());
                         }
                     });
@@ -1055,13 +1063,13 @@ public class MusicService extends Service implements SharedPreferences.OnSharedP
         appWidgetCard.notifyChange(this, what);
     }
 
-    private static final long MEDIA_SESSION_ACTIONS = PlaybackStateCompat.ACTION_PLAY
-            | PlaybackStateCompat.ACTION_PAUSE
-            | PlaybackStateCompat.ACTION_PLAY_PAUSE
-            | PlaybackStateCompat.ACTION_SKIP_TO_NEXT
-            | PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS
-            | PlaybackStateCompat.ACTION_STOP
-            | PlaybackStateCompat.ACTION_SEEK_TO;
+    private static final long MEDIA_SESSION_ACTIONS = PlaybackState.ACTION_PLAY
+            | PlaybackState.ACTION_PAUSE
+            | PlaybackState.ACTION_PLAY_PAUSE
+            | PlaybackState.ACTION_SKIP_TO_NEXT
+            | PlaybackState.ACTION_SKIP_TO_PREVIOUS
+            | PlaybackState.ACTION_STOP
+            | PlaybackState.ACTION_SEEK_TO;
 
     private void handleChangeInternal(@NonNull final String what) {
         switch (what) {
@@ -1102,7 +1110,7 @@ public class MusicService extends Service implements SharedPreferences.OnSharedP
         return playback.getAudioSessionId();
     }
 
-    public MediaSessionCompat getMediaSession() {
+    public MediaSession getMediaSession() {
         return mediaSession;
     }
 
